@@ -27,6 +27,7 @@ module.exports = {
           ["@myStore", "./src/store"],
           ["@myTypes", "./src/types"],
           ["@myPages", "./src/pages"],
+          ["@myAssets", "./src/assets"],
         ]
       }
     }

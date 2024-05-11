@@ -46,7 +46,7 @@ const Navigation: FC<NavigationProps> = ({ homeScrollY }) => {
     <nav className={homeScrollY > 0 ? 'navigation navigation-scroll' : 'navigation'}>
       {/* 导航栏左侧部分 */}
       <div className="navigation-left">
-        <div>Logo</div>
+        <div></div>
         <div className="blog-title-container" onClick={navToPage('/home')}>
           <span className="blog-title">Lucuas & Betty</span>
           <span className="blog-title-link">home</span>

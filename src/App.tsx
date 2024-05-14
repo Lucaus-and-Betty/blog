@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { FullScreenMask } from './components';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectSearch, show, hide } from '@myStore/slices/searchSlice';
@@ -16,12 +16,15 @@ const App = () => {
     navigate('/home');
   }, [navigate]);
 
-  // 监听 ctrl + k 事件
+  // 监听 ctrl + k 事件打开搜索框
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.ctrlKey && e.key === 'k') {
         e.preventDefault();
         dispatch(show());
+      }
+      if (e.key === 'Escape') {
+        dispatch(hide());
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -38,7 +41,9 @@ const App = () => {
   );
 };
 
+// 全局搜索框
 const SearchDialog = () => {
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
 
   const search = useSelector(selectSearch);
@@ -51,6 +56,12 @@ const SearchDialog = () => {
       dispatch(hide());
     }
   };
+
+  useEffect(() => {
+    if (search) {
+      searchInputRef.current?.focus();
+    }
+  });
 
   return (
     <FullScreenMask setClose={setSearchDialog} show={search}>
@@ -68,6 +79,7 @@ const SearchDialog = () => {
         </div>
         <div className="search-dialog-input-container">
           <input
+            ref={searchInputRef}
             className="search-dialog-input"
             type="text"
             placeholder={placeholderText}
@@ -97,4 +109,5 @@ const SearchDialog = () => {
     </FullScreenMask>
   );
 };
+
 export default App;

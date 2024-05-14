@@ -1,2 +1,2 @@
 export * from './error';
-export * from './test';
+export * from './home/index';

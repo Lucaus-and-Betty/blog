@@ -8,6 +8,7 @@
       "@myStore/*": ["src/store/*"],
       "@myTypes/*": ["src/types/*"],
       "@myPages/*": ["src/pages/*"],
+      "@myAssets/*": ["src/assets/*"],
     },
     "target": "ES2020",
     "useDefineForClassFields": true,

@@ -1,7 +1,9 @@
 import { useState, FC } from 'react';
 import { Space } from '@myComponents/Space';
-import { NavigationList } from './type.ts';
+import { NavigationList, projectList } from './type.ts';
 import { useNavigate, Outlet, useMatch } from 'react-router-dom';
+import { Dns, Search, Settings } from '@mui/icons-material';
+import { logo } from '@myAssets/icon';
 import './index.less';
 
 const Home = () => {
@@ -18,7 +20,13 @@ const Home = () => {
     <div className="home" onScroll={handleScroll}>
       <Navigation homeScrollY={homeScrollY} />
       <Space width="100%" height="60px"></Space>
-      <Outlet />
+      <div
+        style={{
+          padding: '0 60px'
+        }}
+      >
+        <Outlet />
+      </div>
     </div>
   );
 };
@@ -46,7 +54,30 @@ const Navigation: FC<NavigationProps> = ({ homeScrollY }) => {
     <nav className={homeScrollY > 0 ? 'navigation navigation-scroll' : 'navigation'}>
       {/* 导航栏左侧部分 */}
       <div className="navigation-left">
-        <div></div>
+        <div className="blog-logo">
+          <div className="logo">{logo}</div>
+          <Dns className="project"></Dns>
+          <div className="project-list-container">
+            <div className="project-list">
+              {projectList.map(item => {
+                return (
+                  <div className="type-project" key={item.title}>
+                    <div className="project-list-title">{item.title}</div>
+                    <div className="personal-list">
+                      {item.personalList.map(personal => {
+                        return (
+                          <div className="personal-list-item" key={personal.title}>
+                            {personal.title}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
         <div className="blog-title-container" onClick={navToPage('/home')}>
           <span className="blog-title">Lucuas & Betty</span>
           <span className="blog-title-link">home</span>
@@ -83,8 +114,12 @@ const Navigation: FC<NavigationProps> = ({ homeScrollY }) => {
       })}
       {/* 导航栏右边部分 */}
       <div className="navigation-more">
-        <div>搜索</div>
-        <div>控制台</div>
+        <div>
+          <Search />
+        </div>
+        <div>
+          <Settings />
+        </div>
       </div>
     </nav>
   );

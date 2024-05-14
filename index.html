@@ -2,10 +2,24 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="/blog.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lucuas & Betty's Blog</title>
   </head>
+  <script>
+    document.addEventListener('visibilitychange', function() {
+      let isHidden = document.hidden;
+      if (isHidden) {
+          document.title = '等你回来哦';
+      } else {
+        document.title = '欢迎回来';
+        let timer = setTimeout(() => {
+          document.title = 'Lucaus & Betty\'s Blog';
+          clearTimeout(timer);
+        }, 1000);
+      }
+    });
+  </script>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>

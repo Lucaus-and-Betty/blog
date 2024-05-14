@@ -83,9 +83,32 @@
       }
     }
   }
+
+  .search-dialog-close-container {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0px;
+    right: 0px;
+    width: 34px;
+    height: 34px;
+  }
 }
 
 .search-dialog-show {
   opacity: 1;
   top: 15%;
+}
+
+@media screen and (width <= 600px) {
+  .search-dialog {
+    top: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 600px !important;
+    border: none !important;
+    border-radius: 0 !important;
+    outline: none !important;
+  }
 }

@@ -144,7 +144,7 @@ const NavigationRight = () => {
           }}
         >
           <Search />
-          <span>Search...</span>
+          <span className="search-tip">Search...</span>
           <div className="search-shortcut-key">Ctrl+k</div>
         </div>
       </div>

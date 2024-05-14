@@ -320,6 +320,7 @@
         height: 36px;
         border-radius: 14px;
         border: var(--main-border);
+        transition: width 0.3s ease-in-out, border 0.3s ease-in-out;
 
         &:hover {
           border: var(--main-blur-glass-color-outline-1px);
@@ -330,6 +331,15 @@
           border-radius: 5px;
           background-color: #b6b6b6a1;
           font-size: smaller;
+          scale: 1;
+          transition: scale 0.3s ease-in-out;
+        }
+
+        .search-tip {
+          font-size: 14px;
+          color: #8b8b8b;
+          scale: 1;
+          transition: scale 0.3s ease-in-out;
         }
       }
     }
@@ -375,5 +385,27 @@
     .home-content {
       padding: 0px 5px !important;
     }
+  }
+}
+
+@media screen and (width <= 500px) {
+  .home {
+  
+    .navigation-right {
+      .navigation-search {
+        width: 24px !important;
+        border: none !important;
+        padding: 0 !important;
+      }
+      
+      .search-shortcut-key {
+        scale: 0 !important;
+      }
+
+      .search-tip {
+        scale: 0 !important;
+      }
+    }
+ 
   }
 }

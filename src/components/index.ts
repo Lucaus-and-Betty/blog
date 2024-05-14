@@ -1,2 +1,3 @@
-export * from './Space';
-export * from './PopUps';
+export * from './space';
+export * from './popUps';
+export * from './search';

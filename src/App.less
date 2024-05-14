@@ -1,0 +1,91 @@
+.search-dialog {
+  position: relative;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  padding: 20px;
+  opacity: 0;
+  top: 25%;
+  width: 70%;
+  max-width: 500px;
+  height: fit-content;
+  background-color: aqua;
+  border-radius: 10px;
+  outline: 2px solid #a1a1a1c0;
+  background-color: var(--content-background-color);
+  transition: opacity 0.5s ease-in-out, top 0.5s ease-in-out, width 0.3s ease-in-out, max-width 0.3s ease-in-out, outline 0.3s ease-in-out;
+
+
+  &:hover {
+    outline: var(--main-blur-glass-color-outline);
+  }
+
+  .search-dialog-title {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .search-dialog-input-container {
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: var(--main-blur-glass-color-outline-1px);
+
+    .search-dialog-input {
+      width: 100%;
+      height: 100%;
+      padding: 0 10px;
+      font-size: 16px;
+      background-color: var(--main-background-color);
+      caret-color: var(--main-caret-color);
+      outline: none;
+      border: none;
+    }
+  }
+
+  .search-dialog-line {
+    width: 100%;
+    height: 1px;
+    margin-top: 10px;
+    background-color: var(--main-caret-color);
+  }
+
+  .search-dialog-content {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    padding: 10px 0;
+    width: 100%;
+    height: fit-content;
+  }
+
+  .search-history-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 10px;
+
+    .search-dialog-history-item {
+      height: 40px;
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      word-break: break-all;
+      word-wrap: break-word;
+      text-overflow: ellipsis;
+      transition: background-color 0.3s ease-in-out;
+
+      &:hover {
+        background-color: var(--main-hover-color);
+      }
+    }
+  }
+}
+
+.search-dialog-show {
+  opacity: 1;
+  top: 15%;
+}

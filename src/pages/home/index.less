@@ -321,7 +321,11 @@
         border-radius: 14px;
         border: var(--main-border);
 
-        div {
+        &:hover {
+          border: var(--main-blur-glass-color-outline-1px);
+        }
+
+        .search-shortcut-key {
           padding: 4px;
           border-radius: 5px;
           background-color: #b6b6b6a1;
@@ -360,6 +364,12 @@
   
     .navigation-right {
       right: 5px !important;
+
+      .search-dialog {
+        top: 0 !important;
+        width: 100% !important;
+        max-width: 900px !important;
+      }
     }
   
     .home-content {

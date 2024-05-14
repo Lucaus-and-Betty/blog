@@ -125,3 +125,19 @@ export const projectList: ProjectList[] = [
     ]
   }
 ];
+
+interface SearchHistory {
+  id: number;
+  content: string;
+}
+
+export const searchHistory: SearchHistory[] = [
+  {
+    id: 1,
+    content: 'Lucuas'
+  },
+  {
+    id: 2,
+    content: 'Betty'
+  }
+];

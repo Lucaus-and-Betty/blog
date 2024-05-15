@@ -24,9 +24,10 @@ const searchHistory: SearchHistory[] = [
 const SearchDialog = () => {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
-
   const search = useSelector(selectSearch);
+
   const [placeholderText, setPlaceholderText] = useState('回车进行搜索');
+  const [text, setText] = useState('');
 
   const setSearchDialog = (type: boolean) => {
     if (type) {
@@ -39,6 +40,7 @@ const SearchDialog = () => {
   useEffect(() => {
     if (search) {
       searchInputRef.current?.focus();
+      setText('');
     }
   }, [search]);
   return (
@@ -66,6 +68,8 @@ const SearchDialog = () => {
             placeholder={placeholderText}
             onFocus={() => setPlaceholderText('')}
             onBlur={() => setPlaceholderText('回车进行搜索')}
+            onChange={e => setText(e.target.value)}
+            value={text}
           />
         </div>
         <div className="search-dialog-line"></div>

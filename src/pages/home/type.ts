@@ -12,39 +12,39 @@ interface NavigationItemChild {
 
 export const NavigationList: NavigationItem[] = [
   {
-    title: '文章',
+    title: 'Articles',
     key: 'articles',
     chidren: [
       {
-        title: '技术',
+        title: 'TECH',
         path: 'tech',
         key: 'tech'
       },
       {
-        title: '生活',
+        title: 'Life',
         path: 'life',
         key: 'life'
       }
     ]
   },
   {
-    title: '我们的',
+    title: 'Our',
     key: 'our',
     chidren: [
       {
-        title: '相册',
+        title: 'Photos',
         path: 'photos',
         key: 'photos'
       },
       {
-        title: '视频',
+        title: 'Videos',
         path: 'videos',
         key: 'videos'
       }
     ]
   },
   {
-    title: '关于',
+    title: 'About',
     key: 'about',
     chidren: [
       {
@@ -58,7 +58,7 @@ export const NavigationList: NavigationItem[] = [
         key: 'Betty'
       },
       {
-        title: '本站',
+        title: 'Website',
         path: 'web',
         key: 'web'
       }

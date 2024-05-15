@@ -355,7 +355,7 @@
           transition: transform 0.3s ease-in-out;
         }
 
-        .navigation-settings-icon-animation {
+        &:hover .navigation-settings-icon {
           transform: rotate(120deg);
         }
 
@@ -392,7 +392,7 @@
               right: 0;
               width: 34px;
               height: 34px;
-              padding-top: 10px;
+              padding-top: 30px;
               cursor: pointer;
             }
           }
@@ -445,6 +445,99 @@
           }
         }
       }
+
+      .navigation-side-list {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .navigation-side-list-icon {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          align-items: center;
+          width: 0px;
+          height: 0px;
+          transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+
+          .navigation-side-list-icon-line {
+            border-radius: 100px;
+            width: 90%;
+            height: 3px;
+            background-color: var(--main-font-color);
+          }
+
+          .list-icon-line-top {
+            transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
+          }
+
+          .list-icon-line-middle {
+            transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
+          }
+
+          .list-icon-line-bottom {
+            transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
+          }
+
+        }
+        &:hover {
+          .list-icon-line-top {
+            transform: translateX(5px);
+          }
+
+          .list-icon-line-middle {
+            transform: translateX(-5px);
+          }
+
+          .list-icon-line-bottom {
+            transform: translateX(5px);
+          }
+          
+          .navigation-side-list-icon-line {
+            width: calc(90% - 7px);
+          }
+        }
+
+        .nav {
+          position: relative;
+          cursor: default;
+          display: flex;
+          flex-direction: column;
+          padding: 10px;
+          gap: 10px;
+          
+          .nav-top {
+            height: 36px;
+
+            .nav-title-container {
+              padding-top: 10px;
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              gap: 10px;
+  
+              .nav-title {
+                font-size: 20px;
+                font-weight: bold;
+              }
+            }
+  
+            .nav-close {
+              position: absolute;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              top: 0;
+              right: 0;
+              width: 34px;
+              height: 34px;
+              padding-top: 30px;
+              cursor: pointer;
+            }
+          }
+        }
+      }
     }
   }
 
@@ -482,6 +575,11 @@
         top: 0 !important;
         width: 100% !important;
         max-width: 900px !important;
+      }
+
+      .navigation-side-list-icon {
+        width: 19px !important;
+        height: 19px !important;
       }
     }
   

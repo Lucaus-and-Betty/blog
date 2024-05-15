@@ -145,9 +145,9 @@ const NavigationMiddle = () => {
 
 const NavigationRight = () => {
   const dispatch = useDispatch();
-  const [settingsSideBarShow, setSettingsSideBarShow] = useState(false);
-  const [settingsAnimation, setSettingsAnimation] = useState(false);
   const theme = useSelector(selectTheme);
+  const [settingsSideBarShow, setSettingsSideBarShow] = useState(false);
+  const [navSideBarShow, setNavSideBarShow] = useState(false);
 
   const changeTheme = (theme: string) => {
     return () => {
@@ -175,19 +175,34 @@ const NavigationRight = () => {
           <div className="search-shortcut-key">Ctrl+k</div>
         </div>
       </div>
-      <div
-        className="navigation-settings"
-        onClick={() => setSettingsSideBarShow(true)}
-        onMouseEnter={() => setSettingsAnimation(true)}
-        onMouseLeave={() => setSettingsAnimation(false)}
-      >
-        <SettingsIcon
-          className={
-            settingsAnimation
-              ? 'navigation-settings-icon navigation-settings-icon-animation'
-              : 'navigation-settings-icon'
-          }
-        />
+      <div className="navigation-side-list">
+        <div
+          className="navigation-side-list-icon"
+          onClick={() => {
+            setNavSideBarShow(true);
+          }}
+        >
+          <div className="navigation-side-list-icon-line list-icon-line-top"></div>
+          <div className="navigation-side-list-icon-line list-icon-line-middle"></div>
+          <div className="navigation-side-list-icon-line list-icon-line-bottom"></div>
+        </div>
+        <SideBar show={navSideBarShow} setClose={setNavSideBarShow}>
+          <div className="nav">
+            <div className="nav-top">
+              <div className="nav-title-container">
+                <SettingsIcon className="navigation-nav-icon" />
+                <span className="nav-title">Navigation</span>
+              </div>
+              <div className="nav-close" onClick={() => setNavSideBarShow(false)}>
+                <CloseIcon></CloseIcon>
+              </div>
+            </div>
+            <div className="nav-content"></div>
+          </div>
+        </SideBar>
+      </div>
+      <div className="navigation-settings" onClick={() => setSettingsSideBarShow(true)}>
+        <SettingsIcon className="navigation-settings-icon" />
         <SideBar show={settingsSideBarShow} setClose={setSettingsSideBarShow}>
           <div className="settings">
             <div className="settings-top">

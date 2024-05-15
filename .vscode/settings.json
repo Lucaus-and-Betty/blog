@@ -1,0 +1,9 @@
+{
+    "css.validate": false,
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.stylelint": "explicit",
+        "source.fixAll.eslint": "explicit",
+    },
+    "editor.tabSize": 2
+}

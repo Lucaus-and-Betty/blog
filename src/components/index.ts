@@ -1,3 +1,4 @@
 export * from './space';
-export * from './popUps';
+export * from './fullScreenMask';
 export * from './search';
+export * from './sideBar';

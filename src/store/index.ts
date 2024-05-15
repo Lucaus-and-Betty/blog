@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import countSlice from './slices/countSlice.ts';
 import searchSlice from './slices/searchSlice.ts';
+import themeSlice from './slices/themeSlice.ts';
 
 const store = configureStore({
   reducer: {
     counter: countSlice,
-    searcher: searchSlice
+    searcher: searchSlice,
+    themer: themeSlice
   }
 });
 

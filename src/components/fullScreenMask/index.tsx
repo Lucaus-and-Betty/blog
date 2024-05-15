@@ -15,7 +15,8 @@ const FullScreenMask: FC<FullScreenMaskProps> = ({ children, setClose, show }) =
       style={{
         visibility: show ? 'visible' : 'hidden'
       }}
-      onClick={() => {
+      onClick={e => {
+        e.stopPropagation();
         setClose(false);
       }}
     >

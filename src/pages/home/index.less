@@ -118,7 +118,7 @@
             .project-list-title {
               width: 140px;
               font-size: 16px;
-              color: #8b8b8b;
+              color: var(--secondary-font-color);
             }
   
             .personal-list {
@@ -317,7 +317,7 @@
         align-items: center;
         justify-content: space-around;
         padding: 0 4px;
-        width: 148px;
+        width: 154px;
         height: 36px;
         border-radius: 14px;
         border: var(--main-border);
@@ -338,9 +338,110 @@
 
         .search-tip {
           font-size: 14px;
-          color: #8b8b8b;
+          color: var(--secondary-font-color);
           scale: 1;
           transition: scale 0.3s ease-in-out;
+        }
+      }
+
+      .navigation-settings {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .navigation-settings-icon {
+          transition: transform 0.3s ease-in-out;
+        }
+
+        .navigation-settings-icon-animation {
+          transform: rotate(120deg);
+        }
+
+        .settings {
+          position: relative;
+          cursor: default;
+          display: flex;
+          flex-direction: column;
+          padding: 10px;
+          gap: 10px;
+          
+          .settings-top {
+            height: 36px;
+
+            .settings-title-container {
+              padding-top: 10px;
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              gap: 10px;
+  
+              .settings-title {
+                font-size: 20px;
+                font-weight: bold;
+              }
+            }
+  
+            .settings-close {
+              position: absolute;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              top: 0;
+              right: 0;
+              width: 34px;
+              height: 34px;
+              padding-top: 10px;
+              cursor: pointer;
+            }
+          }
+
+          .settings-content {
+            height: calc(100dvh - 66px);
+            overflow-y: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE 10+, edge */
+
+            &::-webkit-scrollbar {
+              display: none;
+              width: 0;
+            }
+
+            .settings-item {
+              padding-left: 10px;
+  
+              .settings-secondary-title {
+                font-size: 16px;
+                color: var(--secondary-font-color);
+              }
+              
+              .settings-theme {
+                display: flex;
+                padding-top: 10px;
+                flex-direction: row;
+                gap: 10px;
+
+                .settings-theme-icon {
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  width: calc(100% / 3);
+                  height: 40px;
+                  border-radius: 10px;
+                  cursor: pointer;
+                  transition: background-color 0.3s ease-in-out;
+
+                  &:hover {
+                    background-color: var(--main-hover-color);
+                  }
+                }
+
+                .settings-theme-icon-select {
+                  background-color: var(--main-hover-color);
+                }
+              }
+            }
+          }
         }
       }
     }

@@ -2,10 +2,21 @@ import { useState, FC } from 'react';
 import { Space } from '@myComponents/index.ts';
 import { NavigationList, projectList } from './type.ts';
 import { useNavigate, Outlet, useMatch } from 'react-router-dom';
-import { Dns, Search, Settings, Notifications } from '@mui/icons-material';
+import {
+  Dns as DnsIcon,
+  Search as SearchIcon,
+  Settings as SettingsIcon,
+  Close as CloseIcon,
+  LightMode as LightModeIcon,
+  DarkMode as DarkModeIcon,
+  SettingsBrightness as SettingsBrightnessIcon
+} from '@mui/icons-material';
+import { SideBar } from '@myComponents/index.ts';
 import { logo } from '@myAssets/icon';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { show } from '@myStore/slices/searchSlice';
+import { changeToDark, changeToLight, changeToSystem } from '@myStore/slices/themeSlice.ts';
+import { selectTheme } from '@myStore/slices/themeSlice.ts';
 import './index.less';
 
 const Home = () => {
@@ -51,11 +62,12 @@ const NavigationLeft = () => {
       navigate(pagePath);
     };
   };
+
   return (
     <div className="navigation-left">
       <div className="blog-logo">
         <div className="logo">{logo}</div>
-        <Dns className="project"></Dns>
+        <DnsIcon className="project"></DnsIcon>
         <div className="project-list-container">
           <div className="project-list">
             {projectList.map(item => {
@@ -133,6 +145,21 @@ const NavigationMiddle = () => {
 
 const NavigationRight = () => {
   const dispatch = useDispatch();
+  const [settingsSideBarShow, setSettingsSideBarShow] = useState(false);
+  const [settingsAnimation, setSettingsAnimation] = useState(false);
+  const theme = useSelector(selectTheme);
+
+  const changeTheme = (theme: string) => {
+    return () => {
+      if (theme === 'system') {
+        dispatch(changeToSystem());
+      } else if (theme === 'light') {
+        dispatch(changeToLight());
+      } else {
+        dispatch(changeToDark());
+      }
+    };
+  };
 
   return (
     <div className="navigation-right">
@@ -143,16 +170,68 @@ const NavigationRight = () => {
             dispatch(show());
           }}
         >
-          <Search />
+          <SearchIcon />
           <span className="search-tip">Search...</span>
           <div className="search-shortcut-key">Ctrl+k</div>
         </div>
       </div>
-      <div>
-        <Notifications />
-      </div>
-      <div>
-        <Settings />
+      <div
+        className="navigation-settings"
+        onClick={() => setSettingsSideBarShow(true)}
+        onMouseEnter={() => setSettingsAnimation(true)}
+        onMouseLeave={() => setSettingsAnimation(false)}
+      >
+        <SettingsIcon
+          className={
+            settingsAnimation
+              ? 'navigation-settings-icon navigation-settings-icon-animation'
+              : 'navigation-settings-icon'
+          }
+        />
+        <SideBar show={settingsSideBarShow} setClose={setSettingsSideBarShow}>
+          <div className="settings">
+            <div className="settings-top">
+              <div className="settings-title-container">
+                <SettingsIcon className="navigation-settings-icon" />
+                <span className="settings-title">Settings</span>
+              </div>
+              <div className="settings-close" onClick={() => setSettingsSideBarShow(false)}>
+                <CloseIcon></CloseIcon>
+              </div>
+            </div>
+            <div className="settings-content">
+              <div className="settings-item">
+                <span className="settings-secondary-title">Theme</span>
+                <div className="settings-theme">
+                  <div
+                    className={
+                      theme === 'system' ? 'settings-theme-icon settings-theme-icon-select' : 'settings-theme-icon'
+                    }
+                    onClick={changeTheme('system')}
+                  >
+                    <SettingsBrightnessIcon></SettingsBrightnessIcon>
+                  </div>
+                  <div
+                    className={
+                      theme === 'light' ? 'settings-theme-icon settings-theme-icon-select' : 'settings-theme-icon'
+                    }
+                    onClick={changeTheme('light')}
+                  >
+                    <LightModeIcon></LightModeIcon>
+                  </div>
+                  <div
+                    className={
+                      theme === 'dark' ? 'settings-theme-icon settings-theme-icon-select' : 'settings-theme-icon'
+                    }
+                    onClick={changeTheme('dark')}
+                  >
+                    <DarkModeIcon></DarkModeIcon>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </SideBar>
       </div>
     </div>
   );

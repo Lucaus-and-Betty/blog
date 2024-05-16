@@ -9,6 +9,7 @@
       "@myTypes/*": ["src/types/*"],
       "@myPages/*": ["src/pages/*"],
       "@myAssets/*": ["src/assets/*"],
+      "@myConstants/*": ["src/constants/*"],
     },
     "target": "ES2020",
     "useDefineForClassFields": true,

@@ -12,6 +12,7 @@ export default defineConfig({
       '@myTypes': join(__dirname, 'src/types'),
       '@myPages': join(__dirname, 'src/pages'),
       '@myAssets': join(__dirname, 'src/assets'),
+      '@myConstants': join(__dirname, 'src/constants'),
     }
   },
   plugins: [react()],

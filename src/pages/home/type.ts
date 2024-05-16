@@ -1,3 +1,14 @@
+import {
+  SvgIconComponent,
+  Biotech,
+  Store,
+  PhotoSizeSelectActual,
+  VideoCameraBack,
+  Info,
+  Man,
+  Woman
+} from '@mui/icons-material';
+
 interface NavigationItem {
   title: string;
   key: string;
@@ -8,6 +19,7 @@ interface NavigationItemChild {
   title: string;
   path: string;
   key: string;
+  icon: SvgIconComponent;
 }
 
 export const NavigationList: NavigationItem[] = [
@@ -18,12 +30,14 @@ export const NavigationList: NavigationItem[] = [
       {
         title: 'TECH',
         path: 'tech',
-        key: 'tech'
+        key: 'tech',
+        icon: Biotech
       },
       {
         title: 'Life',
         path: 'life',
-        key: 'life'
+        key: 'life',
+        icon: Store
       }
     ]
   },
@@ -34,12 +48,14 @@ export const NavigationList: NavigationItem[] = [
       {
         title: 'Photos',
         path: 'photos',
-        key: 'photos'
+        key: 'photos',
+        icon: PhotoSizeSelectActual
       },
       {
         title: 'Videos',
         path: 'videos',
-        key: 'videos'
+        key: 'videos',
+        icon: VideoCameraBack
       }
     ]
   },
@@ -50,23 +66,26 @@ export const NavigationList: NavigationItem[] = [
       {
         title: 'Lucuas',
         path: 'Lucaus',
-        key: 'Lucaus'
+        key: 'Lucaus',
+        icon: Man
       },
       {
         title: 'Betty',
         path: 'Betty',
-        key: 'Betty'
+        key: 'Betty',
+        icon: Woman
       },
       {
         title: 'Website',
         path: 'web',
-        key: 'web'
+        key: 'web',
+        icon: Info
       }
     ]
   }
 ];
 
-interface ProjectList {
+export interface ProjectList {
   title: string;
   personalList: PersonalList[];
 }
@@ -76,55 +95,6 @@ interface PersonalList {
   title: string;
   link: string;
 }
-
-// mock data
-export const projectList: ProjectList[] = [
-  {
-    title: "Lucaus's project",
-    personalList: [
-      {
-        id: 1,
-        title: "Lucuas's project123123123123",
-        link: 'www.baidu.com'
-      },
-      {
-        id: 2,
-        title: "Lucuas's project",
-        link: 'www.baidu.com'
-      }
-    ]
-  },
-  {
-    title: "Betty's project",
-    personalList: [
-      {
-        id: 3,
-        title: "Betty's project",
-        link: 'www.baidu.com'
-      },
-      {
-        id: 4,
-        title: "Betty's project",
-        link: 'www.baidu.com'
-      }
-    ]
-  },
-  {
-    title: 'Our project',
-    personalList: [
-      {
-        id: 5,
-        title: 'Our project',
-        link: 'www.baidu.com'
-      },
-      {
-        id: 6,
-        title: 'Our project',
-        link: 'www.baidu.com'
-      }
-    ]
-  }
-];
 
 export interface SearchHistory {
   id: number;

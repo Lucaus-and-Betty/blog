@@ -1,6 +1,6 @@
-import { useState, FC } from 'react';
+import { useState, FC, useEffect } from 'react';
 import { Space } from '@myComponents/index.ts';
-import { NavigationList, projectList } from './type.ts';
+import { NavigationList, ProjectList } from './type.ts';
 import { useNavigate, Outlet, useMatch } from 'react-router-dom';
 import {
   Dns as DnsIcon,
@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { show } from '@myStore/slices/searchSlice';
 import { changeToDark, changeToLight, changeToSystem } from '@myStore/slices/themeSlice.ts';
 import { selectTheme } from '@myStore/slices/themeSlice.ts';
+import homeService from './index.service.ts';
 import './index.less';
 
 const Home = () => {
@@ -55,6 +56,7 @@ const Navigation: FC<NavigationProps> = ({ homeScrollY }) => {
 
 const NavigationLeft = () => {
   const navigate = useNavigate();
+  const [projectList, setProjectList] = useState<ProjectList[] | null>(null);
 
   // 导航到指定页面
   const navToPage = (pagePath: string) => {
@@ -63,31 +65,37 @@ const NavigationLeft = () => {
     };
   };
 
+  useEffect(() => {
+    homeService.getProjectList(setProjectList);
+  }, []);
+
   return (
     <div className="navigation-left">
       <div className="blog-logo">
         <div className="logo">{logo}</div>
         <DnsIcon className="project"></DnsIcon>
-        <div className="project-list-container">
-          <div className="project-list">
-            {projectList.map(item => {
-              return (
-                <div className="type-project" key={item.title}>
-                  <div className="project-list-title">{item.title}</div>
-                  <div className="personal-list">
-                    {item.personalList.map(personal => {
-                      return (
-                        <div className="personal-list-item" key={personal.id}>
-                          {personal.title}
-                        </div>
-                      );
-                    })}
+        {projectList && (
+          <div className="project-list-container">
+            <div className="project-list">
+              {projectList.map(item => {
+                return (
+                  <div className="type-project" key={item.title}>
+                    <div className="project-list-title">{item.title}</div>
+                    <div className="personal-list">
+                      {item.personalList.map(personal => {
+                        return (
+                          <div className="personal-list-item" key={personal.id}>
+                            {personal.title}
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
-        </div>
+        )}
       </div>
       <div className="blog-title-container" onClick={navToPage('/home')}>
         <span className="blog-title">Lucuas & Betty</span>
@@ -130,6 +138,9 @@ const NavigationMiddle = () => {
                       }
                       onClick={navToPage(child.path)}
                     >
+                      <div className="navigation-list-item-child-content-item-icon">
+                        <child.icon></child.icon>
+                      </div>
                       <span className="navigation-list-item-child-content-item-title">{child.title}</span>
                     </div>
                   );
@@ -144,10 +155,19 @@ const NavigationMiddle = () => {
 };
 
 const NavigationRight = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const theme = useSelector(selectTheme);
+  // 用来判断当前页面的路径，从而显示导航栏的样式
+  const match = useMatch('/home/:pagePath');
+
   const [settingsSideBarShow, setSettingsSideBarShow] = useState(false);
   const [navSideBarShow, setNavSideBarShow] = useState(false);
+
+  // 导航到指定页面
+  const navToPage = (pagePath: string) => {
+    navigate(pagePath);
+  };
 
   const changeTheme = (theme: string) => {
     return () => {
@@ -197,7 +217,40 @@ const NavigationRight = () => {
                 <CloseIcon></CloseIcon>
               </div>
             </div>
-            <div className="nav-content"></div>
+            <div className="nav-content">
+              {NavigationList.map(item => {
+                return (
+                  <div className="nav-item">
+                    <span className="nav-secondary-title">{item.title}</span>
+                    <div className="nav-item-item">
+                      {item.chidren.map(child => {
+                        return (
+                          <div
+                            className={
+                              match?.params.pagePath === child.path
+                                ? 'nav-item-item-card nav-item-item-card-select'
+                                : 'nav-item-item-card'
+                            }
+                            key={child.key}
+                            onClick={() => {
+                              navToPage(child.path);
+                              setNavSideBarShow(false);
+                            }}
+                          >
+                            <div className="nav-item-item-card-icon">
+                              <div className="nav-item-item-card-icon-animation">
+                                <child.icon></child.icon>
+                              </div>
+                            </div>
+                            <div className="nav-item-item-card-title">{child.title}</div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </SideBar>
       </div>

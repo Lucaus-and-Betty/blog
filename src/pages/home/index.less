@@ -271,14 +271,15 @@
 
           .navigation-list-item-child-content-item-select {
             background-color: var(--main-hover-color);
-              width: 100px;
+            width: 100px;
           }
 
           .navigation-list-item-child-content-item {
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 90px;
+            gap: 8px;
+            width: 108px;
             height: 50px;
             border-radius: 50px;
             margin-left: 7px;
@@ -286,11 +287,21 @@
 
             &:hover {
               background-color: var(--main-hover-color);
-              width: 100px;
+              width: 118px;
+
+              .navigation-list-item-child-content-item-icon {
+                animation: shakeIcon 2s ease-in-out infinite;
+              }
             }
 
             &:last-child {
               margin-right: 7px;
+            }
+
+            .navigation-list-item-child-content-item-icon {
+              display: flex;
+              justify-content: center;
+              align-items: center;
             }
 
             .navigation-list-item-child-content-item-title {
@@ -409,7 +420,7 @@
             }
 
             .settings-item {
-              padding-left: 10px;
+              padding: 10px;
   
               .settings-secondary-title {
                 font-size: 16px;
@@ -481,6 +492,7 @@
           }
 
         }
+
         &:hover {
           .list-icon-line-top {
             transform: translateX(5px);
@@ -534,6 +546,82 @@
               height: 34px;
               padding-top: 30px;
               cursor: pointer;
+            }
+          }
+
+          .nav-content {
+            height: calc(100dvh - 66px);
+            overflow-y: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE 10+, edge */
+
+            &::-webkit-scrollbar {
+              display: none;
+              width: 0;
+            }
+
+            .nav-item {
+              padding: 10px;
+  
+              .nav-secondary-title {
+                font-size: 16px;
+                color: var(--secondary-font-color);
+              }
+
+              .nav-item-item {
+                // 网格布局分成两列
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                padding: 10px 0 0 ;
+                gap: 10px;
+
+                .nav-item-item-card {
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  height: 40px;
+                  gap: 8px;
+                  border-radius: 10px;
+                  border: var(--sidebar-border);
+                  cursor: pointer;
+                  background-color: var(--main-background-color);
+                  transition: background-color 0.3s ease-in-out;
+
+                  .nav-item-item-card-icon {
+                    display: flex;
+                    justify-content: flex-end;
+                    align-items: center;
+                    height: 100%;
+                    width: 40px;
+
+                    .nav-item-item-card-icon-animation {
+                      transform-origin: 50% 50%;
+                    }
+                  }
+                  
+                  .nav-item-item-card-title {
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                    flex: 1;
+                  }
+
+                  &:hover {
+                    background-color: var(--main-hover-color);
+
+                    .nav-item-item-card-icon {
+                      .nav-item-item-card-icon-animation {
+                        animation: shakeIcon 2s ease-in-out infinite;
+                      }
+                    }
+
+                  }
+                }
+
+                .nav-item-item-card-select {
+                  background-color: var(--main-hover-color);
+                }
+              }
             }
           }
         }
@@ -608,5 +696,43 @@
       }
     }
  
+  }
+}
+
+@keyframes shakeIcon {
+  0% {
+    transform: translateX(0px);
+  }
+
+  20% {
+    transform: scale(0.8) rotate(-18deg);
+  }
+
+  30% {
+    transform: scale(1.2) rotate(12deg);
+  }
+
+  40% {
+    transform: scale(1.2) rotate(-12deg);
+  }
+
+  50% {
+    transform: scale(1.2) rotate(12deg);
+  }
+
+  60% {
+    transform: scale(1.2) rotate(-12deg);
+  }
+
+  70% {
+    transform: scale(1.2) rotate(12deg);
+  }
+
+  80% {
+    transform: scale(1.2) rotate(0deg);
+  }
+
+  87% {
+    transform: scale(1);
   }
 }

@@ -16,7 +16,9 @@ import { logo } from '@myAssets/icon';
 import { useDispatch, useSelector } from 'react-redux';
 import { show } from '@myStore/slices/searchSlice';
 import { changeToDark, changeToLight, changeToSystem } from '@myStore/slices/themeSlice.ts';
+import { changeToCN, changeToEN } from '@myStore/slices/languageSlice.ts';
 import { selectTheme } from '@myStore/slices/themeSlice.ts';
+import { selectLanguage } from '@myStore/slices/languageSlice.ts';
 import homeService from './index.service.ts';
 import './index.less';
 
@@ -55,6 +57,7 @@ const Navigation: FC<NavigationProps> = ({ homeScrollY }) => {
 };
 
 const NavigationLeft = () => {
+  const { LANGUAGE } = useSelector(selectLanguage);
   const navigate = useNavigate();
   const [projectList, setProjectList] = useState<ProjectList[] | null>(null);
 
@@ -80,7 +83,7 @@ const NavigationLeft = () => {
               {projectList.map(item => {
                 return (
                   <div className="type-project" key={item.title}>
-                    <div className="project-list-title">{item.title}</div>
+                    <div className="project-list-title">{LANGUAGE[item.title]}</div>
                     <div className="personal-list">
                       {item.personalList.map(personal => {
                         return (
@@ -99,13 +102,14 @@ const NavigationLeft = () => {
       </div>
       <div className="blog-title-container" onClick={navToPage('/home')}>
         <span className="blog-title">Lucuas & Betty</span>
-        <span className="blog-title-link">home</span>
+        <span className="blog-title-link">{LANGUAGE['home']}</span>
       </div>
     </div>
   );
 };
 
 const NavigationMiddle = () => {
+  const { LANGUAGE } = useSelector(selectLanguage);
   const navigate = useNavigate();
 
   // 用来判断当前页面的路径，从而显示导航栏的样式
@@ -123,7 +127,7 @@ const NavigationMiddle = () => {
         return (
           <div className="navigation-list-item" key={item.key}>
             <div className="navigation-list-item-content">
-              <span>{item.title}</span>
+              <span>{LANGUAGE[item.title]}</span>
             </div>
             <div className="navigation-list-item-child">
               <div className="navigation-list-item-child-content">
@@ -141,7 +145,7 @@ const NavigationMiddle = () => {
                       <div className="navigation-list-item-child-content-item-icon">
                         <child.icon></child.icon>
                       </div>
-                      <span className="navigation-list-item-child-content-item-title">{child.title}</span>
+                      <span className="navigation-list-item-child-content-item-title">{LANGUAGE[child.title]}</span>
                     </div>
                   );
                 })}
@@ -155,6 +159,7 @@ const NavigationMiddle = () => {
 };
 
 const NavigationRight = () => {
+  const { LANGUAGE, languageType } = useSelector(selectLanguage);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const theme = useSelector(selectTheme);
@@ -191,7 +196,7 @@ const NavigationRight = () => {
           }}
         >
           <SearchIcon />
-          <span className="search-tip">Search...</span>
+          <span className="search-tip">{LANGUAGE['Search']}...</span>
           <div className="search-shortcut-key">Ctrl+k</div>
         </div>
       </div>
@@ -211,7 +216,7 @@ const NavigationRight = () => {
             <div className="nav-top">
               <div className="nav-title-container">
                 <SettingsIcon className="navigation-nav-icon" />
-                <span className="nav-title">Navigation</span>
+                <span className="nav-title">{LANGUAGE['Navigation']}</span>
               </div>
               <div className="nav-close" onClick={() => setNavSideBarShow(false)}>
                 <CloseIcon></CloseIcon>
@@ -220,8 +225,8 @@ const NavigationRight = () => {
             <div className="nav-content">
               {NavigationList.map(item => {
                 return (
-                  <div className="nav-item">
-                    <span className="nav-secondary-title">{item.title}</span>
+                  <div className="nav-item" key={item.key}>
+                    <span className="nav-secondary-title">{LANGUAGE[item.title]}</span>
                     <div className="nav-item-item">
                       {item.chidren.map(child => {
                         return (
@@ -242,7 +247,7 @@ const NavigationRight = () => {
                                 <child.icon></child.icon>
                               </div>
                             </div>
-                            <div className="nav-item-item-card-title">{child.title}</div>
+                            <div className="nav-item-item-card-title">{LANGUAGE[child.title]}</div>
                           </div>
                         );
                       })}
@@ -261,7 +266,7 @@ const NavigationRight = () => {
             <div className="settings-top">
               <div className="settings-title-container">
                 <SettingsIcon className="navigation-settings-icon" />
-                <span className="settings-title">Settings</span>
+                <span className="settings-title">{LANGUAGE['Settings']}</span>
               </div>
               <div className="settings-close" onClick={() => setSettingsSideBarShow(false)}>
                 <CloseIcon></CloseIcon>
@@ -269,7 +274,7 @@ const NavigationRight = () => {
             </div>
             <div className="settings-content">
               <div className="settings-item">
-                <span className="settings-secondary-title">Theme</span>
+                <span className="settings-secondary-title">{LANGUAGE['Theme']}</span>
                 <div className="settings-theme">
                   <div
                     className={
@@ -294,6 +299,31 @@ const NavigationRight = () => {
                     onClick={changeTheme('dark')}
                   >
                     <DarkModeIcon></DarkModeIcon>
+                  </div>
+                </div>
+              </div>
+              <div className="settings-item">
+                <span className="settings-secondary-title">{LANGUAGE['Language']}</span>
+                <div className="settings-language">
+                  <div
+                    className={
+                      languageType === 'CN'
+                        ? 'settings-language-item settings-language-item-select'
+                        : 'settings-language-item'
+                    }
+                    onClick={() => dispatch(changeToCN())}
+                  >
+                    简体中文
+                  </div>
+                  <div
+                    className={
+                      languageType === 'EN'
+                        ? 'settings-language-item settings-language-item-select'
+                        : 'settings-language-item'
+                    }
+                    onClick={() => dispatch(changeToEN())}
+                  >
+                    English
                   </div>
                 </div>
               </div>

@@ -3,6 +3,7 @@ import { FullScreenMask } from '@myComponents/index';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectSearch, show, hide } from '@myStore/slices/searchSlice';
 import { Search, Schedule, Close } from '@mui/icons-material';
+import { selectLanguage } from '@myStore/slices/languageSlice';
 import './index.less';
 
 interface SearchHistory {
@@ -22,11 +23,12 @@ const searchHistory: SearchHistory[] = [
 ];
 
 const SearchDialog = () => {
+  const { LANGUAGE } = useSelector(selectLanguage);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
   const search = useSelector(selectSearch);
 
-  const [placeholderText, setPlaceholderText] = useState('回车进行搜索');
+  const [placeholderText, setPlaceholderText] = useState(LANGUAGE['Enter to search']);
   const [text, setText] = useState('');
 
   const setSearchDialog = (type: boolean) => {
@@ -57,7 +59,7 @@ const SearchDialog = () => {
         <div className="search-dialog-content">
           <Search />
           <div>
-            <span className="search-dialog-title">Search</span>
+            <span className="search-dialog-title">{LANGUAGE['Search']}</span>
           </div>
         </div>
         <div className="search-dialog-input-container">
@@ -67,7 +69,7 @@ const SearchDialog = () => {
             type="text"
             placeholder={placeholderText}
             onFocus={() => setPlaceholderText('')}
-            onBlur={() => setPlaceholderText('回车进行搜索')}
+            onBlur={() => setPlaceholderText(LANGUAGE['Enter to search'])}
             onChange={e => setText(e.target.value)}
             value={text}
           />
@@ -77,7 +79,7 @@ const SearchDialog = () => {
           <div className="search-dialog-content">
             <Schedule />
             <div>
-              <span className="search-dialog-title">Recent</span>
+              <span className="search-dialog-title">{LANGUAGE['Recent']}</span>
             </div>
           </div>
           <div className="search-history-list">

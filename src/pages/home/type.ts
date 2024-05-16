@@ -64,7 +64,7 @@ export const NavigationList: NavigationItem[] = [
     key: 'about',
     chidren: [
       {
-        title: 'Lucuas',
+        title: 'Lucaus',
         path: 'Lucaus',
         key: 'Lucaus',
         icon: Man

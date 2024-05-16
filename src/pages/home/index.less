@@ -452,6 +452,32 @@
                   background-color: var(--main-hover-color);
                 }
               }
+
+              .settings-language {
+                padding-top: 10px;
+                gap: 10px;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+
+                .settings-language-item {
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  height: 40px;
+                  border-radius: 10px;
+                  cursor: pointer;
+                  transition: background-color 0.3s ease-in-out;
+
+                  &:hover {
+                    background-color: var(--main-hover-color);
+                  }
+                
+                }
+
+                .settings-language-item-select {
+                  background-color: var(--main-hover-color);
+                }
+              }
             }
           }
         }

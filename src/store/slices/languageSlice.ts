@@ -1,12 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { RootState } from '../index';
+import { CN, EN } from '@myConstants/index';
+import localforage from 'localforage';
 
 interface languageState {
-  value: 'EN' | 'CN';
+  value: {
+    LANGUAGE: {
+      [key: string]: string;
+    };
+    languageType: string;
+  };
 }
 
 const initialState: languageState = {
-  value: 'EN'
+  value: {
+    LANGUAGE: EN,
+    languageType: 'EN'
+  }
 };
 
 export const languageSlice = createSlice({
@@ -14,10 +24,18 @@ export const languageSlice = createSlice({
   initialState,
   reducers: {
     changeToEN: state => {
-      state.value = 'EN';
+      localforage.setItem('language', 'EN');
+      state.value = {
+        LANGUAGE: EN,
+        languageType: 'EN'
+      };
     },
     changeToCN: state => {
-      state.value = 'CN';
+      localforage.setItem('language', 'CN');
+      state.value = {
+        LANGUAGE: CN,
+        languageType: 'CN'
+      };
     }
   }
 });

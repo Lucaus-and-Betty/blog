@@ -4,12 +4,13 @@ import { show, hide } from '@myStore/slices/searchSlice';
 import { selectTheme } from '@myStore/slices/themeSlice';
 import { SearchDialog } from '@myComponents/index';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { useTheme } from '@myHooks/useTheme';
+import { useTheme, useLanguage } from '@myHooks/index';
 import './global.less';
 import localforage from 'localforage';
 
 const App = () => {
   useTheme();
+  useLanguage();
 
   const navigate = useNavigate();
   const dispatch = useDispatch();

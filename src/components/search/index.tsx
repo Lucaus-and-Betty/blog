@@ -22,6 +22,9 @@ const searchHistory: SearchHistory[] = [
   }
 ];
 
+/**
+ * @description 搜索弹框
+ */
 const SearchDialog = () => {
   const { LANGUAGE } = useSelector(selectLanguage);
   const searchInputRef = useRef<HTMLInputElement>(null);

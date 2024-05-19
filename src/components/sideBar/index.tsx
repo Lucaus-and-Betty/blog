@@ -4,6 +4,12 @@ import { FullScreenMask } from '@myComponents/index.ts';
 
 import './index.less';
 
+/**
+ * @description 侧边栏组件
+ * @param {ReactElement} children 子组件
+ * @param {boolean} show 是否显示
+ * @param {ReactSetState<boolean> | ((value: boolean) => void)} setClose 关闭侧边栏的方法
+ */
 interface FullScreenMaskProps {
   children: ReactElement;
   show: boolean;

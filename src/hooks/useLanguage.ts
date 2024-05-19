@@ -4,7 +4,7 @@ import { changeToEN, changeToCN } from '@myStore/slices/languageSlice';
 import localforage from 'localforage';
 
 /**
- * @description 查看缓存的语言是什么设置，并且更新全局变量 theme
+ * @description 查看缓存的语言是什么设置，并且更新全局变量 language
  */
 const useLanguage = () => {
   const dispatch = useDispatch();

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { show, hide } from '@myStore/slices/searchSlice';
 import { selectTheme } from '@myStore/slices/themeSlice';
-import { SearchDialog } from '@myComponents/index';
+import { SearchDialog, StarsCanvas } from '@myComponents/index';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useTheme, useLanguage } from '@myHooks/index';
 import './global.less';
@@ -87,6 +87,7 @@ const App = () => {
   return (
     <div ref={rootRef} className={rootTheme}>
       <SearchDialog />
+      <StarsCanvas />
       <Outlet></Outlet>
     </div>
   );

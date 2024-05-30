@@ -87,7 +87,7 @@ const App = () => {
   return (
     <div ref={rootRef} className={rootTheme}>
       <SearchDialog />
-      <StarsCanvas />
+      {rootTheme === 'theme-dark' && <StarsCanvas />}
       <Outlet></Outlet>
     </div>
   );

@@ -2,6 +2,10 @@ export interface StarConfig {
   starElement: Star;
 }
 
+export interface MeteorConfig {
+  meteorElement: Meteor;
+}
+
 /**
  * 星星类
  */
@@ -51,10 +55,9 @@ export class Star {
 export class Meteor {
   private x: number;
   private y: number;
-  private scale: number = 5;
-  private alpha: number = 1;
-  private speed: number = 10;
+  private speed: number = 6;
   private direction: number;
+  private len: number = 70;
 
   constructor(x: number, y: number, direction: number) {
     this.x = x;
@@ -63,23 +66,51 @@ export class Meteor {
   }
 
   public draw(ctx: CanvasRenderingContext2D) {
+    const gradient = ctx.createLinearGradient(
+      this.x,
+      this.y,
+      this.x + 5 * this.speed,
+      this.y + 5 * this.speed * this.direction
+    );
+
+    gradient.addColorStop(0, 'rgba(255, 0, 255, 0)');
+    gradient.addColorStop(1, 'rgba(255, 0, 255, 1)');
+
     ctx.beginPath();
-    ctx.arc(this.x, this.y, this.scale, 0, Math.PI * 2);
-    ctx.fillStyle = `red`;
-    ctx.fill();
-    ctx.closePath();
+    ctx.moveTo(this.x, this.y);
+    ctx.lineTo(this.x + 5 * this.speed, this.y + 5 * this.speed * this.direction);
+    ctx.strokeStyle = gradient;
+    ctx.lineCap = 'round';
+    ctx.lineWidth = 2;
+    ctx.shadowColor = 'rgba(255, 0, 255, 1)';
+    ctx.shadowBlur = 5;
+    ctx.stroke();
   }
 
   public move(ctx: CanvasRenderingContext2D) {
-    ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+    const gradient = ctx.createLinearGradient(
+      this.x,
+      this.y,
+      this.x + 5 * this.speed,
+      this.y + 5 * this.speed * this.direction
+    );
+
+    gradient.addColorStop(0, 'rgba(211, 151, 211, 0)');
+    gradient.addColorStop(1, 'rgba(211, 151, 211, 1)');
+
     ctx.beginPath();
-    ctx.arc(this.x + this.speed, this.y + this.speed * this.direction, this.scale, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
-    ctx.closePath();
-    ctx.fill();
+    ctx.moveTo(this.x, this.y);
+    ctx.lineTo(this.x + 5 * this.speed, this.y + 5 * this.speed * this.direction);
+    ctx.strokeStyle = gradient;
+    ctx.lineCap = 'round';
+    ctx.lineWidth = 2;
+    ctx.shadowColor = 'rgba(255, 0, 255, 1)';
+    ctx.shadowBlur = 5;
+    ctx.stroke();
 
     this.x += this.speed;
     this.y += this.speed * this.direction;
+    this.len -= 0.2;
     if (this.x > window.innerWidth || this.y > window.innerHeight) {
       return true;
     }

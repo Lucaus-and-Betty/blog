@@ -68,8 +68,16 @@ const NavigationLeft = () => {
     };
   };
 
+  // 获取最新的项目列表
+  const getNewProjectListFetch = async () => {
+    const newProjectList = await homeService.getProjectList();
+    if (newProjectList.success) {
+      setProjectList(newProjectList.data);
+    }
+  };
+
   useEffect(() => {
-    homeService.getProjectList(setProjectList);
+    getNewProjectListFetch();
   }, []);
 
   return (

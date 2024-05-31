@@ -1,0 +1,40 @@
+.not-found {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #161616;
+  overflow: hidden;
+
+  .text {
+    color: white;
+    font-weight: 1000;
+    font-size: 40px;
+    mix-blend-mode: screen;
+  }
+
+  .lamp {
+    top: 20px;
+    position: absolute;
+    width: 150px;
+    height: 100vh - 20px;
+    background-color: #8d3d3d;
+    transform-origin: 50% 0%;
+    animation: shark 4s ease-in-out infinite;
+  }
+}
+
+@keyframes shark {
+  0% {
+    transform: rotate(35deg);
+  }
+  50% {
+    transform: rotate(-35deg);
+  }
+  100% {
+    transform: rotate(35deg);
+  }
+  
+}

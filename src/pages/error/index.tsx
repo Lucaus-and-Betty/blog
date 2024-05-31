@@ -1,5 +1,20 @@
+import './index.less';
+import { useLanguage } from '@myHooks/index';
+import { useSelector } from 'react-redux';
+import { selectLanguage } from '@myStore/slices/languageSlice';
+
 const Error = () => {
-  return <div>404 Not Found</div>;
+  useLanguage();
+  const language = useSelector(selectLanguage);
+
+  return (
+    <div className="not-found">
+      <div className="text">{language.LANGUAGE['404 Page Not Found']}</div>
+      <div className="lamp">
+        <div className="light"></div>
+      </div>
+    </div>
+  );
 };
 
 export { Error };

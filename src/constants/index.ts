@@ -19,7 +19,8 @@ export const EN = {
   ['Enter to search']: 'Enter to search',
   ["Lucaus's project"]: "Lucaus's project",
   ["Betty's project"]: "Betty's project",
-  ['Our project']: 'Our project'
+  ['Our project']: 'Our project',
+  ['404 Page Not Found']: '404 Page Not Found'
 };
 
 export const CN = {
@@ -43,5 +44,6 @@ export const CN = {
   ['Enter to search']: '回车进行搜索',
   ["Lucaus's project"]: 'Lucaus 的项目',
   ["Betty's project"]: 'Betty 的项目',
-  ['Our project']: '我们的项目'
+  ['Our project']: '我们的项目',
+  ['404 Page Not Found']: '404 页面未找到'
 };

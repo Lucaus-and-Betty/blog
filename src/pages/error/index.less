@@ -1,4 +1,5 @@
 .not-found {
+  user-select: none;
   position: relative;
   display: flex;
   justify-content: center;
@@ -9,32 +10,115 @@
   overflow: hidden;
 
   .text {
-    color: white;
+    position: absolute;
+    top: 340px;
+    z-index: 2;
+    color: #161616;
     font-weight: 1000;
-    font-size: 40px;
-    mix-blend-mode: screen;
+    font-size: 50px;
   }
 
   .lamp {
-    top: 20px;
+    display: flex;
+    flex-direction:  column;
+    align-items: center;
+    top: -1px;
     position: absolute;
-    width: 150px;
-    height: 100vh - 20px;
-    background-color: #8d3d3d;
+    width: 600px;
+    height: 1500px;
     transform-origin: 50% 0%;
     animation: shark 4s ease-in-out infinite;
+
+    .light {
+      position: relative;
+      top: -120px;
+      background-color: #ebdb94;
+      flex: 1;
+      width: 100%;
+      clip-path: polygon(37% 0.5%, 63% 0.5%, 100% 100%, 0% 100%);
+      // 线性渐变模拟光线效果
+      background: linear-gradient(180deg, rgba(235, 219, 148, 0.952), rgba(185, 174, 121, 0.842), rgba(139, 139, 101, 0.589), rgba(87, 87, 68, 0.753), rgba(65, 65, 56, 0.61), #161616);
+    }
+
+    .light-line {
+      height: 50px;
+      width: 2px;
+      background-color: #919191;
+    }
+    
+    .lampshade {
+      z-index: 2;
+      position: relative;
+      top: -1px;
+      width: 160px;
+      height: 110px;
+      background-color: rgb(63, 68, 66);
+      clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+    }
+
+    .lampshade-oval-big {
+      z-index: 3;
+      position: relative;
+      top: -16px;
+      width: 158px;
+      height: 30px;
+      background-color: rgb(77, 77, 77);
+      border-radius: 50%;
+    }
+
+    .lampshade-oval-small-mask {
+      display: flex;
+      justify-content: center;
+      z-index: 5;
+      position: relative;
+      top: -46px;
+      width: 800px;
+      height: 80px;
+      overflow: hidden;
+      background-color: transparent;
+      
+      .lampshade-oval-small {
+        position: relative;
+        top: -20px;
+        z-index: 4;
+        width: 40px;
+        height: 50px;
+        background-color: rgb(233, 215, 112);
+        // g光晕效果
+        box-shadow: 0 0 20px 10px rgb(233, 215, 112);
+        // border: 1px solid #161616;
+        border-radius: 50%;
+      }
+    }
+
   }
 }
 
 @keyframes shark {
   0% {
-    transform: rotate(35deg);
+    transform: rotate(40deg);
   }
   50% {
-    transform: rotate(-35deg);
+    transform: rotate(-40deg);
   }
   100% {
-    transform: rotate(35deg);
+    transform: rotate(40deg);
   }
   
+}
+
+@media screen and (width <= 900px) {
+  .not-found {
+    .text {
+      font-size: 30px;
+    }
+  }
+}
+
+@media screen and (width <= 500px) {
+  .not-found {
+    .text {
+      font-size: 20px;
+    }
+  }
 }

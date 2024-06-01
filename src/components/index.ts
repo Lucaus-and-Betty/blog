@@ -3,3 +3,4 @@ export * from './fullScreenMask';
 export * from './search';
 export * from './sideBar';
 export * from './starsCanvas';
+export * from './loading';

@@ -1,5 +1,5 @@
 import { useState, FC, useEffect } from 'react';
-import { Space } from '@myComponents/index.ts';
+import { Space, SideBar } from '@myComponents/index.ts';
 import { NavigationList, ProjectList } from './type.ts';
 import { useNavigate, Outlet, useMatch } from 'react-router-dom';
 import {
@@ -11,17 +11,17 @@ import {
   DarkMode as DarkModeIcon,
   SettingsBrightness as SettingsBrightnessIcon
 } from '@mui/icons-material';
-import { SideBar } from '@myComponents/index.ts';
 import { logo } from '@myAssets/icon';
 import { useDispatch, useSelector } from 'react-redux';
 import { show } from '@myStore/slices/searchSlice';
-import { changeToDark, changeToLight, changeToSystem } from '@myStore/slices/themeSlice.ts';
-import { changeToCN, changeToEN } from '@myStore/slices/languageSlice.ts';
-import { selectTheme } from '@myStore/slices/themeSlice.ts';
-import { selectLanguage } from '@myStore/slices/languageSlice.ts';
+import { changeToDark, changeToLight, changeToSystem, selectTheme } from '@myStore/slices/themeSlice.ts';
+import { changeToCN, changeToEN, selectLanguage } from '@myStore/slices/languageSlice.ts';
 import homeService from './index.service.ts';
 import './index.less';
 
+/**
+ * @description 主页面
+ */
 const Home = () => {
   // home 页面滚动的距离
   const [homeScrollY, setHomeScrollY] = useState(0);
@@ -45,6 +45,10 @@ const Home = () => {
 interface NavigationProps {
   homeScrollY: number;
 }
+/**
+ * @description 导航栏
+ * @param {number} homeScrollY home 页面滚动的距离
+ */
 const Navigation: FC<NavigationProps> = ({ homeScrollY }) => {
   return (
     // home 发生滚动时，导航栏变得不透明
@@ -56,6 +60,9 @@ const Navigation: FC<NavigationProps> = ({ homeScrollY }) => {
   );
 };
 
+/**
+ * @description 导航栏左侧部分
+ */
 const NavigationLeft = () => {
   const { LANGUAGE } = useSelector(selectLanguage);
   const navigate = useNavigate();
@@ -116,6 +123,9 @@ const NavigationLeft = () => {
   );
 };
 
+/**
+ * @description 导航栏中间部分
+ */
 const NavigationMiddle = () => {
   const { LANGUAGE } = useSelector(selectLanguage);
   const navigate = useNavigate();
@@ -166,6 +176,9 @@ const NavigationMiddle = () => {
   );
 };
 
+/**
+ * @description 导航栏右侧部分
+ */
 const NavigationRight = () => {
   const { LANGUAGE, languageType } = useSelector(selectLanguage);
   const navigate = useNavigate();
@@ -342,4 +355,5 @@ const NavigationRight = () => {
     </div>
   );
 };
+
 export { Home };

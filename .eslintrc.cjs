@@ -16,6 +16,8 @@ module.exports = {
       { allowConstantExport: true },
     ],
     'prettier/prettier': 'error',
+    'no-duplicate-imports': 'error',
+    'react-hooks/exhaustive-deps': 'ignore',
   },
   settings: {
     'import/resolver': {

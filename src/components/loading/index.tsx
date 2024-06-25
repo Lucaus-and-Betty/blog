@@ -1,6 +1,12 @@
 import { FC, useState } from 'react';
 import './index.less';
 
+/**
+ * @description 加载动画
+ * @param {string} size 小球大小（可选）
+ * @param {string} gap 小球间距（可选）
+ * @param {number} count 小球数量（可选）
+ */
 const Loading: FC<{ size?: string; gap?: string; count?: number }> = ({ size = '20px', gap = '20px', count = 5 }) => {
   // 高度数值
   const [shadowHeight] = useState(Number(size.replace(/[^0-9]/g, '')) / 2);
@@ -23,7 +29,6 @@ const Loading: FC<{ size?: string; gap?: string; count?: number }> = ({ size = '
     };
   };
 
-  console.log('shadowHeight:', shadowHeight);
   return (
     <div style={{ gap: gap }} className="loading-container">
       {new Array(count).fill(0).map((_, index) => (

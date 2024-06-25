@@ -1,7 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
 import { Star, StarConfig, Meteor, MeteorConfig } from './type';
+import tip from '@myUtils/tip';
 import './index.less';
 
+/**
+ * @description 星空画布
+ */
 const StarsCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [canvasState, setCanvasState] = useState<ImageData | null>(null);
@@ -13,7 +17,7 @@ const StarsCanvas = () => {
     if (!canvas) {
       return;
     }
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', {willReadFrequently: true});
     if (!ctx) {
       return;
     }
@@ -35,16 +39,14 @@ const StarsCanvas = () => {
     // 判断是否支持 canvas
     const ctx = canvas.getContext('2d');
     if (!ctx) {
-      // TODO: 后续用全局提示方式展示
-      console.error('不支持 canvas');
+      tip.addmessage('error', '您的浏览器不支持 canvas');
       return;
     }
 
     // 窗口大小改变时，重新设置画布大小
     window.onresize = () => {
       setWidth(window.innerWidth);
-      setHeight(window.innerHeight);
-      // 窗口大小变化的时候会清空画布，所以需要保留画布状态
+      setHeight(window.innerHeight);      // 窗口大小变化的时候会清空画布，所以需要保留画布状态
       setCanvasState(ctx.getImageData(0, 0, window.innerWidth, window.innerHeight));
     };
 

@@ -1,12 +1,20 @@
 import { ProjectList } from './type';
+import tip from '@myUtils/tip';
 import fetchData from '@myUtils/fetchData';
 
+/**
+ * @description 首页服务层
+ */
 class HomeService {
   private readonly baseUrl = '//localhost:3000/v1/projets';
   private readonly headers = {
     'Content-Type': 'application/json'
   };
 
+  /**
+   * @description 获取项目列表
+   * @returns {Promise<{ success: true; data: ProjectList[] } | { success: false; data: null }>} 返回项目列表和是否成功
+   */
   async getProjectList() {
     const projectListData = await fetchData<ProjectList[]>(this.baseUrl + '/all', {
       method: 'GET',
@@ -18,8 +26,7 @@ class HomeService {
         data: projectListData.data
       };
     } else {
-      // TODO: 后续用全局提示方式展示
-      console.error('获取项目列表失败', projectListData.data);
+      tip.addmessage('error', '获取项目列表失败');
       return {
         success: false,
         data: null
@@ -34,11 +41,9 @@ class HomeService {
       body: JSON.stringify(projectList)
     });
     if (projectListData.message === 'success') {
-      // TODO: 后续用全局提示方式展示
-      console.log('添加项目成功', projectListData.data);
+      tip.addmessage('success', '添加项目成功');
     } else {
-      // TODO: 后续用全局提示方式展示
-      console.error('添加项目失败', projectListData.data);
+      tip.addmessage('error', '添加项目失败');
     }
   }
 }

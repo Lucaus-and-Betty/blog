@@ -15,7 +15,6 @@ const App = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const theme = useSelector(selectTheme);
-  const rootRef = useRef<HTMLDivElement>(null);
   const [rootTheme, setRootTheme] = useState<'theme-dark' | 'theme-light'>('theme-light');
 
   /**
@@ -58,9 +57,9 @@ const App = () => {
       const themeColor = await localforage.getItem<string>('theme');
       if (themeColor === 'system') {
         if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          rootRef.current!.className = 'theme-dark';
+          setRootTheme('theme-dark');
         } else {
-          rootRef.current!.className = 'theme-light';
+          setRootTheme('theme-light');
         }
       }
     };
@@ -70,22 +69,18 @@ const App = () => {
     };
   });
 
-  // 好奇怪，明明 theme 变了，但是 rootTheme 不会变。所以只能用 ref 来改变。目测是框架或者 浏览器 bug
   useEffect(() => {
     if (theme === 'system') {
       setRootTheme(systemTheme());
-      rootRef.current!.className = systemTheme();
     } else if (theme === 'light') {
       setRootTheme('theme-light');
-      rootRef.current!.className = 'theme-light';
     } else {
       setRootTheme('theme-dark');
-      rootRef.current!.className = 'theme-dark';
     }
   }, [theme]);
 
   return (
-    <div id="app" ref={rootRef} className={rootTheme}>
+    <div id="app" className={rootTheme}>
       <SearchDialog />
       {rootTheme === 'theme-dark' && <StarsCanvas />}
       <Outlet></Outlet>

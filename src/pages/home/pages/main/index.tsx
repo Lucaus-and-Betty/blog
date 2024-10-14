@@ -1,11 +1,12 @@
-import { ArrowForward } from '@mui/icons-material';
-import { useEffect, useState, useRef } from 'react';
+import { ArrowForward, KeyboardDoubleArrowRight } from '@mui/icons-material';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import newsService from './index.service';
 import tip from '@myUtils/tip';
 import { News } from './type';
 import { useSelector } from 'react-redux';
 import { selectLanguage } from '@myStore/slices/languageSlice';
 import { useWindowSize } from '@uidotdev/usehooks';
+import { ArticleKindList } from './constant';
 import './index.less';
 
 /**
@@ -15,11 +16,86 @@ const Main = () => {
   return (
     <div className="home-main">
       <NewsTopNav />
-      <div></div>
-      <div></div>
+      <Something />
+      <ArticleListArea />
     </div>
   );
 };
+
+const Something = () => {
+  return <div className='home-main-something'></div>;
+}
+
+/**
+ * @description 文章列表区域
+ */
+const ArticleListArea = () => {
+  const kindContainerContentRef = useRef<HTMLDivElement>(null);
+  const kindContainerScrollRef = useRef<HTMLDivElement>(null);
+  const kindContainerRef = useRef<HTMLDivElement>(null);
+  const [moreBtnShow, setMoreBtnShow] = useState<boolean>(false);
+
+  const widthListener = useCallback(() => {
+    if (!kindContainerContentRef.current) {
+      return
+    }
+    if (!kindContainerRef.current) {
+      return
+    }
+    //  如果内容宽度大于容器宽度，显示更多按钮
+    if (kindContainerContentRef.current.clientWidth > kindContainerRef.current.clientWidth - 16) {
+      setMoreBtnShow(true);
+    } else {
+      setMoreBtnShow(false);
+    }
+  }, []);
+
+  // 判读横向滚动是否已经滚动到最右边
+  const scrollListener = useCallback(() => {
+    if (!kindContainerScrollRef.current) {
+      return
+    }
+    if (!kindContainerContentRef.current) {
+      return
+    }
+    if (!kindContainerRef.current) {
+      return
+    }
+    if (kindContainerScrollRef.current.scrollLeft >= kindContainerContentRef.current.clientWidth - kindContainerRef.current.clientWidth + 14) {
+      setMoreBtnShow(false);
+    } else {
+      setMoreBtnShow(true);
+    }
+  }, []);
+
+  useEffect(() => {
+
+    widthListener();
+    window.addEventListener('resize', widthListener);
+
+    return () => {
+      // 移除监听
+      window.removeEventListener('resize', widthListener);
+    }
+  }, []);
+
+  return (
+    <div className='home-main-article-container'>
+      <div ref={kindContainerRef} className='home-main-article-kind-bar'>
+        {moreBtnShow && <div className='home-main-article-kind-bar-more'>
+          <KeyboardDoubleArrowRight className='home-main-article-kind-bar-more-icon' />
+        </div>}
+        <div ref={kindContainerScrollRef} onScroll={scrollListener} className='home-main-article-kind-container-scroll'>
+          <div ref={kindContainerContentRef} className='home-main-article-kind-container'>
+            {ArticleKindList.map((kind) => {
+              return <div key={kind.id} className='home-main-article-kind-item'>{kind.name}</div>;
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 /**
  * @description 顶部新闻

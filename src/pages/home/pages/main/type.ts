@@ -5,3 +5,8 @@ export interface NewsItem {
 }
 
 export type News = NewsItem[];
+
+export interface ArticleKindType {
+  id: string;
+  name: string;
+}

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { show, hide } from '@myStore/slices/searchSlice';
 import { selectTheme } from '@myStore/slices/themeSlice';

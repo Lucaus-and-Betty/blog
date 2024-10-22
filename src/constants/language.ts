@@ -50,10 +50,11 @@ export const CN = {
   success: '成功',
   warning: '警告',
   error: '错误',
+  ['Article cover']: '文章封面',
   ['Enter to search']: '回车进行搜索',
   ["Lucaus's project"]: 'Lucaus 的项目',
   ["Betty's project"]: 'Betty 的项目',
   ['Our project']: '我们的项目',
   ['404 Page Not Found']: '404 页面未找到',
-  ['News :']: '新品 :'
+  ['News :']: '新闻 :'
 };

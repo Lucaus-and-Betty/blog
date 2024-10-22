@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { show, hide } from '@myStore/slices/searchSlice';
 import { selectTheme } from '@myStore/slices/themeSlice';
 import { SearchDialog, StarsCanvas } from '@myComponents/index';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useTheme, useLanguage } from '@myHooks/index';
 import './global.less';
 import localforage from 'localforage';
@@ -11,7 +11,8 @@ import localforage from 'localforage';
 const App = () => {
   useTheme();
   useLanguage();
-
+  const location = useLocation();
+  console.log(location);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const theme = useSelector(selectTheme);
@@ -30,8 +31,10 @@ const App = () => {
   };
 
   useEffect(() => {
-    navigate('/home');
-  }, [navigate]);
+    if (location.pathname === '/') {
+      navigate('/home');
+    }
+  }, [navigate, location]);
 
   // 监听 ctrl + k 事件打开搜索框
   useEffect(() => {

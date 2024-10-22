@@ -12,7 +12,6 @@ const App = () => {
   useTheme();
   useLanguage();
   const location = useLocation();
-  console.log(location);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const theme = useSelector(selectTheme);

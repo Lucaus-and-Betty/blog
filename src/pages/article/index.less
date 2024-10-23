@@ -54,17 +54,26 @@
   }
 
   .artcle-text {
+    width: fit-content;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width: 100%;
     height: 200px;
     position: absolute;
     top: 100px;
     left: 50px;
-    width: 100%;
     color: var(--main-font-color);
     z-index: 3;
+
+    span {
+      width: fit-content;
+      display: inline-block;
+    }
+
+    div {
+      display: inline-block;
+      width: fit-content;
+    }
 
     .artcle-title {
       font-size: xx-large;
@@ -172,14 +181,12 @@
 
     ul {
       margin-top: 10px;
-      margin-left: 20px;
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
 
     ol {
-      margin-left: 20px;
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -201,17 +208,18 @@
       font-size: large;
       font-weight: 900;
     }
+    
+    p:has(img) {
+      display: flex;
+    }
 
     p {
-      margin-left: 40px;
-      display: flex;
       width: 100%;
 
       img {
-        // 居中
-        display: block;
+        display: inline-block;
         object-fit: cover;
-        margin: auto;
+        margin: 0 auto;
         border-radius: 10px;
         overflow: hidden;
       }
@@ -222,7 +230,6 @@
     }
 
     blockquote {
-      margin-left: 40px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -251,7 +258,6 @@
     }
 
     pre {
-      margin-left: 40px;
 
       code {
         border-radius: 16px;

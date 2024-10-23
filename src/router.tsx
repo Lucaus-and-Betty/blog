@@ -1,6 +1,6 @@
 import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
 import App from './App.tsx';
-import { Error, Home } from '@myPages/index.ts';
+import { Error, Home, Article } from '@myPages/index.ts';
 import { Lucaus, Betty, Life, Photos, Videos, Web, Tech, Main } from '@myPages/home/pages';
 
 export const router = createBrowserRouter(
@@ -16,6 +16,7 @@ export const router = createBrowserRouter(
         <Route caseSensitive path="videos" element={<Videos />} />
         <Route caseSensitive path="web" element={<Web />} />
       </Route>
+      <Route caseSensitive path="article/:id" element={<Article />} />
     </Route>
   )
 );

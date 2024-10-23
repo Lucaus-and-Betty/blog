@@ -17,7 +17,7 @@ module.exports = {
     ],
     'prettier/prettier': 'error',
     'no-duplicate-imports': 'error',
-    'react-hooks/exhaustive-deps': 'ignore',
+    'react-hooks/exhaustive-deps': 0,
   },
   settings: {
     'import/resolver': {

@@ -34,8 +34,8 @@ const Home = () => {
   return (
     <div className="home" onScroll={handleScroll}>
       <Navigation homeScrollY={homeScrollY} />
-      <Space width="100%" height="60px"></Space>
       <div className="home-content">
+        <Space width="100%" height="60px"></Space>
         <Outlet />
       </div>
     </div>

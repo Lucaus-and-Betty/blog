@@ -1,4 +1,7 @@
 .home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
   height: 100dvh;
   overflow: auto;
@@ -13,9 +16,12 @@
   &::-webkit-scrollbar {
     display: none;
     width: 0;
+    margin: auto;
   }
 
   .home-content {
+    max-width: 1500px;
+    width: 100%;
     padding: 0 60px;
     transition: padding 0.3s ease-in-out;
   }

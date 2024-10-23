@@ -46,7 +46,7 @@ const StarsCanvas = () => {
     // 窗口大小改变时，重新设置画布大小
     window.onresize = () => {
       setWidth(window.innerWidth);
-      setHeight(window.innerHeight);      // 窗口大小变化的时候会清空画布，所以需要保留画布状态
+      setHeight(window.innerHeight); // 窗口大小变化的时候会清空画布，所以需要保留画布状态
       setCanvasState(ctx.getImageData(0, 0, window.innerWidth, window.innerHeight));
     };
 

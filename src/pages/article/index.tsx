@@ -7,12 +7,15 @@ import {
   ArrowUpward,
   LightMode,
   DarkMode,
-  SettingsBrightness
+  SettingsBrightness,
+  Home
 } from '@mui/icons-material';
 import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import './index.less';
+import { useNavigate } from 'react-router-dom';
 import { changeToDark, changeToLight, selectTheme, changeToSystem } from '@myStore/slices/themeSlice.ts';
+import './index.less';
+
 const markdownString = `
 ## [React](https://react.dev/)
 
@@ -35,7 +38,7 @@ React has been designed for gradual adoption from the start, and &nbsp; **you ca
 * [Add React to an Existing Project](https://react.dev/learn/add-react-to-an-existing-project) to use as little or as much React as you need.
 * [Create a New React App](https://react.dev/learn/start-a-new-react-project) if you're looking for a powerful JavaScript toolchain.
 
-> 本人测试
+> 本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试
 
 ![测试图片](/src/assets/pic/diary-cover.jpg)
 
@@ -112,10 +115,15 @@ React is [MIT licensed](./LICENSE).
  */
 const Article = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const theme = useSelector(selectTheme);
   const artcleContainerRef = useRef<HTMLDivElement>(null);
   const [markdownHtmlString, setMarkdownHtmlString] = useState<string>('');
   const [upShow, setUpShow] = useState<boolean>(false);
+
+  const toHome = () => {
+    navigate('/home');
+  };
 
   /**
    * @description 切换主题
@@ -183,6 +191,9 @@ const Article = () => {
         {theme === 'dark' && <DarkMode />}
         {theme === 'light' && <LightMode />}
         {theme === 'system' && <SettingsBrightness />}
+      </div>
+      <div className="artcle-to-home" onClick={toHome}>
+        <Home />
       </div>
       <div className="artcle-wave"></div>
       <div className="artcle-text">

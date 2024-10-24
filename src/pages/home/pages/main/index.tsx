@@ -5,6 +5,7 @@ import { ReactSetState, ArticleInfoType } from '@myTypes/index';
 import { ArticleItem } from '@myComponents/articleItem';
 import ArticlePic from '@myAssets/pic/article-test.png';
 import { TopNews, GuidanceArea } from './components/index';
+import { Loading } from '@myComponents/index.ts';
 import './index.less';
 
 /**
@@ -147,15 +148,20 @@ const ArticleList = () => {
     pic: ArticlePic
   };
   return (
-    <div className="home-main-article-list">
-      <ArticleItem articleInfo={testArticleInfo} />
-      <ArticleItem articleInfo={testArticleInfo} />
-      <ArticleItem articleInfo={testArticleInfo} />
-      <ArticleItem articleInfo={testArticleInfo} />
-      <ArticleItem articleInfo={testArticleInfo} />
-      <ArticleItem articleInfo={testArticleInfo} />
-      <ArticleItem articleInfo={testArticleInfo} />
-    </div>
+    <>
+      <div className="home-main-article-list">
+        <ArticleItem articleInfo={testArticleInfo} />
+        <ArticleItem articleInfo={testArticleInfo} />
+        <ArticleItem articleInfo={testArticleInfo} />
+        <ArticleItem articleInfo={testArticleInfo} />
+        <ArticleItem articleInfo={testArticleInfo} />
+        <ArticleItem articleInfo={testArticleInfo} />
+        <ArticleItem articleInfo={testArticleInfo} />
+      </div>
+      <div className="home-main-article-list-loading">
+        <Loading />
+      </div>
+    </>
   );
 };
 

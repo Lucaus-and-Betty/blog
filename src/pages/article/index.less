@@ -28,7 +28,7 @@
     height: 40px;
     position: fixed;
     right: 30px;
-    bottom: 100px;
+    bottom: 150px;
     border-radius: 50%;
     background-color: var(--main-hover-color);
     border: var(--main-border);
@@ -47,6 +47,21 @@
     position: fixed;
     right: 30px;
     bottom: 50px;
+    border-radius: 50%;
+    background-color: var(--main-hover-color);
+    border: var(--main-border);
+    overflow: hidden;
+  }
+
+  .artcle-to-home {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    position: fixed;
+    right: 30px;
+    bottom: 100px;
     border-radius: 50%;
     background-color: var(--main-hover-color);
     border: var(--main-border);
@@ -230,28 +245,29 @@
     }
 
     blockquote {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      position: relative;
+      display: flexbox;
       width: 100%;
-      height: 30px;
       margin: 0;
       border-radius: 6px;
       background-color: var(--md-blockquote-bkcolor);
       overflow: hidden;
 
       &::before {
+        position: absolute;
+        width: 12px;
         display: block;
         background-color: var(--md-blockquote-head-bkcolor);
         content: "";
-        width: 10px;
         height: 100%;
+        padding: 0;
       }
 
       p {
+        line-height: 25px;
         margin: 0;
-        margin-left: 20px;
-        width: 100%;
+        margin-left: auto;
+        width: calc(100% - 30px);
         padding: 0;
 
       }

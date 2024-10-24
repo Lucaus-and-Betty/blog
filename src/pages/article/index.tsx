@@ -143,7 +143,6 @@ const Article = () => {
    * @param {React.UIEvent<HTMLDivElement>} e 滚动事件
    */
   const listenScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    console.log('123', e.currentTarget.scrollTop);
     const scrollTop = e.currentTarget.scrollTop;
     if (scrollTop > 300) {
       setUpShow(true);

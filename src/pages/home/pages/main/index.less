@@ -30,7 +30,7 @@
         top: 0;
         height: 100%;
         right: -1px;
-        background-color: rgb(15, 15, 15);
+        background-color: var(--main-card-mask-background-color);
         width: 60px;
 
         .home-main-article-kind-bar-more-icon {
@@ -116,5 +116,11 @@
 @media screen and (width < 1200px) {
   .home-main-article-list {
     grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media screen and (width < 650px) {
+  .home-main-article-list {
+    grid-template-columns: repeat(1, 1fr) !important;
   }
 }

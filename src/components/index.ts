@@ -6,3 +6,4 @@ export * from './starsCanvas';
 export * from './loading';
 export * from './articleItem';
 export * from './typeWriter';
+export * from './wave';

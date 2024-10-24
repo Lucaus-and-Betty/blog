@@ -1,6 +1,7 @@
 import { useState, FC, useEffect } from 'react';
 import { Space, SideBar } from '@myComponents/index.ts';
-import { NavigationList, ProjectList } from './type.ts';
+import { ProjectList } from './type.ts';
+import { NavigationList } from './constant.ts';
 import { useNavigate, Outlet, useMatch } from 'react-router-dom';
 import {
   Dns as DnsIcon,

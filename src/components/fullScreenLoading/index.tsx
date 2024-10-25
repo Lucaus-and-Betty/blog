@@ -36,24 +36,26 @@ const FullScreenLoading: FC<{
         display: status === FetchStatus.SUCCESS ? 'none' : 'flex'
       }}
     >
-      <div className="full-screen-loading-animation">
-        <div className="full-screen-loading-sun">
-          <div className="full-screen-loading-sun-lines">
-            <div className="full-screen-loading-sun-line1"></div>
-            <div className="full-screen-loading-sun-line1-1"></div>
-            <div className="full-screen-loading-sun-line2"></div>
-            <div className="full-screen-loading-sun-line2-1"></div>
-            <div className="full-screen-loading-sun-line3"></div>
-            <div className="full-screen-loading-sun-line3-1"></div>
-            <div className="full-screen-loading-sun-line4"></div>
-            <div className="full-screen-loading-sun-line4-1"></div>
+      <div className="full-screen-loading-content">
+        <div className="full-screen-loading-animation">
+          <div className="full-screen-loading-sun">
+            <div className="full-screen-loading-sun-lines">
+              <div className="full-screen-loading-sun-line1"></div>
+              <div className="full-screen-loading-sun-line1-1"></div>
+              <div className="full-screen-loading-sun-line2"></div>
+              <div className="full-screen-loading-sun-line2-1"></div>
+              <div className="full-screen-loading-sun-line3"></div>
+              <div className="full-screen-loading-sun-line3-1"></div>
+              <div className="full-screen-loading-sun-line4"></div>
+              <div className="full-screen-loading-sun-line4-1"></div>
+            </div>
+            <div className="full-screen-loading-sun-eyes-1"></div>
+            <div className="full-screen-loading-sun-eyes-2"></div>
           </div>
-          <div className="full-screen-loading-sun-eyes-1"></div>
-          <div className="full-screen-loading-sun-eyes-2"></div>
+          <div className="full-screen-loading-skyline"></div>
         </div>
-        <div className="full-screen-loading-skyline"></div>
+        <div className="full-screen-loading-error-fail-message">{showMessage}</div>
       </div>
-      <div className="full-screen-loading-error-fail-message">{showMessage}</div>
     </div>
   );
 };

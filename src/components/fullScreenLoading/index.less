@@ -1,0 +1,316 @@
+.full-screen-loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100dvh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #f4c042;
+  z-index: 9999;
+  gap: 20px;
+
+  .full-screen-loading-animation {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    width: 20vw;
+    height: 15vw;
+    overflow: hidden;
+
+    .full-screen-loading-sun  {
+      position: relative;
+      bottom: -90px;
+      width: 8vw;
+      height: 8vw;
+      border-radius: 100%;
+      border: 5px solid #7a5600;
+      animation: UpDown 5s linear infinite;
+
+      .full-screen-loading-sun-eyes-1 {
+        position: absolute;
+        top: 50%;
+        left: 25%;
+        transform: translate(-50%, -50%);
+        width: 7px;
+        height: 7px;
+        border-radius: 999px;
+        background-color: #7a5600;
+        animation: Blink1 5s linear infinite;
+      }
+      
+      .full-screen-loading-sun-eyes-2 {
+        position: absolute;
+        top: 50%;
+        left: 40%;
+        transform: translate(-50%, -50%);
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        background-color: #7a5600;
+        animation: Blink2 5s linear infinite;
+      }
+
+      .full-screen-loading-sun-lines {
+        height: 100%;
+        animation: Rotate 40s linear infinite;
+
+        .full-screen-loading-sun-line1 {
+          position: absolute;
+          border-radius: 999px;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%) translateX(350%);
+          width: 20%;
+          height: 5px;
+          background-color: #7a5600;
+        }
+        
+        .full-screen-loading-sun-line1-1 {
+          position: absolute;
+          border-radius: 999px;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%) translateX(-350%);
+          width: 20%;
+          height: 5px;
+          background-color: #7a5600;
+        }
+  
+        .full-screen-loading-sun-line2 {
+          position: absolute;
+          border-radius: 999px;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%) rotate(45deg) translateX(350%);
+          width: 20%;
+          height: 5px;
+          background-color: #7a5600;
+        }
+        
+        .full-screen-loading-sun-line2-1 {
+          position: absolute;
+          border-radius: 999px;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%) rotate(45deg) translateX(-350%);
+          width: 20%;
+          height: 5px;
+          background-color: #7a5600;
+        }
+  
+        .full-screen-loading-sun-line3 {
+          position: absolute;
+          border-radius: 999px;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%) rotate(90deg) translateX(350%);
+          width: 20%;
+          height: 5px;
+          background-color: #7a5600;
+        }
+        
+        .full-screen-loading-sun-line3-1 {
+          position: absolute;
+          border-radius: 999px;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%) rotate(90deg) translateX(-350%);
+          width: 20%;
+          height: 5px;
+          background-color: #7a5600;
+        }
+        
+        .full-screen-loading-sun-line4 {
+          position: absolute;
+          border-radius: 999px;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%) rotate(135deg) translateX(350%);
+          width: 20%;
+          height: 5px;
+          background-color: #7a5600;
+        }
+        
+        .full-screen-loading-sun-line4-1 {
+          position: absolute;
+          border-radius: 999px;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%) rotate(135deg) translateX(-350%);
+          width: 20%;
+          height: 5px;
+          background-color: #7a5600;
+        }
+      }
+
+    }
+
+    .full-screen-loading-skyline {
+      z-index: 2;
+      width: 100%;
+      height: 5px;
+      background-color: #7a5600;
+      border-radius: 9999px;
+    }
+  }
+
+  .full-screen-loading-error-fail-message {
+    font-size: xxx-large;
+    color: #7a5600;
+    font-weight: bolder;
+  }
+}
+
+@keyframes UpDown {
+  0% {
+    transform: translateY(0px);
+  }
+  20% {
+    transform: translateY(0px);
+  }
+  35% {
+    transform: translateY(-50px);
+  }
+  65% {
+    transform: translateY(-50px);
+  }
+  75% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+// 旋转
+@keyframes Rotate  {
+  0% {
+    transform: rotate(0deg);
+  }
+  5% {
+    transform: rotate(0deg);
+  }
+  7% {
+    transform: rotate(45deg);
+  }
+  17.5% {
+    transform: rotate(45deg);
+  }
+  19.5% {
+    transform: rotate(90deg);
+  }
+  30% {
+    transform: rotate(90deg);
+  }
+  32% {
+    transform: rotate(135deg);
+  }
+  42.5% {
+    transform: rotate(135deg);
+  }
+  44.5% {
+    transform: rotate(180deg);
+  }
+  55% {
+    transform: rotate(180deg);
+  }
+  57% {
+    transform: rotate(225deg);
+  }
+  67.5% {
+    transform: rotate(225deg);
+  }
+  69.5% {
+    transform: rotate(270deg);
+  }
+  80% {
+    transform: rotate(270deg);
+  }
+  82% {
+    transform: rotate(315deg);
+  }
+  92.5% {
+    transform: rotate(315deg);
+  }
+  94.5% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes Blink1 {
+  0% {
+    height: 7px;
+    left: 25%;
+  }
+  35% {
+    height: 7px;
+    left: 25%;
+  }
+  40% {
+    height: 7px;
+    left: 60%;
+  }
+  45% {
+    left: 60%;
+    height: 3px;
+  }
+  50% {
+    left: 60%;
+    height: 3px;
+  }
+  55% {
+    height: 7px;
+    left: 60%;
+  }
+  60% {
+    height: 7px;
+    left: 25%;
+  }
+  100% {
+    height: 7px;
+    left: 25%;
+  }
+}
+
+@keyframes Blink2 {
+  0% {
+    height: 10px;
+    left: 40%;
+  }
+  35% {
+    height: 10px;
+    left: 40%;
+  }
+  40% {
+    height: 10px;
+    left: 75%;
+  }
+  45% {
+    left: 75%;
+    height: 5px;
+  }
+  50% {
+    left: 75%;
+    height: 5px;
+  }
+  55% {
+    height: 10px;
+    left: 75%;
+  }
+  60% {
+    height: 10px;
+    left: 40%;
+  }
+  100% {
+    height: 10px;
+    left: 40%;
+  }
+}

@@ -1,114 +1,23 @@
-import mdParse from '@myUtils/mdParse';
 import {
   CalendarMonth,
   Update,
   Visibility,
-  Comment,
+  // Comment,
   ArrowUpward,
   LightMode,
   DarkMode,
   SettingsBrightness,
   Home
 } from '@mui/icons-material';
+import { FetchStatus } from '@myTypes/index.ts';
 import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { ArticleInfoType } from './type.ts';
 import { useNavigate } from 'react-router-dom';
+import articleService from './index.service.ts';
+import { FullScreenLoading } from '@myComponents/index.ts';
 import { changeToDark, changeToLight, selectTheme, changeToSystem } from '@myStore/slices/themeSlice.ts';
 import './index.less';
-
-const markdownString = `
-## [React](https://react.dev/)
-
-React is a JavaScript library for building user interfaces.
-
-* **Declarative:** React makes it painless to create interactive UIs. Design simple views for each state in your application, and React will efficiently update and render just the right components when your data changes. Declarative views make your code more predictable, simpler to understand, and easier to debug.
-* **Component-Based:** Build encapsulated components that manage their own state, then compose them to make complex UIs. Since component logic is written in JavaScript instead of templates, you can easily pass rich data through your app and keep the state out of the DOM.
-* **Learn Once, Write Anywhere:** We don't make assumptions about the rest of your technology stack, so you can develop new features in React without rewriting existing code. React can also render on the server using [Node](https://nodejs.org/en) and power mobile apps using [React Native](https://reactnative.dev/).
-
-[Learn how to use React in your project](https://react.dev/learn).
-
-## Installation
-
-React has been designed for gradual adoption from the start, and &nbsp; **you can use as little or as much React as you need**:
-
-* Use [Quick Start](https://react.dev/learn) to get a taste of React.
-    * 测试
-    * 测试
-    * 测试
-* [Add React to an Existing Project](https://react.dev/learn/add-react-to-an-existing-project) to use as little or as much React as you need.
-* [Create a New React App](https://react.dev/learn/start-a-new-react-project) if you're looking for a powerful JavaScript toolchain.
-
-> 本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试本人测试
-
-![测试图片](/src/assets/pic/diary-cover.jpg)
-
-## Documentation
-
-You can find the React documentation [on the website](https://react.dev/).
-
-Check out the [Getting Started](https://react.dev/learn) page for a quick overview.
-
-The documentation is divided into several sections:
-
-* [Quick Start](https://react.dev/learn)
-* [Tutorial](https://react.dev/learn/tutorial-tic-tac-toe)
-* [Thinking in React](https://react.dev/learn/thinking-in-react)
-* [Installation](https://react.dev/learn/installation)
-* [Describing the UI](https://react.dev/learn/describing-the-ui)
-* [Adding Interactivity](https://react.dev/learn/adding-interactivity)
-* [Managing State](https://react.dev/learn/managing-state)
-* [Advanced Guides](https://react.dev/learn/escape-hatches)
-* [API Reference](https://react.dev/reference/react)
-* [Where to Get Support](https://react.dev/community)
-* [Contributing Guide](https://legacy.reactjs.org/docs/how-to-contribute.html)
-
-You can improve it by sending pull requests to [this repository](https://github.com/reactjs/react.dev).
-
-## Examples
-
-We have several examples [on the website](https://react.dev/). Here is the first one to get you started:
-
-\`\`\`jsx
-import { createRoot } from 'react-dom/client';
-
-function HelloMessage({ name }) {
-  return <div>Hello {name}</div>;
-}
-
-const root = createRoot(document.getElementById('container'));
-root.render(<HelloMessage name="Taylor" />);
-\`\`\`
-
-This example will render "Hello Taylor" into a container on the page.
-
-You'll notice that we used an HTML-like syntax; [we call it JSX](https://react.dev/learn#writing-markup-with-jsx). JSX is not required to use React, but it makes code more readable, and writing it feels like writing HTML.
-
-## Contributing
-
-The main purpose of this repository is to continue evolving React core, making it faster and easier to use. Development of React happens in the open on GitHub, and we are grateful to the community for contributing bugfixes and improvements. Read below to learn how you can take part in improving React.
-
-### [Code of Conduct](https://code.fb.com/codeofconduct)
-
-Facebook has adopted a Code of Conduct that we expect project participants to adhere to. 
-
-Please read [the full text](https://code.fb.com/codeofconduct) so that you can understand what actions will and will not be tolerated.
-
-### [Contributing Guide](https://legacy.reactjs.org/docs/how-to-contribute.html)
-
-Read our [contributing guide](https://legacy.reactjs.org/docs/how-to-contribute.html) to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes to React.
-
-### [Good First Issues](https://github.com/facebook/react/labels/good%20first%20issue)
-
-To help you get your feet wet and get you familiar with our contribution process.
-
-we have a list of [good first issues](https://github.com/facebook/react/labels/good%20first%20issue) that contain bugs that have a relatively limited scope. This is a great place to get started.
-
-### License
-
-![测试图片](/src/assets/video/test.gif)
-
-React is [MIT licensed](./LICENSE).
-`;
 
 /**
  * @description 文章组件
@@ -117,9 +26,10 @@ const Article = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const theme = useSelector(selectTheme);
+  const [fetchStatus, setFetchStatus] = useState<FetchStatus>(FetchStatus.LOADING);
   const artcleContainerRef = useRef<HTMLDivElement>(null);
-  const [markdownHtmlString, setMarkdownHtmlString] = useState<string>('');
   const [upShow, setUpShow] = useState<boolean>(false);
+  const [articleInfo, setArticleInfo] = useState<ArticleInfoType | null>(null);
 
   const toHome = () => {
     navigate('/home');
@@ -136,14 +46,6 @@ const Article = () => {
     } else {
       dispatch(changeToLight());
     }
-  };
-
-  /**
-   * @description 解析md文档
-   */
-  const parsemd = async () => {
-    const resHtmlString = await mdParse(markdownString);
-    setMarkdownHtmlString(resHtmlString);
   };
 
   /**
@@ -172,12 +74,28 @@ const Article = () => {
     });
   };
 
+  /**
+   * @description 获取文章
+   * @param {string} id
+   */
+  const getArticleById = async (id: string) => {
+    setFetchStatus(FetchStatus.LOADING);
+    const article = await articleService.getArticleInfoById(id);
+    if (article.success) {
+      setArticleInfo(article.data);
+      setFetchStatus(FetchStatus.SUCCESS);
+    } else {
+      setFetchStatus(FetchStatus.FAIL);
+    }
+  };
+
   useEffect(() => {
-    parsemd();
-  });
+    getArticleById('1');
+  }, []);
 
   return (
     <div className="artcle-container" ref={artcleContainerRef} onScroll={listenScroll}>
+      <FullScreenLoading status={fetchStatus} failMessage="获取文章失败" />
       <div
         style={{
           transform: upShow ? 'scale(1)' : 'scale(0)'
@@ -195,49 +113,44 @@ const Article = () => {
       <div className="artcle-to-home" onClick={toHome}>
         <Home />
       </div>
-      <div className="artcle-wave"></div>
-      <div className="artcle-text">
-        <span className="artcle-title">测试标题，第一次测试标题以后不测了!!!</span>
-        <div className="artcle-label">
-          <span>#测试标签</span>
-          <span>#狗屎标签</span>
-          <span>#猫屎标签</span>
-        </div>
-        <div className="artcle-time">
-          <div className="artcle-publish-time">
-            <div className="artcle-publish-time-title">
-              <CalendarMonth className="artcle-publish-time-icon1" />
-              <span>发布时间：</span>
-            </div>
-            <span>2023-01-01</span>
+      {articleInfo && (
+        <div className="artcle-text">
+          <span className="artcle-title">{articleInfo.title}</span>
+          <div className="artcle-label">
+            {articleInfo.label.map((label, index) => {
+              return <span key={index}>{label}</span>;
+            })}
           </div>
-          <div className="artcle-publish-time">
-            <div className="artcle-publish-time-title">
-              <Update className="artcle-publish-time-icon2" />
-              <span>发布时间：</span>
+          <div className="artcle-time">
+            <div className="artcle-publish-time">
+              <div className="artcle-publish-time-title">
+                <CalendarMonth className="artcle-publish-time-icon1" />
+                <span>发布时间：</span>
+              </div>
+              <span>{articleInfo.publishTime}</span>
             </div>
-            <span>2023-01-01</span>
-          </div>
-        </div>
-        <div className="artcle-number">
-          <div className="artcle-view">
-            <div className="artcle-view-title">
-              <Visibility className="artcle-view-icon1" />
-              <span>阅读量：1000123</span>
+            <div className="artcle-publish-time">
+              <div className="artcle-publish-time-title">
+                <Update className="artcle-publish-time-icon2" />
+                <span>更新时间：</span>
+              </div>
+              <span>{articleInfo.updateTime}</span>
             </div>
           </div>
-          <div className="artcle-view">
-            <div className="artcle-view-title">
-              <Comment className="artcle-view-icon2" />
-              <span>评论数：100</span>
+          <div className="artcle-number">
+            <div className="artcle-view">
+              <div className="artcle-view-title">
+                <Visibility className="artcle-view-icon1" />
+                <span>阅读量：{articleInfo.readCount}</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
       <div className="artcle-cover">
         <img src="/src/assets/pic/diary-cover.jpg" alt="cover" />
       </div>
-      <div className="artcle-content" dangerouslySetInnerHTML={{ __html: markdownHtmlString }}></div>
+      {articleInfo && <div className="artcle-content" dangerouslySetInnerHTML={{ __html: articleInfo.content }}></div>}
     </div>
   );
 };

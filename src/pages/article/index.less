@@ -9,18 +9,11 @@
   gap: 20px;
   z-index: 2;
   overflow: auto;
-  scrollbar-width: none;
-  /* Firefox */
-  -ms-overflow-style: none;
-  /* IE 10+, edge */
-
-  &::-webkit-scrollbar {
-    display: none;
-    width: 0;
-    margin: auto;
-  }
+  scrollbar-width: thin;
+  scrollbar-color: var(--main-hover-color) var(--main-background-color);
 
   .artcle-up {
+    z-index: 2;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -39,6 +32,7 @@
   }
 
   .artcle-theme {
+    z-index: 2;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -54,6 +48,7 @@
   }
 
   .artcle-to-home {
+    z-index: 2;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -79,6 +74,7 @@
     left: 50px;
     color: var(--main-font-color);
     z-index: 3;
+    transition: left 0.3s ease-in-out, top 0.3s ease-in-out;
 
     span {
       width: fit-content;
@@ -118,6 +114,7 @@
       flex-direction: row;
       gap: 50px;
       font-weight: bold;
+      transition: gap 0.3s ease-in-out;
 
       
       .artcle-publish-time {
@@ -293,6 +290,39 @@
           height: 100%;
         }
       }
+    }
+  }
+}
+
+@media screen and (width < 1000px) {
+  .artcle-up {
+    right: 10px !important;
+  }
+  
+  .artcle-theme {
+    right: 10px !important;
+  }
+  
+  .artcle-to-home {
+    right: 10px !important;
+  }
+
+  .artcle-text {
+    top: 30px !important;
+    left: 10px !important;
+    right: 10px; 
+
+    .artcle-label {
+      margin-top: 0px !important;
+    }
+    
+    .artcle-time {
+      margin-top: 0px !important;
+    }
+
+    .artcle-time {
+      flex-direction: column !important;
+      gap: 10px !important;
     }
   }
 }

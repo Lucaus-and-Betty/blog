@@ -10,3 +10,9 @@ export interface ArticleInfoType {
   label: string[];
   pic: string;
 }
+
+export enum FetchStatus {
+  SUCCESS = 'success',
+  FAIL = 'fail',
+  LOADING = 'loading'
+}

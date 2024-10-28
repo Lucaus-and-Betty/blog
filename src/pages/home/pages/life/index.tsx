@@ -6,4 +6,4 @@ const Life = () => {
   );
 };
 
-export { Life };
+export default Life;

@@ -141,4 +141,4 @@ const StarsCanvas = () => {
   return <canvas width={width} height={height} ref={canvasRef} id="universe"></canvas>;
 };
 
-export { StarsCanvas };
+export default StarsCanvas;

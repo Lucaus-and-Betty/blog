@@ -1,17 +1,19 @@
 import love from '@myAssets/pic/love.jpeg';
 import avatar1 from '@myAssets/pic/test-avatar1.png';
 import avatar2 from '@myAssets/pic/test-avatar2.png';
-import { Wave } from '@myComponents/wave';
+import { Wave } from '@/routerLazyLoad';
 import { Favorite } from '@mui/icons-material';
+import { useDispatch } from 'react-redux';
+import { hideLoader } from '@myStore/slices/loadingSlice';
 import './index.less';
 import { useEffect, useState } from 'react';
 
 const Love = () => {
+  const dispatch = useDispatch();
   const [ourTime, setOurTime] = useState('');
   const computTime = (timestamp: number) => {
     const now = Date.now();
     const difference = now - timestamp;
-
     // 定义时间单位
     const secondsInYear = 365 * 24 * 60 * 60 * 1000;
     const secondsInMonth = 30 * 24 * 60 * 60 * 1000; // 简化为30天
@@ -34,6 +36,7 @@ const Love = () => {
     const interval = setInterval(() => {
       setOurTime(computTime(1671773445000));
     }, 1000);
+    dispatch(hideLoader());
 
     return () => {
       clearInterval(interval);
@@ -73,4 +76,4 @@ const Love = () => {
   );
 };
 
-export { Love };
+export default Love;

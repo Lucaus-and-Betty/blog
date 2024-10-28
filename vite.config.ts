@@ -13,6 +13,7 @@ export default defineConfig({
       '@myPages': join(__dirname, 'src/pages'),
       '@myAssets': join(__dirname, 'src/assets'),
       '@myConstants': join(__dirname, 'src/constants'),
+      '@': join(__dirname, 'src'),
     }
   },
   plugins: [react()],

@@ -6,4 +6,4 @@ const Betty = () => {
   );
 };
 
-export { Betty };
+export default Betty;

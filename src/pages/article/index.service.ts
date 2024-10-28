@@ -14,11 +14,15 @@ class ArticleService {
   async getArticleInfoById(
     id: string
   ): Promise<{ success: true; data: ArticleInfoType } | { success: false; data: null }> {
-    const articleData = await fetchData<ArticleInfoType>(this.newsBaseUrl + '/get-article-info-by-id', {
-      method: 'POST',
-      headers: this.headers,
-      body: JSON.stringify({ id })
-    });
+    const articleData = await fetchData<ArticleInfoType>(
+      this.newsBaseUrl + '/get-article-info-by-id',
+      {
+        method: 'POST',
+        headers: this.headers,
+        body: JSON.stringify({ id })
+      },
+      true
+    );
     if (articleData.message === 'success') {
       return {
         success: true,

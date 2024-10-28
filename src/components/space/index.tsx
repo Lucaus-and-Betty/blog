@@ -10,4 +10,4 @@ const Space: FC<{ width: string; height: string; display?: string }> = ({ width,
   return <div style={{ width, height, display }}></div>;
 };
 
-export { Space };
+export default Space;

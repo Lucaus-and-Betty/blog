@@ -6,4 +6,4 @@ const Lucaus = () => {
   );
 };
 
-export { Lucaus };
+export default Lucaus;

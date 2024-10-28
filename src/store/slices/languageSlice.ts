@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { RootState } from '../index';
+import type { RootState } from '../store';
 import { CN, EN } from '@myConstants/index';
 import localforage from 'localforage';
 

@@ -2,16 +2,28 @@ import { KeyboardDoubleArrowRight } from '@mui/icons-material';
 import { useEffect, useState, useRef, useCallback, FC } from 'react';
 import { ArticleKindList } from './constant';
 import { ReactSetState, ArticleInfoType } from '@myTypes/index';
-import { ArticleItem } from '@myComponents/articleItem';
+import { ArticleItem, Loading } from '@/routerLazyLoad';
 import ArticlePic from '@myAssets/pic/article-test.png';
 import { TopNews, GuidanceArea } from './components/index';
-import { Loading } from '@myComponents/index.ts';
+import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { hideLoader } from '@myStore/slices/loadingSlice';
 import './index.less';
 
 /**
  * @description 首页
  */
 const Main = () => {
+  const location = useLocation();
+  // 暂时代替网络请求来隐藏 loading
+  const dispatch = useDispatch();
+  useEffect(() => {
+    console.log(location);
+    const timer = setTimeout(() => {
+      dispatch(hideLoader());
+      clearTimeout(timer);
+    }, 1000);
+  }, [location]);
   return (
     <div className="home-main">
       <TopNews />
@@ -165,4 +177,4 @@ const ArticleList = () => {
   );
 };
 
-export { Main };
+export default Main;

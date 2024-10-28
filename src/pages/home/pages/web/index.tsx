@@ -6,4 +6,4 @@ const Web = () => {
   );
 };
 
-export { Web };
+export default Web;

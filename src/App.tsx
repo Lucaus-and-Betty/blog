@@ -2,19 +2,21 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { show, hide } from '@myStore/slices/searchSlice';
 import { selectTheme } from '@myStore/slices/themeSlice';
-import { SearchDialog, StarsCanvas } from '@myComponents/index';
-import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { useTheme, useLanguage } from '@myHooks/index';
-import './global.less';
+import { selectLoading } from '@myStore/slices/loadingSlice';
+import { SearchDialog, FullScreenLoading, StarsCanvas } from '@/routerLazyLoad';
+import { Outlet, useLocation } from 'react-router-dom';
+import { useTheme, useLanguage, useBeforeNav } from '@myHooks/index';
 import localforage from 'localforage';
+import './global.less';
 
 const App = () => {
   useTheme();
   useLanguage();
   const location = useLocation();
-  const navigate = useNavigate();
+  const navigate = useBeforeNav();
   const dispatch = useDispatch();
   const theme = useSelector(selectTheme);
+  const loading = useSelector(selectLoading);
   const [rootTheme, setRootTheme] = useState<'theme-dark' | 'theme-light'>('theme-light');
 
   /**
@@ -33,7 +35,7 @@ const App = () => {
     if (location.pathname === '/') {
       navigate('/home');
     }
-  }, [navigate, location]);
+  }, [location]);
 
   // 监听 ctrl + k 事件打开搜索框
   useEffect(() => {
@@ -83,6 +85,7 @@ const App = () => {
 
   return (
     <div id="app" className={rootTheme}>
+      <FullScreenLoading failMessage={loading.failMessage} status={loading.status} />
       <SearchDialog />
       {rootTheme === 'theme-dark' && <StarsCanvas />}
       <Outlet></Outlet>

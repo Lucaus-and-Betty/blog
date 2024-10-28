@@ -1,6 +1,6 @@
 import { FC, ReactElement, useEffect } from 'react';
 import { ReactSetState } from '@myTypes/index.ts';
-import { FullScreenMask } from '@myComponents/index.ts';
+import { FullScreenMask } from '@/routerLazyLoad';
 
 import './index.less';
 
@@ -41,4 +41,4 @@ const SideBar: FC<FullScreenMaskProps> = ({ children, setClose, show }) => {
   );
 };
 
-export { SideBar };
+export default SideBar;

@@ -1,15 +1,15 @@
 import './index.less';
 import { useSelector } from 'react-redux';
 import { selectLanguage } from '@myStore/slices/languageSlice.ts';
-import { Typewriter } from '@myComponents/typeWriter';
+import { Typewriter } from '@/routerLazyLoad';
 import { useRef, useState, FC } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useBeforeNav } from '@myHooks/useBeforeNav';
 import { ArticleInfoType } from '@myTypes/index';
 interface ArticleItemProps {
   articleInfo: ArticleInfoType;
 }
 const ArticleItem: FC<ArticleItemProps> = ({ articleInfo }) => {
-  const navigate = useNavigate();
+  const navigate = useBeforeNav();
   const { LANGUAGE } = useSelector(selectLanguage);
   const timer = useRef<null | number>(null);
   const [show, setShow] = useState<boolean>(false);
@@ -52,4 +52,4 @@ const ArticleItem: FC<ArticleItemProps> = ({ articleInfo }) => {
   );
 };
 
-export { ArticleItem };
+export default ArticleItem;

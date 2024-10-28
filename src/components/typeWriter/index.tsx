@@ -30,4 +30,4 @@ const Typewriter: FC<{ text: string; typingSpeed: number; className: string }> =
   return <div className={className}>{` ${displayText}`}</div>;
 };
 
-export { Typewriter };
+export default Typewriter;

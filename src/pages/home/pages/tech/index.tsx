@@ -6,4 +6,4 @@ const Tech = () => {
   );
 };
 
-export { Tech };
+export default Tech;

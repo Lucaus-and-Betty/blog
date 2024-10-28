@@ -1,12 +1,17 @@
-import './index.less';
 import { FC, useEffect, useState } from 'react';
 import { FetchStatus } from '@myTypes/index.ts';
+import './index.less';
 
 const FullScreenLoading: FC<{
   failMessage: string;
   status: FetchStatus;
 }> = ({ failMessage, status }) => {
   const [showMessage, setShowMessage] = useState('Loading ');
+
+  // 保证每一次打开都是 Loading
+  useEffect(() => {
+    setShowMessage('Loading ');
+  }, [status]);
 
   useEffect(() => {
     let interval: number = 0;
@@ -25,15 +30,21 @@ const FullScreenLoading: FC<{
       setShowMessage(failMessage);
     }
 
+    const errortimeOut = setTimeout(() => {
+      clearInterval(interval);
+      setShowMessage(failMessage);
+      clearTimeout(errortimeOut);
+    }, 10000);
     return () => {
       clearInterval(interval);
+      clearTimeout(errortimeOut);
     };
   }, [failMessage, status]);
   return (
     <div
       className="full-screen-loading"
       style={{
-        display: status === FetchStatus.SUCCESS ? 'none' : 'flex'
+        transform: status === FetchStatus.SUCCESS ? 'translateY(100%)' : 'translateY(0%)'
       }}
     >
       <div className="full-screen-loading-content">
@@ -60,4 +71,4 @@ const FullScreenLoading: FC<{
   );
 };
 
-export { FullScreenLoading };
+export default FullScreenLoading;

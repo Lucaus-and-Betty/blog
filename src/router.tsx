@@ -1,7 +1,7 @@
 import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
 import App from './App.tsx';
-import { Error, Home, Article } from '@myPages/index.ts';
-import { Lucaus, Betty, Life, Love, Web, Tech, Main } from '@myPages/home/pages';
+import { Lucaus, Betty, Life, Love, Web, Tech, Article, Error, Main } from './routerLazyLoad.ts';
+import { Home } from '@myPages/home/index';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(

@@ -31,6 +31,7 @@ module.exports = {
           ["@myPages", "./src/pages"],
           ["@myAssets", "./src/assets"],
           ["@myContants", "./src/constants"],
+          ["@", "./src"],
         ]
       }
     }

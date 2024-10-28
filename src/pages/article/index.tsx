@@ -10,12 +10,12 @@ import {
   Home
 } from '@mui/icons-material';
 import { FetchStatus } from '@myTypes/index.ts';
+import { useBeforeNav } from '@myHooks/useBeforeNav';
 import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ArticleInfoType } from './type.ts';
-import { useNavigate } from 'react-router-dom';
 import articleService from './index.service.ts';
-import { FullScreenLoading } from '@myComponents/index.ts';
+import { FullScreenLoading } from '@/routerLazyLoad.ts';
 import { changeToDark, changeToLight, selectTheme, changeToSystem } from '@myStore/slices/themeSlice.ts';
 import './index.less';
 
@@ -24,7 +24,7 @@ import './index.less';
  */
 const Article = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const navigate = useBeforeNav();
   const theme = useSelector(selectTheme);
   const [fetchStatus, setFetchStatus] = useState<FetchStatus>(FetchStatus.LOADING);
   const artcleContainerRef = useRef<HTMLDivElement>(null);
@@ -155,4 +155,4 @@ const Article = () => {
   );
 };
 
-export { Article };
+export default Article;

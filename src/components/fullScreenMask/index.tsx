@@ -32,4 +32,4 @@ const FullScreenMask: FC<FullScreenMaskProps> = ({ children, setClose, show }) =
   );
 };
 
-export { FullScreenMask };
+export default FullScreenMask;

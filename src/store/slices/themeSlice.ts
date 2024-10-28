@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { RootState } from '../index';
+import type { RootState } from '../store';
 import { themeType } from '@myTypes/index';
 import localforage from 'localforage';
 

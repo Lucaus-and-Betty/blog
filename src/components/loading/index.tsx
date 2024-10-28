@@ -41,4 +41,4 @@ const Loading: FC<{ size?: string; gap?: string; count?: number }> = ({ size = '
   );
 };
 
-export { Loading };
+export default Loading;

@@ -78,4 +78,4 @@ const Wave: FC<{
   );
 };
 
-export { Wave };
+export default Wave;

@@ -1,8 +1,8 @@
 import { useState, FC, useEffect } from 'react';
-import { Space, SideBar } from '@myComponents/index.ts';
+import { Space, SideBar } from '@/routerLazyLoad.ts';
 import { ProjectList } from './type.ts';
 import { NavigationList } from './constant.ts';
-import { useNavigate, Outlet, useMatch } from 'react-router-dom';
+import { Outlet, useMatch } from 'react-router-dom';
 import {
   Dns as DnsIcon,
   Search as SearchIcon,
@@ -18,6 +18,7 @@ import { show } from '@myStore/slices/searchSlice';
 import { changeToDark, changeToLight, changeToSystem, selectTheme } from '@myStore/slices/themeSlice.ts';
 import { changeToCN, changeToEN, selectLanguage } from '@myStore/slices/languageSlice.ts';
 import homeService from './index.service.ts';
+import { useBeforeNav } from '@myHooks/index';
 import './index.less';
 
 /**
@@ -66,7 +67,7 @@ const Navigation: FC<NavigationProps> = ({ homeScrollY }) => {
  */
 const NavigationLeft = () => {
   const { LANGUAGE } = useSelector(selectLanguage);
-  const navigate = useNavigate();
+  const navigate = useBeforeNav();
   const [projectList, setProjectList] = useState<ProjectList[] | null>(null);
 
   // 导航到指定页面
@@ -129,7 +130,7 @@ const NavigationLeft = () => {
  */
 const NavigationMiddle = () => {
   const { LANGUAGE } = useSelector(selectLanguage);
-  const navigate = useNavigate();
+  const navigate = useBeforeNav();
 
   // 用来判断当前页面的路径，从而显示导航栏的样式
   const match = useMatch('/home/:pagePath');
@@ -182,7 +183,7 @@ const NavigationMiddle = () => {
  */
 const NavigationRight = () => {
   const { LANGUAGE, languageType } = useSelector(selectLanguage);
-  const navigate = useNavigate();
+  const navigate = useBeforeNav();
   const dispatch = useDispatch();
   const theme = useSelector(selectTheme);
   // 用来判断当前页面的路径，从而显示导航栏的样式

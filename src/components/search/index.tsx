@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { FullScreenMask } from '@myComponents/index';
+import { FullScreenMask } from '@/routerLazyLoad';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectSearch, show, hide } from '@myStore/slices/searchSlice';
 import { Search, Schedule, Close } from '@mui/icons-material';
@@ -100,4 +100,4 @@ const SearchDialog = () => {
   );
 };
 
-export { SearchDialog };
+export default SearchDialog;

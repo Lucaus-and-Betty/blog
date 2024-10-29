@@ -6,14 +6,13 @@ import { News } from './type';
 import { useSelector } from 'react-redux';
 import { selectLanguage } from '@myStore/slices/languageSlice';
 import { useWindowSize } from '@uidotdev/usehooks';
+import { useBeforeNav } from '@myHooks/useBeforeNav';
 import './index.less';
-import { useNavigate } from 'react-router-dom';
-
 /**
  * @description 顶部新闻
  */
 const TopNews = () => {
-  const navigate = useNavigate();
+  const navigate = useBeforeNav();
   const windowSize = useWindowSize();
   const { LANGUAGE } = useSelector(selectLanguage);
 
@@ -22,8 +21,9 @@ const TopNews = () => {
     {
       id: '0',
       title: '暂无',
-      description: '暂无新闻',
-      link: null
+      des: '暂无新闻',
+      link: null,
+      time: '暂无'
     }
   ]);
   // 新闻展示列表队列
@@ -142,13 +142,13 @@ const TopNews = () => {
     }
     if (newsList.length <= 1) {
       newsParentsRef.current.innerHTML = '';
-      createNewsNode(newsList[0].description, newsList[0].id, '0%', newsList[0].link);
+      createNewsNode(newsList[0].des, newsList[0].id, '0%', newsList[0].link);
       return;
     }
     // 创建两个新闻
     newsParentsRef.current.innerHTML = '';
-    createNewsNode(newsList[0].description, newsList[0].id, '0%', newsList[0].link);
-    createNewsNode(newsList[1].description, newsList[1].id, '100%', newsList[1].link);
+    createNewsNode(newsList[0].des, newsList[0].id, '0%', newsList[0].link);
+    createNewsNode(newsList[1].des, newsList[1].id, '100%', newsList[1].link);
   }, [newsList]);
 
   /**
@@ -196,7 +196,7 @@ const TopNews = () => {
             } else {
               // 从展示队列中取出新闻加入新闻列表
               const newNews = showNewsList.current.shift();
-              createNewsNode(newNews!.description, newNews!.id, '100%', newNews!.link);
+              createNewsNode(newNews!.des, newNews!.id, '100%', newNews!.link);
             }
           }, 500);
         }

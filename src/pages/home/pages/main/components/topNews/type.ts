@@ -1,8 +1,9 @@
 export interface NewsItem {
   id: string;
   title: string;
-  description: string;
+  des: string;
   link: string | null;
+  time: string;
 }
 
 export type News = NewsItem[];

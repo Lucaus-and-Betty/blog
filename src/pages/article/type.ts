@@ -1,7 +1,10 @@
 export interface ArticleInfoType {
   id: string;
   title: string;
-  label: string[];
+  labels: {
+    id: string;
+    title: string;
+  }[];
   publishTime: string;
   updateTime: string;
   readCount: number;

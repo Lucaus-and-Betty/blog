@@ -9,15 +9,16 @@ import {
   SettingsBrightness,
   Home
 } from '@mui/icons-material';
-import { FetchStatus } from '@myTypes/index.ts';
 import { useBeforeNav } from '@myHooks/useBeforeNav';
+import { useParams } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { hideLoader, errorLoader } from '@myStore/slices/loadingSlice.ts';
 import { ArticleInfoType } from './type.ts';
 import articleService from './index.service.ts';
-import { FullScreenLoading } from '@/routerLazyLoad.ts';
 import { changeToDark, changeToLight, selectTheme, changeToSystem } from '@myStore/slices/themeSlice.ts';
 import './index.less';
+import tip from '@myUtils/tip.ts';
 
 /**
  * @description 文章组件
@@ -25,8 +26,8 @@ import './index.less';
 const Article = () => {
   const dispatch = useDispatch();
   const navigate = useBeforeNav();
+  const param = useParams();
   const theme = useSelector(selectTheme);
-  const [fetchStatus, setFetchStatus] = useState<FetchStatus>(FetchStatus.LOADING);
   const artcleContainerRef = useRef<HTMLDivElement>(null);
   const [upShow, setUpShow] = useState<boolean>(false);
   const [articleInfo, setArticleInfo] = useState<ArticleInfoType | null>(null);
@@ -79,23 +80,28 @@ const Article = () => {
    * @param {string} id
    */
   const getArticleById = async (id: string) => {
-    setFetchStatus(FetchStatus.LOADING);
-    const article = await articleService.getArticleInfoById(id);
+    const article = await articleService.getArticleContentById(id);
+    console.log(article);
     if (article.success) {
+      dispatch(hideLoader());
       setArticleInfo(article.data);
-      setFetchStatus(FetchStatus.SUCCESS);
     } else {
-      setFetchStatus(FetchStatus.FAIL);
+      tip.addmessage('error', '获取文章内容失败');
+      dispatch(errorLoader());
     }
   };
 
   useEffect(() => {
-    getArticleById('1');
+    const id = param.id;
+    if (!id) {
+      dispatch(errorLoader());
+      return;
+    }
+    getArticleById(id);
   }, []);
 
   return (
     <div className="artcle-container" ref={artcleContainerRef} onScroll={listenScroll}>
-      <FullScreenLoading status={fetchStatus} failMessage="获取文章失败" />
       <div
         style={{
           transform: upShow ? 'scale(1)' : 'scale(0)'
@@ -117,8 +123,8 @@ const Article = () => {
         <div className="artcle-text">
           <span className="artcle-title">{articleInfo.title}</span>
           <div className="artcle-label">
-            {articleInfo.label.map((label, index) => {
-              return <span key={index}>{label}</span>;
+            {articleInfo.labels.map(label => {
+              return <span key={label.id}>{label.title}</span>;
             })}
           </div>
           <div className="artcle-time">

@@ -1,21 +1,23 @@
 import { ArticleInfoType } from './type';
 import fetchData from '@myUtils/fetchData';
+import { SERVER_URL } from '@myConstants/server';
 
 class ArticleService {
-  private readonly newsBaseUrl = '//localhost:3000/v1/articles';
+  private readonly newsBaseUrl = SERVER_URL + '/articles';
   private readonly headers = {
     'Content-Type': 'application/json'
   };
 
   /**
-   * @description 获取所有新闻
-   * @return {Promise<{ success: true; data: News } | { success: false; data: null }>} 返回新闻列表和是否成功
+   * @description 通过文章 id 获取文章详情
+   * @param {string} id
+   * @return {Promise<{ success: true; data: News } | { success: false; data: null }>} 返回获取的文章和是否成功
    */
-  async getArticleInfoById(
+  async getArticleContentById(
     id: string
   ): Promise<{ success: true; data: ArticleInfoType } | { success: false; data: null }> {
     const articleData = await fetchData<ArticleInfoType>(
-      this.newsBaseUrl + '/get-article-info-by-id',
+      this.newsBaseUrl + '/get-article-content-by-id',
       {
         method: 'POST',
         headers: this.headers,

@@ -28,7 +28,7 @@ export const loadingSlice = createSlice({
     },
     errorLoader: state => {
       state.value = {
-        status: FetchStatus.FAIL,
+        status: state.value.status,
         failMessage: state.value.failMessage
       };
     },

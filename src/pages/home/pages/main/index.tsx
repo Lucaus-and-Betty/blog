@@ -1,13 +1,15 @@
 import { KeyboardDoubleArrowRight } from '@mui/icons-material';
+import { useLocation } from 'react-router-dom';
 import { useEffect, useState, useRef, useCallback, FC } from 'react';
-import { ArticleKindList } from './constant';
 import { ReactSetState, ArticleInfoType } from '@myTypes/index';
 import { ArticleItem, Loading } from '@/routerLazyLoad';
-import ArticlePic from '@myAssets/pic/article-test.png';
 import { TopNews, GuidanceArea } from './components/index';
 import { useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 import { hideLoader } from '@myStore/slices/loadingSlice';
+import mainService from './index.service.ts';
+import { ArticleKindType } from './type';
+import tip from '@myUtils/tip';
+import { useIntersectionObserver } from '@uidotdev/usehooks';
 import './index.less';
 
 /**
@@ -15,13 +17,10 @@ import './index.less';
  */
 const Main = () => {
   const location = useLocation();
-  // 暂时代替网络请求来隐藏 loading
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log(location);
-    const timer = setTimeout(() => {
+    setTimeout(() => {
       dispatch(hideLoader());
-      clearTimeout(timer);
     }, 1000);
   }, [location]);
   return (
@@ -37,12 +36,12 @@ const Main = () => {
  * @description 文章列表区域
  */
 const ArticleListArea = () => {
-  const [chooseKindId, setChooseKindId] = useState<string | null>(null);
+  const [chooseKindId, setChooseKindId] = useState<string>('0');
 
   return (
     <div className="home-main-article-container">
       <ArticleKind setChooseKindId={setChooseKindId} chooseKindId={chooseKindId} />
-      <ArticleList />
+      <ArticleList chooseKindId={chooseKindId} />
     </div>
   );
 };
@@ -53,13 +52,19 @@ const ArticleListArea = () => {
  * @param {string | null} chooseKindId 当前选中的种类
  */
 const ArticleKind: FC<{
-  setChooseKindId: ReactSetState<string | null>;
+  setChooseKindId: ReactSetState<string>;
   chooseKindId: string | null;
 }> = ({ setChooseKindId, chooseKindId }) => {
   const kindContainerContentRef = useRef<HTMLDivElement>(null);
   const kindContainerScrollRef = useRef<HTMLDivElement>(null);
   const kindContainerRef = useRef<HTMLDivElement>(null);
   const [moreBtnShow, setMoreBtnShow] = useState<boolean>(false);
+  const [articleKindList, setArticleKindList] = useState<ArticleKindType[]>([
+    {
+      id: '0',
+      title: '全部'
+    }
+  ]);
 
   /**
    * @description 监听内容宽度
@@ -78,6 +83,21 @@ const ArticleKind: FC<{
       setMoreBtnShow(false);
     }
   }, []);
+
+  const getAllLabels = async () => {
+    const { success, data } = await mainService.getAllLabels();
+    if (success) {
+      setArticleKindList([
+        {
+          id: '0',
+          title: '全部'
+        },
+        ...data
+      ]);
+    } else {
+      tip.addmessage('error', '获取标签列表失败');
+    }
+  };
 
   /**
    * @description 判读横向滚动是否已经滚动到最右边
@@ -107,7 +127,10 @@ const ArticleKind: FC<{
   };
 
   useEffect(() => {
-    setChooseKindId('0');
+    getAllLabels();
+  }, []);
+
+  useEffect(() => {
     widthListener();
     window.addEventListener('resize', widthListener);
 
@@ -126,7 +149,7 @@ const ArticleKind: FC<{
       )}
       <div ref={kindContainerScrollRef} onScroll={scrollListener} className="home-main-article-kind-container-scroll">
         <div ref={kindContainerContentRef} className="home-main-article-kind-container">
-          {ArticleKindList.map(kind => {
+          {articleKindList.map(kind => {
             if (chooseKindId && kind.id === chooseKindId) {
               return (
                 <div
@@ -134,13 +157,13 @@ const ArticleKind: FC<{
                   className="home-main-article-kind-item home-main-article-kind-item-choose"
                   onClick={() => selectKind(kind.id)}
                 >
-                  {kind.name}
+                  {kind.title}
                 </div>
               );
             }
             return (
               <div key={kind.id} className="home-main-article-kind-item" onClick={() => selectKind(kind.id)}>
-                {kind.name}
+                {kind.title}
               </div>
             );
           })}
@@ -150,29 +173,112 @@ const ArticleKind: FC<{
   );
 };
 
-const ArticleList = () => {
-  const testArticleInfo: ArticleInfoType = {
-    id: '0',
-    title: '测试文章',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.Saepe ullam necessitatibus impedit ex maiores, doloribus quasi exercitationem dolor aliquid natus, nisi animi, distinctio mollitia? Repellendus ad pariatur qui possimus harum.Lorem ipsum dolor sit amet consectetur adipisicing elit.Saepe ullam necessitatibus impedit ex maiores, doloribus quasi exercitationem dolor aliquid natus, nisi animi, distinctio mollitia? Repellendus ad pariatur qui possimus harum.Lorem ipsum dolor sit amet consectetur adipisicing elit.Saepe ullam necessitatibus impedit ex maiores, doloribus quasi exercitationem dolor aliquid natus, nisi animi, distinctio mollitia? Repellendus ad pariatur qui possimus harum.Lorem ipsum dolor sit amet consectetur adipisicing elit.Saepe ullam necessitatibus impedit ex maiores, doloribus quasi exercitationem dolor aliquid natus, nisi animi, distinctio mollitia? Repellendus ad pariatur qui possimus harum.Lorem ipsum dolor sit amet consectetur adipisicing elit.Saepe ullam necessitatibus impedit ex maiores, doloribus quasi exercitationem dolor aliquid natus, nisi animi, distinctio mollitia? Repellendus ad pariatur qui possimus harum.',
-    time: '2022-01-01 00:00:00',
-    label: ['#测试标签1', '#测试标签2'],
-    pic: ArticlePic
+const ArticleList: FC<{ chooseKindId: string }> = ({ chooseKindId }) => {
+  const [articles, setArticles] = useState<ArticleInfoType[]>([]);
+  const [status, setStatus] = useState<'empty' | 'loading' | 'error' | 'done'>('loading');
+  const [page, setPage] = useState<{ page: number; pageSize: number }>({ page: 0, pageSize: 30 });
+  const [isOver, setIsOver] = useState<boolean>(false);
+  const [firstTime, setFirstTime] = useState<boolean>(true);
+
+  const [moreRef, entry] = useIntersectionObserver({
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.8
+  });
+
+  const getAllArticles = async () => {
+    setStatus('loading');
+    const res = await mainService.getAllArticles(page.page, page.pageSize);
+    if (res.success) {
+      if (res.data.length === 0) {
+        setStatus('empty');
+      } else {
+        setStatus('done');
+      }
+      if (res.isOver) {
+        setIsOver(true);
+        setStatus('empty');
+      }
+      setArticles(pre => [...pre, ...res.data]);
+    } else {
+      setArticles([]);
+      tip.addmessage('error', '获取文章列表失败');
+      setStatus('error');
+    }
   };
+
+  const getAllArticlesByLabel = async (labelId: string) => {
+    setStatus('loading');
+    const res = await mainService.getAllArticlesByLabel(labelId, page.page);
+    if (res.success) {
+      console.log('123', res.isOver);
+      if (res.data.length === 0) {
+        setStatus('empty');
+      } else {
+        setStatus('done');
+      }
+      if (res.isOver) {
+        setIsOver(true);
+        setStatus('empty');
+      }
+      setArticles(pre => [...pre, ...res.data]);
+    } else {
+      setArticles([]);
+      tip.addmessage('error', '获取该类文章列表失败');
+      setStatus('error');
+    }
+  };
+
+  const getData = async () => {
+    if (chooseKindId === '0') {
+      getAllArticles();
+    } else {
+      getAllArticlesByLabel(chooseKindId);
+    }
+  };
+
+  useEffect(() => {
+    if (entry?.isIntersecting) {
+      console.log('entry', entry);
+      if (firstTime) {
+        setFirstTime(false);
+        return;
+      }
+      setPage(pre => {
+        return { page: pre.page + 1, pageSize: pre.pageSize };
+      });
+    }
+  }, [entry?.isIntersecting]);
+
+  useEffect(() => {
+    console.log('chooseKindId', chooseKindId);
+    setArticles([]);
+    setPage({ page: 1, pageSize: 30 });
+    setIsOver(false);
+    setStatus('loading');
+  }, [chooseKindId]);
+
+  useEffect(() => {
+    console.log('Effect', page);
+    getData();
+  }, [page]);
   return (
     <>
       <div className="home-main-article-list">
-        <ArticleItem articleInfo={testArticleInfo} />
-        <ArticleItem articleInfo={testArticleInfo} />
-        <ArticleItem articleInfo={testArticleInfo} />
-        <ArticleItem articleInfo={testArticleInfo} />
-        <ArticleItem articleInfo={testArticleInfo} />
-        <ArticleItem articleInfo={testArticleInfo} />
-        <ArticleItem articleInfo={testArticleInfo} />
+        {articles.map(item => {
+          return <ArticleItem key={item.id} articleInfo={item} />;
+        })}
       </div>
       <div className="home-main-article-list-loading">
-        <Loading />
+        {status === 'loading' && <Loading />}
+        {status === 'empty' && <div className="home-main-article-list-loading-empty">暂无更多内容</div>}
+        {status === 'error' && (
+          <div className="home-main-article-list-loading-error" onClick={getData}>
+            加载失败，点击重新加载
+          </div>
+        )}
       </div>
+      {!isOver && articles.length > 0 && <div ref={moreRef} className="home-main-article-list-more"></div>}
     </>
   );
 };

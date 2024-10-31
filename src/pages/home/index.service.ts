@@ -16,7 +16,7 @@ class HomeService {
    * @returns {Promise<{ success: true; data: ProjectList[] } | { success: false; data: null }>} 返回项目列表和是否成功
    */
   async getProjectList() {
-    const projectListData = await fetchData<ProjectList[]>(this.baseUrl + '/all', {
+    const projectListData = await fetchData<ProjectList[]>(this.baseUrl + '/get-all-projects', {
       method: 'GET',
       headers: this.headers
     });

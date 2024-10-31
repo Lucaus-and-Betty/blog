@@ -15,7 +15,7 @@ class MainService {
    * @return {Promise<{ success: true; data: News } | { success: false; data: null }>} 返回新闻列表和是否成功
    */
   async getAllNews(): Promise<{ success: true; data: News } | { success: false; data: null }> {
-    const newsData = await fetchData<News>(this.newsBaseUrl + '/all-show', {
+    const newsData = await fetchData<News>(this.newsBaseUrl + '/get-all-show-news', {
       method: 'GET',
       headers: this.headers
     });

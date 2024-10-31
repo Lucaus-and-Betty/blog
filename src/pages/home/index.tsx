@@ -1,4 +1,4 @@
-import { useState, FC, useEffect } from 'react';
+import { useState, FC, useEffect, useRef } from 'react';
 import { Space, SideBar } from '@/routerLazyLoad.ts';
 import { ProjectList } from './type.ts';
 import { NavigationList } from './constant.ts';
@@ -10,7 +10,8 @@ import {
   Close as CloseIcon,
   LightMode as LightModeIcon,
   DarkMode as DarkModeIcon,
-  SettingsBrightness as SettingsBrightnessIcon
+  SettingsBrightness as SettingsBrightnessIcon,
+  ArrowUpward as ArrowUpwardIcon
 } from '@mui/icons-material';
 import { logo } from '@myAssets/icon';
 import { useDispatch, useSelector } from 'react-redux';
@@ -27,15 +28,23 @@ import './index.less';
 const Home = () => {
   // home 页面滚动的距离
   const [homeScrollY, setHomeScrollY] = useState(0);
+  const homeRef = useRef<HTMLDivElement>(null);
 
   // 检测滚动了多少距离
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     setHomeScrollY(e.currentTarget.scrollTop);
   };
 
+  const backToTop = () => {
+    homeRef.current?.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
   return (
-    <div className="home" onScroll={handleScroll}>
-      <Navigation homeScrollY={homeScrollY} />
+    <div ref={homeRef} className="home" onScroll={handleScroll}>
+      <Navigation homeScrollY={homeScrollY} backToTop={backToTop} />
       <div className="home-content">
         <Space width="100%" height="60px"></Space>
         <Outlet />
@@ -46,18 +55,20 @@ const Home = () => {
 
 interface NavigationProps {
   homeScrollY: number;
+  backToTop: () => void;
 }
 /**
  * @description 导航栏
  * @param {number} homeScrollY home 页面滚动的距离
+ * @param {() => void} backToTop 返回顶部
  */
-const Navigation: FC<NavigationProps> = ({ homeScrollY }) => {
+const Navigation: FC<NavigationProps> = ({ homeScrollY, backToTop }) => {
   return (
     // home 发生滚动时，导航栏变得不透明
     <nav className={homeScrollY > 0 ? 'navigation navigation-scroll' : 'navigation'}>
       <NavigationLeft />
       <NavigationMiddle />
-      <NavigationRight />
+      <NavigationRight homeScrollY={homeScrollY} backToTop={backToTop} />
     </nav>
   );
 };
@@ -180,8 +191,10 @@ const NavigationMiddle = () => {
 
 /**
  * @description 导航栏右侧部分
+ * @params {number} homeScrollY 首页滚动距离
+ * @params {() => void} backToTop 回到顶部
  */
-const NavigationRight = () => {
+const NavigationRight: FC<{ homeScrollY: number; backToTop: () => void }> = ({ homeScrollY, backToTop }) => {
   const { LANGUAGE, languageType } = useSelector(selectLanguage);
   const navigate = useBeforeNav();
   const dispatch = useDispatch();
@@ -353,6 +366,18 @@ const NavigationRight = () => {
             </div>
           </div>
         </SideBar>
+      </div>
+      <div
+        style={{
+          width: homeScrollY > 100 ? '24px' : '0',
+          height: homeScrollY > 100 ? '24px' : '0'
+        }}
+        className="navigation-back-to-top"
+        onClick={() => {
+          backToTop();
+        }}
+      >
+        <ArrowUpwardIcon className="navigation-back-to-top-icon" />
       </div>
     </div>
   );

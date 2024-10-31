@@ -496,6 +496,24 @@
         }
       }
 
+      .navigation-back-to-top {
+        position: relative;
+        left: -5px;
+
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 26px;
+        height: 26px;
+        overflow: hidden;
+        transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+
+        &:hover .navigation-back-to-top-icon {
+          animation: upDown 0.5s ease-in-out infinite;
+        }
+      }
+
       .navigation-side-list {
         cursor: pointer;
         display: flex;
@@ -687,7 +705,7 @@
 }
 
 
-@media screen and (width <=900px) {
+@media screen and (width <= 950px) {
   .home {
     .navigation-list-item {
       scale: 0;
@@ -737,6 +755,18 @@
       }
     }
 
+  }
+}
+
+@keyframes upDown {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0px);
   }
 }
 

@@ -21,7 +21,7 @@ class MainService {
     { success: true; isOver: boolean; data: ArticleInfoType[] } | { success: false; isOver: true; data: null }
   > {
     const articleData = await fetchData<{ isOver: boolean; data: ArticleInfoType[] }>(
-      this.articlesBaseUrl + '/get-all-article-info',
+      this.articlesBaseUrl + '/get-page-article-info',
       {
         method: 'POST',
         headers: this.headers,
@@ -54,7 +54,7 @@ class MainService {
     { success: true; isOver: boolean; data: ArticleInfoType[] } | { success: false; isOver: true; data: null }
   > {
     const articleData = await fetchData<{ isOver: boolean; data: ArticleInfoType[] }>(
-      this.articlesBaseUrl + '/get-article-info-by-label',
+      this.articlesBaseUrl + '/get-page-article-info-by-label',
       {
         method: 'POST',
         headers: this.headers,

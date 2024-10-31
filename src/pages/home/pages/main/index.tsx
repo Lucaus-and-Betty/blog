@@ -178,7 +178,6 @@ const ArticleList: FC<{ chooseKindId: string }> = ({ chooseKindId }) => {
   const [status, setStatus] = useState<'empty' | 'loading' | 'error' | 'done'>('loading');
   const [page, setPage] = useState<{ page: number; pageSize: number }>({ page: 0, pageSize: 30 });
   const [isOver, setIsOver] = useState<boolean>(false);
-  const [firstTime, setFirstTime] = useState<boolean>(true);
 
   const [moreRef, entry] = useIntersectionObserver({
     root: null,
@@ -201,7 +200,6 @@ const ArticleList: FC<{ chooseKindId: string }> = ({ chooseKindId }) => {
       }
       setArticles(pre => [...pre, ...res.data]);
     } else {
-      setArticles([]);
       tip.addmessage('error', '获取文章列表失败');
       setStatus('error');
     }
@@ -223,7 +221,6 @@ const ArticleList: FC<{ chooseKindId: string }> = ({ chooseKindId }) => {
       }
       setArticles(pre => [...pre, ...res.data]);
     } else {
-      setArticles([]);
       tip.addmessage('error', '获取该类文章列表失败');
       setStatus('error');
     }
@@ -240,10 +237,6 @@ const ArticleList: FC<{ chooseKindId: string }> = ({ chooseKindId }) => {
   useEffect(() => {
     if (entry?.isIntersecting) {
       console.log('entry', entry);
-      if (firstTime) {
-        setFirstTime(false);
-        return;
-      }
       setPage(pre => {
         return { page: pre.page + 1, pageSize: pre.pageSize };
       });

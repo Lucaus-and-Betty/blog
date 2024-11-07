@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { showLoader } from '@myStore/slices/loadingSlice';
 import { useRef } from 'react';
 
@@ -8,6 +8,7 @@ import { useRef } from 'react';
  * @returns 导航函数
  */
 const useBeforeNav = () => {
+  const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const timer = useRef<undefined | number>(undefined);
@@ -16,12 +17,16 @@ const useBeforeNav = () => {
    * @param {string} to 导航目标
    * @param {string} failMessage 导航失败提示
    */
-  const beforeNav = (to: string, failMessage: string = '404 Not Found') => {
-    dispatch(showLoader(failMessage));
-    timer.current = setTimeout(() => {
+  const beforeNav = (to: string) => {
+    if (to === location.pathname) {
       navigate(to);
-      clearTimeout(timer.current);
-    }, 1000);
+    } else {
+      dispatch(showLoader());
+      timer.current = setTimeout(() => {
+        navigate(to);
+        clearTimeout(timer.current);
+      }, 1500);
+    }
   };
   return beforeNav;
 };

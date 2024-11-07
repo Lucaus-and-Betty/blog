@@ -5,14 +5,12 @@ import { FetchStatus } from '@myTypes/index';
 interface loadingState {
   value: {
     status: FetchStatus;
-    failMessage: string;
   };
 }
 
 const initialState: loadingState = {
   value: {
-    status: FetchStatus.LOADING,
-    failMessage: 'Loading'
+    status: FetchStatus.LOADING
   }
 };
 
@@ -20,22 +18,19 @@ export const loadingSlice = createSlice({
   name: 'loader',
   initialState,
   reducers: {
-    showLoader: (state, action) => {
+    showLoader: state => {
       state.value = {
-        status: FetchStatus.LOADING,
-        failMessage: action.payload
+        status: FetchStatus.LOADING
       };
     },
     errorLoader: state => {
       state.value = {
-        status: state.value.status,
-        failMessage: state.value.failMessage
+        status: FetchStatus.FAIL
       };
     },
     hideLoader: state => {
       state.value = {
-        status: FetchStatus.SUCCESS,
-        failMessage: state.value.failMessage
+        status: FetchStatus.SUCCESS
       };
     }
   }

@@ -3,9 +3,9 @@ import { FetchStatus } from '@myTypes/index.ts';
 import './index.less';
 
 const FullScreenLoading: FC<{
-  failMessage: string;
+  failMessage?: string;
   status: FetchStatus;
-}> = ({ failMessage, status }) => {
+}> = ({ failMessage = '404 Not Found', status }) => {
   const [showMessage, setShowMessage] = useState('Loading ');
 
   // 保证每一次打开都是 Loading
@@ -44,7 +44,7 @@ const FullScreenLoading: FC<{
     <div
       className="full-screen-loading"
       style={{
-        transform: status === FetchStatus.SUCCESS ? 'translateY(100%)' : 'translateY(0%)'
+        transform: status === FetchStatus.LOADING ? 'translateY(0%)' : 'translateY(100%)'
       }}
     >
       <div className="full-screen-loading-content">

@@ -12,6 +12,7 @@ export const Tech = lazy(() => import('@myPages/home/pages/tech/index.tsx'));
 // 大页面
 export const Article = lazy(() => import('@myPages/article/index.tsx'));
 export const Error = lazy(() => import('@myPages/error/index.tsx'));
+export const Diary = lazy(() => import('@myPages/diary/index.tsx'));
 
 // 组件
 export const StarsCanvas = lazy(() => import('@myComponents/starsCanvas/index.tsx'));
@@ -24,3 +25,4 @@ export const SideBar = lazy(() => import('@myComponents/sideBar/index.tsx'));
 export const SearchDialog = lazy(() => import('@myComponents/search/index.tsx'));
 export const Space = lazy(() => import('@myComponents/space/index.tsx'));
 export const ArticleItem = lazy(() => import('@myComponents/articleItem/index.tsx'));
+export const PageOperateBar = lazy(() => import('@myComponents/pageOperateBar/index.tsx'));

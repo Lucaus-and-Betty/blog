@@ -5,6 +5,7 @@ export interface ArticleInfoType {
     id: string;
     title: string;
   }[];
+  cover: string;
   publishTime: string;
   updateTime: string;
   readCount: number;

@@ -1,79 +1,22 @@
-import {
-  CalendarMonth,
-  Update,
-  Visibility,
-  // Comment,
-  ArrowUpward,
-  LightMode,
-  DarkMode,
-  SettingsBrightness,
-  Home
-} from '@mui/icons-material';
-import { useBeforeNav } from '@myHooks/useBeforeNav';
+import { CalendarMonth, Update, Visibility } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { hideLoader, errorLoader } from '@myStore/slices/loadingSlice.ts';
 import { ArticleInfoType } from './type.ts';
 import articleService from './index.service.ts';
-import { changeToDark, changeToLight, selectTheme, changeToSystem } from '@myStore/slices/themeSlice.ts';
+import { PageOperateBar } from '@/routerLazyLoad.ts';
 import './index.less';
-import tip from '@myUtils/tip.ts';
+import { SERVER_IMG_URL } from '@myConstants/server.ts';
 
 /**
  * @description 文章组件
  */
 const Article = () => {
   const dispatch = useDispatch();
-  const navigate = useBeforeNav();
   const param = useParams();
-  const theme = useSelector(selectTheme);
   const artcleContainerRef = useRef<HTMLDivElement>(null);
-  const [upShow, setUpShow] = useState<boolean>(false);
   const [articleInfo, setArticleInfo] = useState<ArticleInfoType | null>(null);
-
-  const toHome = () => {
-    navigate('/home');
-  };
-
-  /**
-   * @description 切换主题
-   */
-  const changeTheme = () => {
-    if (theme === 'light') {
-      dispatch(changeToDark());
-    } else if (theme === 'dark') {
-      dispatch(changeToSystem());
-    } else {
-      dispatch(changeToLight());
-    }
-  };
-
-  /**
-   * @description 监听滚动
-   * @param {React.UIEvent<HTMLDivElement>} e 滚动事件
-   */
-  const listenScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    const scrollTop = e.currentTarget.scrollTop;
-    if (scrollTop > 300) {
-      setUpShow(true);
-    } else {
-      setUpShow(false);
-    }
-  };
-
-  /**
-   * @description 滚动到顶部
-   */
-  const scrollToTop = () => {
-    if (!artcleContainerRef.current) {
-      return;
-    }
-    artcleContainerRef.current.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  };
 
   /**
    * @description 获取文章
@@ -81,12 +24,10 @@ const Article = () => {
    */
   const getArticleById = async (id: string) => {
     const article = await articleService.getArticleContentById(id);
-    console.log(article);
     if (article.success) {
       dispatch(hideLoader());
       setArticleInfo(article.data);
     } else {
-      tip.addmessage('error', '获取文章内容失败');
       dispatch(errorLoader());
     }
   };
@@ -101,24 +42,8 @@ const Article = () => {
   }, []);
 
   return (
-    <div className="artcle-container" ref={artcleContainerRef} onScroll={listenScroll}>
-      <div
-        style={{
-          transform: upShow ? 'scale(1)' : 'scale(0)'
-        }}
-        className="artcle-up"
-        onClick={scrollToTop}
-      >
-        <ArrowUpward />
-      </div>
-      <div className="artcle-theme" onClick={changeTheme}>
-        {theme === 'dark' && <DarkMode />}
-        {theme === 'light' && <LightMode />}
-        {theme === 'system' && <SettingsBrightness />}
-      </div>
-      <div className="artcle-to-home" onClick={toHome}>
-        <Home />
-      </div>
+    <div className="artcle-container" ref={artcleContainerRef}>
+      <PageOperateBar customRef={artcleContainerRef} />
       {articleInfo && (
         <div className="artcle-text">
           <span className="artcle-title">{articleInfo.title}</span>
@@ -153,9 +78,7 @@ const Article = () => {
           </div>
         </div>
       )}
-      <div className="artcle-cover">
-        <img src="/src/assets/pic/diary-cover.jpg" alt="cover" />
-      </div>
+      <div className="artcle-cover">{articleInfo && <img src={SERVER_IMG_URL + articleInfo.cover} alt="cover" />}</div>
       {articleInfo && <div className="artcle-content" dangerouslySetInnerHTML={{ __html: articleInfo.content }}></div>}
     </div>
   );

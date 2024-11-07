@@ -8,13 +8,13 @@ export const NavigationList: NavigationItem[] = [
     chidren: [
       {
         title: 'TECH',
-        path: 'tech',
+        path: '/home/tech',
         key: 'tech',
         icon: Biotech
       },
       {
         title: 'Life',
-        path: 'life',
+        path: '/home/life',
         key: 'life',
         icon: Store
       }
@@ -26,7 +26,7 @@ export const NavigationList: NavigationItem[] = [
     chidren: [
       {
         title: 'Love',
-        path: 'love',
+        path: '/home/love',
         key: 'love',
         icon: Favorite
       }
@@ -38,19 +38,19 @@ export const NavigationList: NavigationItem[] = [
     chidren: [
       {
         title: 'Lucaus',
-        path: 'Lucaus',
+        path: '/home/Lucaus',
         key: 'Lucaus',
         icon: Man
       },
       {
         title: 'Betty',
-        path: 'Betty',
+        path: '/home/Betty',
         key: 'Betty',
         icon: Woman
       },
       {
         title: 'Website',
-        path: 'web',
+        path: '/home/web',
         key: 'web',
         icon: Info
       }

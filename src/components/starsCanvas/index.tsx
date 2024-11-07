@@ -26,7 +26,7 @@ const StarsCanvas = () => {
     if (canvasState) {
       ctx.putImageData(canvasState, 0, 0);
     }
-  });
+  }, [width, height]);
 
   // 初始化画布
   useEffect(() => {

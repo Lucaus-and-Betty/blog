@@ -85,7 +85,7 @@ const App = () => {
 
   return (
     <div id="app" className={rootTheme}>
-      <FullScreenLoading failMessage={loading.failMessage} status={loading.status} />
+      <FullScreenLoading status={loading.status} />
       <SearchDialog />
       {rootTheme === 'theme-dark' && <StarsCanvas />}
       <Outlet></Outlet>

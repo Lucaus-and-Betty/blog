@@ -1,14 +1,12 @@
 import { KeyboardDoubleArrowRight } from '@mui/icons-material';
-import { useLocation } from 'react-router-dom';
 import { useEffect, useState, useRef, useCallback, FC } from 'react';
 import { ReactSetState, ArticleInfoType } from '@myTypes/index';
 import { ArticleItem, Loading } from '@/routerLazyLoad';
 import { TopNews, GuidanceArea } from './components/index';
 import { useDispatch } from 'react-redux';
-import { hideLoader } from '@myStore/slices/loadingSlice';
+import { errorLoader, hideLoader } from '@myStore/slices/loadingSlice';
 import mainService from './index.service.ts';
 import { ArticleKindType } from './type';
-import tip from '@myUtils/tip';
 import { useIntersectionObserver } from '@uidotdev/usehooks';
 import './index.less';
 
@@ -16,13 +14,6 @@ import './index.less';
  * @description 首页
  */
 const Main = () => {
-  const location = useLocation();
-  const dispatch = useDispatch();
-  useEffect(() => {
-    setTimeout(() => {
-      dispatch(hideLoader());
-    }, 1000);
-  }, [location]);
   return (
     <div className="home-main">
       <TopNews />
@@ -94,8 +85,6 @@ const ArticleKind: FC<{
         },
         ...data
       ]);
-    } else {
-      tip.addmessage('error', '获取标签列表失败');
     }
   };
 
@@ -178,6 +167,7 @@ const ArticleList: FC<{ chooseKindId: string }> = ({ chooseKindId }) => {
   const [status, setStatus] = useState<'empty' | 'loading' | 'error' | 'done'>('loading');
   const [page, setPage] = useState<{ page: number; pageSize: number }>({ page: 0, pageSize: 30 });
   const [isOver, setIsOver] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
   const [moreRef, entry] = useIntersectionObserver({
     root: null,
@@ -189,6 +179,7 @@ const ArticleList: FC<{ chooseKindId: string }> = ({ chooseKindId }) => {
     setStatus('loading');
     const res = await mainService.getAllArticles(page.page, page.pageSize);
     if (res.success) {
+      dispatch(hideLoader());
       if (res.data.length === 0) {
         setStatus('empty');
       } else {
@@ -200,7 +191,8 @@ const ArticleList: FC<{ chooseKindId: string }> = ({ chooseKindId }) => {
       }
       setArticles(pre => [...pre, ...res.data]);
     } else {
-      tip.addmessage('error', '获取文章列表失败');
+      console.log('获取文章列表失败', res.data);
+      dispatch(errorLoader());
       setStatus('error');
     }
   };
@@ -209,7 +201,7 @@ const ArticleList: FC<{ chooseKindId: string }> = ({ chooseKindId }) => {
     setStatus('loading');
     const res = await mainService.getAllArticlesByLabel(labelId, page.page);
     if (res.success) {
-      console.log('123', res.isOver);
+      dispatch(hideLoader());
       if (res.data.length === 0) {
         setStatus('empty');
       } else {
@@ -221,7 +213,7 @@ const ArticleList: FC<{ chooseKindId: string }> = ({ chooseKindId }) => {
       }
       setArticles(pre => [...pre, ...res.data]);
     } else {
-      tip.addmessage('error', '获取该类文章列表失败');
+      dispatch(errorLoader());
       setStatus('error');
     }
   };
@@ -236,7 +228,6 @@ const ArticleList: FC<{ chooseKindId: string }> = ({ chooseKindId }) => {
 
   useEffect(() => {
     if (entry?.isIntersecting) {
-      console.log('entry', entry);
       setPage(pre => {
         return { page: pre.page + 1, pageSize: pre.pageSize };
       });
@@ -244,7 +235,6 @@ const ArticleList: FC<{ chooseKindId: string }> = ({ chooseKindId }) => {
   }, [entry?.isIntersecting]);
 
   useEffect(() => {
-    console.log('chooseKindId', chooseKindId);
     setArticles([]);
     setPage({ page: 1, pageSize: 30 });
     setIsOver(false);
@@ -252,7 +242,6 @@ const ArticleList: FC<{ chooseKindId: string }> = ({ chooseKindId }) => {
   }, [chooseKindId]);
 
   useEffect(() => {
-    console.log('Effect', page);
     getData();
   }, [page]);
   return (

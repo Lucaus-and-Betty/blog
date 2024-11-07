@@ -27,7 +27,6 @@ const ArticleItem: FC<ArticleItemProps> = ({ articleInfo }) => {
   };
 
   const toArticle = () => {
-    console.log(articleInfo);
     navigate(`/article/${articleInfo.id}`);
   };
 

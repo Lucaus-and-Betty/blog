@@ -1,7 +1,6 @@
 import { ArrowForward } from '@mui/icons-material';
 import { useEffect, useState, useRef } from 'react';
 import newsService from './index.service';
-import tip from '@myUtils/tip';
 import { News } from './type';
 import { useSelector } from 'react-redux';
 import { selectLanguage } from '@myStore/slices/languageSlice';
@@ -56,8 +55,6 @@ const TopNews = () => {
           showNewsList.current.push(newsItem);
         });
       }
-    } else {
-      tip.addmessage('error', '获取新闻列表失败');
     }
   };
 

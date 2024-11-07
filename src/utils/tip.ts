@@ -28,7 +28,6 @@ class Tip {
   async show(type: TipType, message: string) {
     const language = await localforage.getItem('language');
     const languageMap = language === 'CN' ? CN : EN;
-    console.log(`[${languageMap[type]}]: ${message}`);
     const app = document.querySelector('#app');
     const tip = document.createElement('div');
     tip.innerHTML = `${languageMap[type]}: ${message}`;

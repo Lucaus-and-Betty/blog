@@ -1,6 +1,6 @@
 import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
 import App from './App.tsx';
-import { Lucaus, Betty, Life, Love, Web, Tech, Article, Error, Main } from './routerLazyLoad.ts';
+import { Lucaus, Betty, Life, Love, Web, Tech, Article, Error, Main, Diary } from './routerLazyLoad.ts';
 import { Home } from '@myPages/home/index';
 
 export const router = createBrowserRouter(
@@ -16,6 +16,7 @@ export const router = createBrowserRouter(
         <Route caseSensitive path="web" element={<Web />} />
       </Route>
       <Route caseSensitive path="article/:id" element={<Article />} />
+      <Route caseSensitive path="diary" element={<Diary />} />
     </Route>
   )
 );

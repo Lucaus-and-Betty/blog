@@ -14,7 +14,6 @@ const PageOperateBar: FC<{
   const [upShow, setUpShow] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log(customRef.current, 123);
     if (!customRef.current) {
       return;
     }

@@ -205,7 +205,6 @@ const Diary = () => {
    * @return {HTMLElement} 生成的节点
    */
   const createDiartItemNode = (diaryInfo: DiaryInfoType): HTMLElement => {
-    console.log(diaryInfo);
     const node = document.createElement('div');
     node.className = 'diary-item';
 

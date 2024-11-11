@@ -127,7 +127,50 @@
     }
   }
 
+  .love-list {
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    background-color: var(--main-card-background-color);
+    border-radius: 16px;
+    padding: 20px;
+    border: var(--main-border);
 
+    .love-list-item {
+      display: flex;
+      align-items: center;
+      width: 100%;
+
+      .love-list-icon {
+        position: relative;
+        top: 1px;
+
+        .love-list-icon-check {
+          fill: rgb(31, 219, 31);
+        }
+      }
+
+      .love-list-title {
+        font-weight: bolder;
+        margin-left: 10px;
+        margin-right: 10px;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        // 中划杠
+        text-decoration: line-through;
+      }
+
+      .love-list-time {
+        display: flex;
+        justify-content: flex-end;
+        width: 120px;
+      }
+    }
+  }
 }
 
 @keyframes lightLeftToRight {

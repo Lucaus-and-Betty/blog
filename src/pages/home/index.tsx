@@ -153,9 +153,6 @@ const NavigationMiddle = () => {
     };
   };
 
-  useEffect(() => {
-    console.log(location);
-  }, [location]);
   return (
     <>
       {NavigationList.map(item => {

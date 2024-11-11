@@ -52,9 +52,6 @@ const Novel = () => {
 const NovelListItem: FC<{ novel: NovelInfo }> = ({ novel }) => {
   const timer = useRef<null | number>(null);
   const [showDesState, setShowDesState] = useState(false);
-  useEffect(() => {
-    console.log(novel);
-  }, []);
 
   const showDes = () => {
     timer.current = setTimeout(() => {

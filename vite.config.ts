@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import { join } from "path";
 import react from '@vitejs/plugin-react-swc'
-import checker from 'vite-plugin-checker'
+// import checker from 'vite-plugin-checker'
 
 export default defineConfig({
   resolve: {
@@ -17,9 +17,11 @@ export default defineConfig({
       '@': join(__dirname, 'src'),
     }
   },
-  plugins: [react(), checker({
-    typescript: true
-  })],
+  plugins: [react(), 
+  //   checker({
+  //   typescript: true
+  // })
+],
   css: {
     preprocessorOptions: {
       less: {

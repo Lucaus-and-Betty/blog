@@ -1,7 +1,7 @@
 export const EN = {
   home: 'home',
-  Articles: 'Articles',
-  TECH: 'TECH',
+  Novel: 'Novel',
+  Stark: 'Stark',
   Life: 'Life',
   Our: 'Our',
   Photos: 'Photos',
@@ -22,6 +22,7 @@ export const EN = {
   error: 'error',
   Diary: 'Diary',
   Love: 'Love',
+  ["Stark's novels"]: "Stark's novels",
   ['Article cover']: 'Article cover',
   ['Enter to search']: 'Enter to search',
   ["Lucaus's project"]: "Lucaus's project",
@@ -33,8 +34,8 @@ export const EN = {
 
 export const CN = {
   home: '首页',
-  Articles: '文章',
-  TECH: '技术',
+  Novel: '小说',
+  Stark: 'Stark',
   Life: '生活',
   Our: '我们',
   Photos: '照片',
@@ -55,6 +56,7 @@ export const CN = {
   error: '错误',
   Diary: '日记',
   Love: '珍惜',
+  ["Stark's novels"]: 'Stark 的小说',
   ['Article cover']: '文章封面',
   ['Enter to search']: '回车进行搜索',
   ["Lucaus's project"]: 'Lucaus 的项目',

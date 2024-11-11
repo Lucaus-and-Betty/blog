@@ -1,22 +1,16 @@
-import { Biotech, Store, Favorite, Info, Man, Woman } from '@mui/icons-material';
+import { MenuBook, Favorite, Info, Man, Woman } from '@mui/icons-material';
 import { NavigationItem } from './type';
 
 export const NavigationList: NavigationItem[] = [
   {
-    title: 'Articles',
-    key: 'articles',
+    title: 'Novel',
+    key: 'novel',
     chidren: [
       {
-        title: 'TECH',
-        path: '/home/tech',
-        key: 'tech',
-        icon: Biotech
-      },
-      {
-        title: 'Life',
-        path: '/home/life',
-        key: 'life',
-        icon: Store
+        title: 'Stark',
+        path: '/home/novel/Stark',
+        key: 'Stark',
+        icon: MenuBook
       }
     ]
   },

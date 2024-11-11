@@ -2,7 +2,7 @@ import { useState, FC, useEffect, useRef } from 'react';
 import { Space, SideBar } from '@/routerLazyLoad.ts';
 import { ProjectList } from './type.ts';
 import { NavigationList } from './constant.ts';
-import { Outlet, useMatch } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import {
   Dns as DnsIcon,
   Search as SearchIcon,
@@ -142,9 +142,9 @@ const NavigationLeft = () => {
 const NavigationMiddle = () => {
   const { LANGUAGE } = useSelector(selectLanguage);
   const navigate = useBeforeNav();
+  const location = useLocation();
 
   // 用来判断当前页面的路径，从而显示导航栏的样式
-  const match = useMatch('/home/:pagePath');
 
   // 导航到指定页面
   const navToPage = (pagePath: string) => {
@@ -152,6 +152,10 @@ const NavigationMiddle = () => {
       navigate(pagePath);
     };
   };
+
+  useEffect(() => {
+    console.log(location);
+  }, [location]);
   return (
     <>
       {NavigationList.map(item => {
@@ -167,7 +171,7 @@ const NavigationMiddle = () => {
                     <div
                       key={child.key}
                       className={
-                        match?.params.pagePath === child.path
+                        location.pathname === child.path
                           ? 'navigation-list-item-child-content-item navigation-list-item-child-content-item-select'
                           : 'navigation-list-item-child-content-item'
                       }
@@ -200,7 +204,7 @@ const NavigationRight: FC<{ homeScrollY: number; backToTop: () => void }> = ({ h
   const dispatch = useDispatch();
   const theme = useSelector(selectTheme);
   // 用来判断当前页面的路径，从而显示导航栏的样式
-  const match = useMatch('/home/:pagePath');
+  const location = useLocation();
 
   const [settingsSideBarShow, setSettingsSideBarShow] = useState(false);
   const [navSideBarShow, setNavSideBarShow] = useState(false);
@@ -268,7 +272,7 @@ const NavigationRight: FC<{ homeScrollY: number; backToTop: () => void }> = ({ h
                         return (
                           <div
                             className={
-                              match?.params.pagePath === child.path
+                              location.pathname === child.path
                                 ? 'nav-item-item-card nav-item-item-card-select'
                                 : 'nav-item-item-card'
                             }

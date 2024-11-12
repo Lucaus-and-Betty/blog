@@ -1,7 +1,6 @@
 import fetchData from '@myUtils/fetchData';
 import { NovelInfo } from './type';
 import { SERVER_URL } from '@myConstants/server';
-import tip from '@myUtils/tip';
 
 /**
  * @description 小说服务层
@@ -28,8 +27,6 @@ class MainService {
         data: novelsData.data
       };
     } else {
-      tip.addmessage('error', '获取小说列表失败');
-      console.error('获取小说列表失败', novelsData.data);
       return {
         success: false,
         data: null

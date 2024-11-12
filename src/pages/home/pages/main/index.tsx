@@ -176,10 +176,10 @@ const ArticleList: FC<{ chooseKindId: string }> = ({ chooseKindId }) => {
   });
 
   const getAllArticles = async () => {
+    dispatch(hideLoader());
     setStatus('loading');
     const res = await mainService.getAllArticles(page.page, page.pageSize);
     if (res.success) {
-      dispatch(hideLoader());
       if (res.data.length === 0) {
         setStatus('empty');
       } else {
@@ -198,10 +198,10 @@ const ArticleList: FC<{ chooseKindId: string }> = ({ chooseKindId }) => {
   };
 
   const getAllArticlesByLabel = async (labelId: string) => {
+    dispatch(hideLoader());
     setStatus('loading');
     const res = await mainService.getAllArticlesByLabel(labelId, page.page);
     if (res.success) {
-      dispatch(hideLoader());
       if (res.data.length === 0) {
         setStatus('empty');
       } else {

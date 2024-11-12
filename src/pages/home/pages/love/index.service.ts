@@ -1,10 +1,9 @@
 import fetchData from '@myUtils/fetchData';
 import { LoveListItemType } from './type';
 import { SERVER_URL } from '@myConstants/server';
-import tip from '@myUtils/tip';
 
 /**
- * @description 小说服务层
+ * @description 情侣空间服务层
  */
 class LoveService {
   private readonly loveBaseUrl = SERVER_URL + '/love';
@@ -18,14 +17,11 @@ class LoveService {
       headers: this.headers
     });
     if (loveListData.message === 'success') {
-      console.log(123, loveListData);
       return {
         success: true,
         data: loveListData.data
       };
     } else {
-      tip.addmessage('error', '获取恋爱清单列表失败');
-      console.error('获取恋爱清单列表失败', loveListData.data);
       return {
         success: false,
         data: null

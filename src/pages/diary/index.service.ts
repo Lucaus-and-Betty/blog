@@ -1,4 +1,3 @@
-import tip from '@myUtils/tip';
 import fetchData from '@myUtils/fetchData';
 import { SERVER_URL } from '@myConstants/server';
 import { DiaryInfoType } from './type';
@@ -30,8 +29,6 @@ class DiaryService {
         isOver: res.data.isOver
       };
     } else {
-      tip.addmessage('error', '获取日记列表失败');
-      console.error('获取日记列表失败', res.data);
       return {
         success: false,
         data: null,

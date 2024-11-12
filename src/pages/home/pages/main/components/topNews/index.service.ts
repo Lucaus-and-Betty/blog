@@ -1,6 +1,5 @@
 import fetchData from '@myUtils/fetchData';
 import { News } from './type';
-import tip from '@myUtils/tip';
 
 /**
  * @description 首页服务层
@@ -26,8 +25,6 @@ class MainService {
         data: newsData.data
       };
     } else {
-      tip.addmessage('error', '获取新闻列表失败');
-      console.error('获取新闻列表失败', newsData.data);
       return {
         success: false,
         data: null

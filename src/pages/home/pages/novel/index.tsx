@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectLanguage } from '@myStore/slices/languageSlice';
 import { hideLoader } from '@myStore/slices/loadingSlice';
 import { useParams } from 'react-router-dom';
+import { useBeforeNav } from '@myHooks/useBeforeNav.ts';
 import novelsService from './index.service.ts';
 import { NovelInfo } from './type.ts';
 import { SERVER_IMG_URL } from '@myConstants/server.ts';
+import { Typewriter, Loading } from '@/routerLazyLoad.ts';
 import './index.less';
-import { Typewriter } from '@/routerLazyLoad.ts';
 
 /**
  * 小说页面
@@ -18,20 +19,24 @@ const Novel = () => {
   const { LANGUAGE } = useSelector(selectLanguage);
   const dispatch = useDispatch();
   const [novelsList, setNovelsList] = useState<NovelInfo[]>([]);
+  const [status, setStatus] = useState<'loading' | 'error' | 'done'>('loading');
 
   /**
    * 获取指定作者的所有小说
    * @param author - 作者名字
    */
   const getNovelsListByAuthor = async (author: string) => {
+    if (!author) return;
+    setStatus('loading');
+    dispatch(hideLoader());
     const novelsData = await novelsService.getAllNovelsByAuthor(author);
     if (novelsData.success) {
-      console.log(novelsData.data);
       setNovelsList(novelsData.data);
-      dispatch(hideLoader());
+      setStatus('done');
+    } else {
+      setStatus('error');
     }
   };
-
   useEffect(() => {
     if (!author) return;
     getNovelsListByAuthor(author);
@@ -45,11 +50,20 @@ const Novel = () => {
           <NovelListItem novel={novel} key={novel.id} />
         ))}
       </div>
+      <div className="novel-loading">
+        {status === 'loading' && <Loading />}
+        {status === 'error' && (
+          <div className="novel-loading-reloading" onClick={() => getNovelsListByAuthor(author || '')}>
+            加载失败，点击重新加载
+          </div>
+        )}
+      </div>
     </div>
   );
 };
 
 const NovelListItem: FC<{ novel: NovelInfo }> = ({ novel }) => {
+  const navigate = useBeforeNav();
   const timer = useRef<null | number>(null);
   const [showDesState, setShowDesState] = useState(false);
 
@@ -64,9 +78,18 @@ const NovelListItem: FC<{ novel: NovelInfo }> = ({ novel }) => {
     setShowDesState(false);
   };
 
+  const toNovelDetail = (id: string) => {
+    navigate(`/home/novel/chapter/${id}`);
+  };
+
   return (
-    <div className="novel-item-card" onMouseEnter={showDes} onMouseLeave={closeDes}>
-      <div className="novel-item-cover">
+    <div
+      className="novel-item-card"
+      onMouseEnter={showDes}
+      onMouseLeave={closeDes}
+      onClick={() => toNovelDetail(novel.id)}
+    >
+      <div style={{ opacity: showDesState ? 0 : 1 }} className="novel-item-cover">
         <img src={SERVER_IMG_URL + novel.cover} alt={novel.name} />
       </div>
       <div style={{ opacity: showDesState ? 0 : 1 }} className="novel-item-title">

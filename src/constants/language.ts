@@ -29,7 +29,9 @@ export const EN = {
   ["Betty's project"]: "Betty's project",
   ['Our project']: 'Our project',
   ['404 Page Not Found']: '404 Page Not Found',
-  ['News :']: 'News :'
+  ['News :']: 'News :',
+  // 错误处理适配
+  ['获取文章内容失败']: 'Get article content failed'
 };
 
 export const CN = {
@@ -63,5 +65,7 @@ export const CN = {
   ["Betty's project"]: 'Betty 的项目',
   ['Our project']: '我们的项目',
   ['404 Page Not Found']: '404 页面未找到',
-  ['News :']: '新闻 :'
+  ['News :']: '新闻 :',
+  // 错误处理适配
+  ['获取文章内容失败']: '获取文章内容失败'
 };

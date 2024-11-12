@@ -1,7 +1,6 @@
 import { ArticleInfoType } from './type';
 import fetchData from '@myUtils/fetchData';
 import { SERVER_URL } from '@myConstants/server';
-import tip from '@myUtils/tip.ts';
 
 class ArticleService {
   private readonly newsBaseUrl = SERVER_URL + '/articles';
@@ -28,8 +27,6 @@ class ArticleService {
         data: articleData.data
       };
     } else {
-      tip.addmessage('error', '获取文章内容失败');
-      console.error('获取文章失败', articleData.data);
       return {
         success: false,
         data: null

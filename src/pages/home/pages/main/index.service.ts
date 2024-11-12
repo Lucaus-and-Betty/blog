@@ -2,7 +2,6 @@ import fetchData from '@myUtils/fetchData';
 import { ArticleInfoType } from '@myTypes/index';
 import { SERVER_URL } from '@myConstants/server';
 import { ArticleKindType } from './type';
-import tip from '@myUtils/tip';
 
 /**
  * @description 首页服务层
@@ -39,8 +38,6 @@ class MainService {
         isOver: articleData.data.isOver
       };
     } else {
-      tip.addmessage('error', '获取文章列表失败');
-      console.error('获取文章列表失败', articleData.data);
       return {
         success: false,
         data: null,
@@ -70,8 +67,6 @@ class MainService {
         isOver: articleData.data.isOver
       };
     } else {
-      tip.addmessage('error', '获取该类文章列表失败');
-      console.error('获取文章列表失败', articleData.data);
       return {
         success: false,
         isOver: true,
@@ -90,8 +85,6 @@ class MainService {
         data: labelsData.data
       };
     } else {
-      tip.addmessage('error', '获取标签列表失败');
-      console.error('获取标签列表失败', labelsData.data);
       return {
         success: false,
         data: null

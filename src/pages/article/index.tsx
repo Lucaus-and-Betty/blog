@@ -1,18 +1,21 @@
 import { CalendarMonth, Update, Visibility } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { hideLoader, errorLoader } from '@myStore/slices/loadingSlice.ts';
 import { ArticleInfoType } from './type.ts';
 import articleService from './index.service.ts';
 import { PageOperateBar } from '@/routerLazyLoad.ts';
-import './index.less';
+import tip from '@myUtils/tip.ts';
 import { SERVER_IMG_URL } from '@myConstants/server.ts';
+import { selectLanguage } from '@myStore/slices/languageSlice.ts';
+import './index.less';
 
 /**
  * @description 文章组件
  */
 const Article = () => {
+  const { LANGUAGE } = useSelector(selectLanguage);
   const dispatch = useDispatch();
   const param = useParams();
   const artcleContainerRef = useRef<HTMLDivElement>(null);
@@ -28,6 +31,7 @@ const Article = () => {
       dispatch(hideLoader());
       setArticleInfo(article.data);
     } else {
+      tip.addmessage('error', LANGUAGE['获取文章内容失败']);
       dispatch(errorLoader());
     }
   };

@@ -4,10 +4,11 @@ import { lazy } from 'react';
 export const Main = lazy(() => import('@myPages/home/pages/main/index.tsx'));
 export const Lucaus = lazy(() => import('@myPages/home/pages/lucaus/index.tsx'));
 export const Betty = lazy(() => import('@myPages/home/pages/betty/index.tsx'));
-export const Life = lazy(() => import('@myPages/home/pages/life/index.tsx'));
 export const Love = lazy(() => import('@myPages/home/pages/love/index.tsx'));
 export const Web = lazy(() => import('@myPages/home/pages/web/index.tsx'));
 export const Novel = lazy(() => import('@myPages/home/pages/novel'));
+// Novel 下的小页面
+export const NovelChapter = lazy(() => import('@myPages/home/pages/novel/pages/novelChapter/index.tsx'));
 
 // 大页面
 export const Article = lazy(() => import('@myPages/article/index.tsx'));

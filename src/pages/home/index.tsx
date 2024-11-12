@@ -47,7 +47,7 @@ const Home = () => {
       <Navigation homeScrollY={homeScrollY} backToTop={backToTop} />
       <div className="home-content">
         <Space width="100%" height="60px"></Space>
-        <Outlet />
+        <Outlet context={backToTop} />
       </div>
     </div>
   );

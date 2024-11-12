@@ -1,0 +1,66 @@
+.novel-chapter {
+  padding-bottom: 80px;
+  width: 100%;
+  height: 100dvh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  z-index: 2;
+
+  .novel-chapter-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 80px;
+    margin-bottom: 40px;
+    font-size: 40px;
+    font-weight: bold;
+  }
+
+  .novel-chapter-content-area {
+    max-width: 1000px;
+    width: 100%;
+    height: fit-content;
+    background-color: var(--main-background-color);
+    border: var(--main-border);
+    border-radius: 10px;
+    padding: 20px;
+    white-space: pre-wrap;
+    // 行间距
+    line-height: 2;
+  }
+
+  .novel-chapter-content-operation {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 80px;
+    max-width: 1000px;
+    width: 100%;
+    height: fit-content;
+    border-radius: 10px;
+
+    .novel-chapter-previous-next-space {
+      width: 80px;
+    }
+
+    .novel-chapter-previous-next {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 80px;
+      background-color: var(--main-background-color);
+      border: var(--main-border);
+      border-radius: 10px;
+      padding: 10px;
+      cursor: pointer;
+      transition: border-color 0.3s ease-in-out;
+
+      &:hover {
+        border-color: var(--main-hover-color);
+      }
+    }
+  }
+}

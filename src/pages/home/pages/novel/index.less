@@ -38,6 +38,7 @@
       }
 
       .novel-item-cover {
+        transition: opacity 0.3s ease-in-out;
         width: 100%;
         height: 100%;
 
@@ -89,6 +90,29 @@
         opacity: 0;
         transition: opacity 0.3s ease-in-out;
       }
+    }
+  }
+
+  .novel-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 60px;
+    height: 60px;
+    margin-bottom: 80px;
+    margin-top: 40px;
+    z-index: 2;
+    font-size: 24px;
+
+    .novel-loading-reloading {
+      user-select: none;
+      cursor: pointer;
+      width: 100%;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center
     }
   }
 }

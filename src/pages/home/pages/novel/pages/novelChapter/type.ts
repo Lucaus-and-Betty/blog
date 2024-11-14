@@ -12,3 +12,9 @@ export interface NovelChapterType {
   previousId: string;
   name: string;
 }
+
+export interface chapterListItemType {
+  id: string;
+  name: string;
+  order: number;
+}

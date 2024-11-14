@@ -81,6 +81,29 @@ class novelService {
       };
     }
   }
+
+  async getNovelAllOrderAndName(
+    id: string
+  ): Promise<{ success: true; data: NovelChapterType[] } | { success: false; data: null }> {
+    const novelData = await fetchData<NovelChapterType[]>(this.novelsBaseUrl + '/get-novel-all-order-and-name', {
+      method: 'POST',
+      headers: this.headers,
+      body: JSON.stringify({
+        id
+      })
+    });
+    if (novelData.message === 'success') {
+      return {
+        success: true,
+        data: novelData.data
+      };
+    } else {
+      return {
+        success: false,
+        data: null
+      };
+    }
+  }
 }
 
 export default new novelService();

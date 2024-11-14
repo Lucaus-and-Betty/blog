@@ -1,4 +1,4 @@
-import { useState, FC, useEffect, useRef } from 'react';
+import { useState, FC, useEffect, useRef, useCallback } from 'react';
 import { Space, SideBar } from '@/routerLazyLoad.ts';
 import { ProjectList } from './type.ts';
 import { NavigationList } from './constant.ts';
@@ -35,12 +35,16 @@ const Home = () => {
     setHomeScrollY(e.currentTarget.scrollTop);
   };
 
-  const backToTop = () => {
-    homeRef.current?.scrollTo({
+  // 不加 useCallback 会导致每一次滑动都会渲染 Outlet 的内容
+  const backToTop = useCallback(() => {
+    if (!homeRef.current) {
+      return;
+    }
+    homeRef.current.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
-  };
+  }, [homeRef.current]);
 
   return (
     <div ref={homeRef} className="home" onScroll={handleScroll}>
@@ -110,18 +114,20 @@ const NavigationLeft = () => {
             <div className="project-list">
               {projectList.map(item => {
                 return (
-                  <div className="type-project" key={item.title}>
-                    <div className="project-list-title">{LANGUAGE[item.title]}</div>
-                    <div className="personal-list">
-                      {item.personalList.map(personal => {
-                        return (
-                          <div className="personal-list-item" key={personal.id}>
-                            {personal.title}
-                          </div>
-                        );
-                      })}
+                  item && (
+                    <div className="type-project" key={item.title}>
+                      <div className="project-list-title">{LANGUAGE[item.title]}</div>
+                      <div className="personal-list">
+                        {item.personalList.map(personal => {
+                          return (
+                            <div className="personal-list-item" key={personal.id}>
+                              {personal.title}
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
+                  )
                 );
               })}
             </div>

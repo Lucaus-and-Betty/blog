@@ -4,7 +4,7 @@ import { hideLoader } from '@myStore/slices/loadingSlice';
 import { useDispatch } from 'react-redux';
 import localforage from 'localforage';
 import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material';
-import { NovelHistoryType, NovelChapterType } from './type';
+import { NovelHistoryType, NovelChapterType, chapterListItemType } from './type';
 import novelService from './index.service';
 import './index.less';
 
@@ -18,6 +18,11 @@ const NovelChapter = () => {
   const [nextId, setNextId] = useState<string | null>(null);
   const [novelContent, setNovelContent] = useState<NovelChapterType | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [chapterFilter, setChapterFilter] = useState<string>('');
+  const [lockChapterListShow, setLockChapterListShow] = useState<boolean>(false);
+  const [chapterListShow, setChapterListShow] = useState<boolean>(false);
+  const [chapterList, setChapterList] = useState<chapterListItemType[]>([]);
+  const [chapterShowList, setChapterShowList] = useState<chapterListItemType[]>([]);
 
   const getCurrentId = async () => {
     // 看看是否有观看的记录
@@ -76,6 +81,15 @@ const NovelChapter = () => {
     }
   };
 
+  const getNovelAllOrderAndName = async () => {
+    if (!novelId) return;
+    const res = await novelService.getNovelAllOrderAndName(novelId);
+    if (res.success) {
+      setChapterList(res.data);
+      setChapterShowList(res.data);
+    }
+  };
+
   const changeChapter = (id: string) => {
     backToTop();
     setCurrentId(id);
@@ -84,6 +98,7 @@ const NovelChapter = () => {
   useEffect(() => {
     // 获取要展示的当前章节id
     getCurrentId();
+    getNovelAllOrderAndName();
   }, []);
 
   useEffect(() => {
@@ -91,10 +106,26 @@ const NovelChapter = () => {
     getNovelContent(currentId);
   }, [currentId]);
 
+  useEffect(() => {
+    if (chapterFilter === '') {
+      setChapterShowList(chapterList);
+    } else {
+      setChapterShowList(
+        chapterList.filter(item => item.name.includes(chapterFilter) || item.order.toString().includes(chapterFilter))
+      );
+    }
+  }, [chapterFilter]);
+
   return (
-    <div className="novel-chapter">
+    <div
+      className="novel-chapter"
+      onClick={e => {
+        e.stopPropagation();
+        setChapterListShow(false);
+      }}
+    >
       {novelContent && <div className="novel-chapter-title">{`第${novelContent.order}章 ${novelContent.name}`}</div>}
-      <div className="novel-chapter-content-area">{novelContent && JSON.parse(novelContent.content)}</div>
+      <div className="novel-chapter-content-area">{novelContent && novelContent.content}</div>
       <div className="novel-chapter-content-operation">
         {!previousId && <div className="novel-chapter-previous-next-space"></div>}
         {previousId && (
@@ -104,16 +135,55 @@ const NovelChapter = () => {
               cursor: loading ? 'not-allowed' : 'pointer'
             }}
             className="novel-chapter-previous-next"
+            onClick={() => {
+              changeChapter(previousId);
+            }}
           >
-            <ArrowBackIos
-              onClick={() => {
-                changeChapter(previousId);
-              }}
-            />
+            <ArrowBackIos />
           </div>
         )}
-        <div className="novel-chapter-choose">123</div>
-        {!nextId && <div></div>}
+        <div className="novel-chapter-choose">
+          <input
+            className="novel-chapter-choose-input"
+            type="text"
+            value={chapterFilter}
+            onClick={e => e.stopPropagation()}
+            onChange={e => setChapterFilter(e.target.value)}
+            onFocus={() => setChapterListShow(true)}
+            onBlur={() => {
+              if (lockChapterListShow) {
+                return;
+              }
+              setChapterListShow(false);
+            }}
+          />
+          <div
+            style={{
+              height: chapterListShow ? `${chapterShowList.length * 40 + 20}px` : '0px',
+              opacity: chapterListShow ? '1' : '0'
+            }}
+            className="novel-chapter-choose-list"
+            onMouseEnter={() => setLockChapterListShow(true)}
+            onMouseLeave={() => setLockChapterListShow(false)}
+          >
+            {chapterShowList.map(item => {
+              return (
+                <div
+                  key={item.id}
+                  className="novel-chapter-choose-list-item"
+                  onClick={() => {
+                    setLockChapterListShow(false);
+                    setChapterListShow(false);
+                    changeChapter(item.id);
+                  }}
+                >
+                  {item.order + ' - ' + item.name}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        {!nextId && <div className="novel-chapter-previous-next-space"></div>}
         {nextId && (
           <div
             style={{
@@ -121,12 +191,11 @@ const NovelChapter = () => {
               cursor: loading ? 'not-allowed' : 'pointer'
             }}
             className="novel-chapter-previous-next"
+            onClick={() => {
+              changeChapter(nextId);
+            }}
           >
-            <ArrowForwardIos
-              onClick={() => {
-                changeChapter(nextId);
-              }}
-            />
+            <ArrowForwardIos />
           </div>
         )}
       </div>

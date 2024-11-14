@@ -47,6 +47,10 @@
       height: 100%;
       width: 240px;
 
+     .novel-chapter-choose-input {
+       color: var(--main-font-color);
+     }
+
       .novel-chapter-choose-list {
         padding: 10px;
         width: 100%;
@@ -60,8 +64,10 @@
         overflow: auto;
         scrollbar-width: thin;
         scrollbar-color: var(--main-hover-color) var(--main-background-color);
+        transition: height 0.3s ease-in-out, opacity 0.3s ease-in-out;
 
         .novel-chapter-choose-list-item {
+          display: flex;
           padding: 10px;
           cursor: pointer;
           border-radius: 10px;

@@ -111,7 +111,7 @@ const Love = () => {
                 >
                   {item.title}
                 </div>
-                <div className="love-list-time">{item.publishTime}</div>
+                <div className="love-list-time">{item.publishTime.split(' ')[0]}</div>
               </div>
             );
           })}

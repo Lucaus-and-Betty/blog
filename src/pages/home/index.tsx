@@ -120,7 +120,13 @@ const NavigationLeft = () => {
                       <div className="personal-list">
                         {item.personalList.map(personal => {
                           return (
-                            <div className="personal-list-item" key={personal.id}>
+                            <div
+                              className="personal-list-item"
+                              onClick={() => {
+                                window.open(personal.link, '_blank');
+                              }}
+                              key={personal.id}
+                            >
                               {personal.title}
                             </div>
                           );

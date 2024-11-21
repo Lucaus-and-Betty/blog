@@ -1,7 +1,16 @@
+import { hideLoader } from '@myStore/slices/loadingSlice';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+
 const Lucaus = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(hideLoader());
+  });
   return (
     <div>
-      <h1>Lucuas</h1>
+      <h1>Hello! Here is Lucaus</h1>
     </div>
   );
 };

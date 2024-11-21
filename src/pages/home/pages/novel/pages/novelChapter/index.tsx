@@ -146,6 +146,7 @@ const NovelChapter = () => {
           <input
             className="novel-chapter-choose-input"
             type="text"
+            placeholder="输入关键字查询章节"
             value={chapterFilter}
             onClick={e => e.stopPropagation()}
             onChange={e => setChapterFilter(e.target.value)}

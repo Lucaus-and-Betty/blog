@@ -30,6 +30,7 @@ const SearchDialog = () => {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
   const search = useSelector(selectSearch);
+  const [maskShow, setMaskShow] = useState(false);
 
   const [placeholderText, setPlaceholderText] = useState(LANGUAGE['Enter to search']);
   const [text, setText] = useState('');
@@ -48,8 +49,19 @@ const SearchDialog = () => {
       setText('');
     }
   }, [search]);
+
+  useEffect(() => {
+    // 0.5 秒后隐藏遮罩
+    if (!search) {
+      setTimeout(() => {
+        setMaskShow(search);
+      }, 500);
+    } else {
+      setMaskShow(search);
+    }
+  }, [search]);
   return (
-    <FullScreenMask setClose={setSearchDialog} show={search}>
+    <FullScreenMask setClose={setSearchDialog} show={maskShow}>
       <div
         className={search ? 'search-dialog search-dialog-show' : 'search-dialog'}
         onClick={e => {

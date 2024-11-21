@@ -1,4 +1,4 @@
-import { FC, ReactElement, useEffect } from 'react';
+import { FC, ReactElement, useEffect, useState } from 'react';
 import { ReactSetState } from '@myTypes/index.ts';
 import { FullScreenMask } from '@/routerLazyLoad';
 
@@ -16,6 +16,7 @@ interface FullScreenMaskProps {
   setClose: ReactSetState<boolean> | ((value: boolean) => void);
 }
 const SideBar: FC<FullScreenMaskProps> = ({ children, setClose, show }) => {
+  const [maskShow, setMaskShow] = useState(false);
   useEffect(() => {
     // 监听 esc 键
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -29,8 +30,19 @@ const SideBar: FC<FullScreenMaskProps> = ({ children, setClose, show }) => {
     };
   }, [setClose]);
 
+  useEffect(() => {
+    // 0.5 秒后隐藏遮罩
+    if (!show) {
+      setTimeout(() => {
+        setMaskShow(show);
+      }, 500);
+    } else {
+      setMaskShow(show);
+    }
+  }, [show]);
+
   return (
-    <FullScreenMask show={show} setClose={setClose}>
+    <FullScreenMask show={maskShow} setClose={setClose}>
       <div
         className={show ? 'side-bar-container side-bar-container-show' : 'side-bar-container'}
         onClick={e => e.stopPropagation()}

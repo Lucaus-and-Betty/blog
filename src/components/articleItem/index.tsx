@@ -1,4 +1,3 @@
-import './index.less';
 import { useSelector } from 'react-redux';
 import { selectLanguage } from '@myStore/slices/languageSlice.ts';
 import { Typewriter } from '@/routerLazyLoad';
@@ -6,9 +5,12 @@ import { useRef, useState, FC } from 'react';
 import { useBeforeNav } from '@myHooks/useBeforeNav';
 import { ArticleInfoType } from '@myTypes/index';
 import { SERVER_IMG_URL } from '@myConstants/server';
+import './index.less';
+
 interface ArticleItemProps {
   articleInfo: ArticleInfoType;
 }
+
 const ArticleItem: FC<ArticleItemProps> = ({ articleInfo }) => {
   const navigate = useBeforeNav();
   const { LANGUAGE } = useSelector(selectLanguage);

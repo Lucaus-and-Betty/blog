@@ -1,11 +1,12 @@
 import fetchData from '@myUtils/fetchData';
 import { News } from './type';
+import { SERVER_URL } from '@myConstants/server';
 
 /**
  * @description 首页服务层
  */
 class MainService {
-  private readonly newsBaseUrl = '//localhost:3000/v1/news';
+  private readonly newsBaseUrl = SERVER_URL + '/news';
   private readonly headers = {
     'Content-Type': 'application/json'
   };

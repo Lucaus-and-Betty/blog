@@ -3,13 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { show, hide } from '@myStore/slices/searchSlice';
 import { selectTheme } from '@myStore/slices/themeSlice';
 import { selectLoading } from '@myStore/slices/loadingSlice';
-import { SearchDialog, FullScreenLoading, StarsCanvas } from '@/routerLazyLoad';
+import { SearchDialog, FullScreenLoading, StarsCanvas, MusicPlayer } from '@/routerLazyLoad';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useTheme, useLanguage, useBeforeNav } from '@myHooks/index';
 import localforage from 'localforage';
+import { useWindowSize } from '@uidotdev/usehooks';
 import './global.less';
 
 const App = () => {
+  const windowSize = useWindowSize();
   useTheme();
   useLanguage();
   const location = useLocation();
@@ -89,6 +91,7 @@ const App = () => {
       <SearchDialog />
       {rootTheme === 'theme-dark' && <StarsCanvas />}
       <Outlet></Outlet>
+      {windowSize.width && windowSize.width > 700 && <MusicPlayer />}
     </div>
   );
 };

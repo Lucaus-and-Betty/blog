@@ -27,3 +27,4 @@ export const SearchDialog = lazy(() => import('@myComponents/search/index.tsx'))
 export const Space = lazy(() => import('@myComponents/space/index.tsx'));
 export const ArticleItem = lazy(() => import('@myComponents/articleItem/index.tsx'));
 export const PageOperateBar = lazy(() => import('@myComponents/pageOperateBar/index.tsx'));
+export const MusicPlayer = lazy(() => import('@myComponents/musicPlayer/index.tsx'));

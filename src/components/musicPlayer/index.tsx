@@ -22,9 +22,11 @@ import './index.less';
 const MusicPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [listMode, setListMode] = useState('repeat');
+  const mode = useRef('repeat');
   const [isOpen, setIsOpen] = useState(false);
   const [audioUrl, setAudioUrl] = useState('');
   const [musicList, setMusicList] = useState<string[]>([]);
+  const musicListLength = useRef(0);
   const [musicInfo, setMusicInfo] = useState<MusicInfoType | null>(null);
   const [musicTime, setMusicTime] = useState('00:00');
   const [currentMusicIndex, setCurrentMusicIndex] = useState(-1);
@@ -39,6 +41,7 @@ const MusicPlayer = () => {
     const res = await musicService.getMusicList();
     if (res.success) {
       setMusicList(res.data.mp3s);
+      musicListLength.current = res.data.count;
       setCurrentMusicIndex(0);
     } else {
       console.log('获取音乐列表失败', res.data);
@@ -103,7 +106,6 @@ const MusicPlayer = () => {
     const cricleLeft = Number(progressLineCricleRef.current.style.left.split('%')[0]);
 
     const windowMouseUp = () => {
-      console.log('windowMouseUp');
       if (!audioRef.current) {
         return;
       }
@@ -172,12 +174,39 @@ const MusicPlayer = () => {
 
     window.addEventListener('mousemove', windowMouseMove);
     window.addEventListener('mouseup', windowMouseUp);
-    console.log(e);
     audioRef.current.removeEventListener('timeupdate', controlMusicTimeUpdate);
+  };
+
+  const musicEnded = () => {
+    if (mode.current === 'repeat') {
+      setCurrentMusicIndex(pre => pre + 1);
+    } else if (mode.current === 'shuffle') {
+      setCurrentMusicIndex(pre => {
+        const randomNumber = Math.random();
+        const random = pre + Math.floor(randomNumber * musicListLength.current) - pre;
+        if (random === pre) {
+          return pre + 1;
+        }
+        return random;
+      });
+    } else if (mode.current === 'repeatOne') {
+      if (!audioRef.current) {
+        return;
+      }
+      audioRef.current.currentTime = 0;
+      audioRef.current.play();
+      setIsPlaying(true);
+    }
   };
 
   // 获取音乐
   useEffect(() => {
+    if (!audioRef.current) {
+      return;
+    }
+
+    audioRef.current.addEventListener('ended', musicEnded);
+
     getMusicList();
 
     return () => {
@@ -194,33 +223,13 @@ const MusicPlayer = () => {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.play();
-        // 监控播放结束
-        audioRef.current.addEventListener('ended', () => {
-          if (!audioRef.current) {
-            return;
-          }
-          if (listMode === 'repeat') {
-            setCurrentMusicIndex(currentMusicIndex + 1);
-            audioRef.current.currentTime = 0;
-            audioRef.current.play();
-          } else if (listMode === 'repeatOne') {
-            audioRef.current.currentTime = 0;
-            audioRef.current.play();
-            setIsPlaying(false);
-          } else if (listMode === 'shuffle') {
-            const randomIndex = Math.floor(Math.random() * musicList.length);
-            setCurrentMusicIndex(randomIndex);
-            audioRef.current.currentTime = 0;
-            audioRef.current.play();
-          }
-        });
         // 随时计算播放多少时间
         audioRef.current.addEventListener('timeupdate', controlMusicTimeUpdate);
       } else {
         audioRef.current.pause();
       }
     }
-  }, [audioUrl, isPlaying]);
+  }, [isPlaying]);
 
   // 切换歌曲下标控制
   useEffect(() => {
@@ -260,9 +269,10 @@ const MusicPlayer = () => {
           <div className="music-player-player-operation">
             <div
               className="music-player-player-operation-button"
-              onClick={() =>
-                setListMode(listMode === 'repeat' ? 'shuffle' : listMode === 'shuffle' ? 'repeatOne' : 'repeat')
-              }
+              onClick={() => {
+                setListMode(listMode === 'repeat' ? 'shuffle' : listMode === 'shuffle' ? 'repeatOne' : 'repeat');
+                mode.current = listMode === 'repeat' ? 'shuffle' : listMode === 'shuffle' ? 'repeatOne' : 'repeat';
+              }}
             >
               {listMode === 'repeat' ? <Repeat /> : listMode === 'shuffle' ? <Shuffle /> : <RepeatOne />}
             </div>

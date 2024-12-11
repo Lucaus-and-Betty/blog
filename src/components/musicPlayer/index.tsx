@@ -312,7 +312,10 @@ const MusicPlayer = () => {
           </div>
           <div className="music-player-player-control">
             <div
-              onClick={() => setCurrentMusicIndex(currentMusicIndex - 1)}
+              onClick={() => {
+                setCurrentMusicIndex(currentMusicIndex - 1);
+                setPercent(0);
+              }}
               className="music-player-player-control-button"
             >
               <SkipPrevious />
@@ -321,7 +324,10 @@ const MusicPlayer = () => {
               {isPlaying ? <Pause /> : <PlayArrow />}
             </div>
             <div
-              onClick={() => setCurrentMusicIndex(currentMusicIndex + 1)}
+              onClick={() => {
+                setCurrentMusicIndex(currentMusicIndex + 1);
+                setPercent(0);
+              }}
               className="music-player-player-control-button"
             >
               <SkipNext />

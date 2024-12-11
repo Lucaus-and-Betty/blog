@@ -30,10 +30,10 @@ const MusicPlayer = () => {
   const [currentMusicIndex, setCurrentMusicIndex] = useState(-1);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [percent, setPercent] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
-  const blackLineRef = useRef<HTMLDivElement | null>(null);
-  const cricleRef = useRef<HTMLDivElement | null>(null);
   const playTimeTimeoutRef = useRef<number | null>(null);
+  const progressLineCricleRef = useRef<HTMLDivElement | null>(null);
+  const blackLineRef = useRef<HTMLDivElement | null>(null);
+  const whiteLineRef = useRef<HTMLDivElement | null>(null);
 
   const getMusicList = async () => {
     const res = await musicService.getMusicList();
@@ -67,20 +67,6 @@ const MusicPlayer = () => {
     return 'data:image/png;base64,' + window.btoa(binary);
   }
 
-  // 拖动进度条鼠标抬起逻辑
-  const mouseUPEvent = useCallback(() => {
-    setIsDragging(false);
-    // 重新计算进度条的位置
-    if (blackLineRef.current && cricleRef.current) {
-      const percent = Math.floor((cricleRef.current.offsetLeft / blackLineRef.current.offsetWidth) * 100);
-      setPercent(percent);
-      setIsPlaying(true);
-      audioRef.current?.currentTime && (audioRef.current.currentTime = (percent / 100) * audioRef.current.duration);
-    }
-
-    audioRef.current?.addEventListener('timeupdate', controlMusicTimeUpdate);
-  }, []);
-
   const controlMusicTimeUpdate = useCallback(() => {
     // 计算已经播放了百分之多少
     if (!audioRef.current) {
@@ -89,9 +75,6 @@ const MusicPlayer = () => {
     const percent = Math.floor((audioRef.current.currentTime / audioRef.current.duration) * 100);
     setPercent(percent);
     playTimeTimeoutRef.current = setTimeout(() => {
-      if (isDragging) {
-        return;
-      }
       if (!audioRef.current) {
         return;
       }
@@ -105,28 +88,105 @@ const MusicPlayer = () => {
     }, 1000);
   }, []);
 
+  const changeMusicProgressDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!audioRef.current) {
+      return;
+    }
+
+    if (!progressLineCricleRef.current) {
+      return;
+    }
+
+    // 获取光标现在的位置
+    const startX = e.clientX;
+    // 获取目前圆圈的 left
+    const cricleLeft = Number(progressLineCricleRef.current.style.left.split('%')[0]);
+
+    const windowMouseUp = () => {
+      console.log('windowMouseUp');
+      if (!audioRef.current) {
+        return;
+      }
+      if (!progressLineCricleRef.current) {
+        return;
+      }
+      // 获取目前圆圈的 left 赋值回去
+      const cricleLeft = progressLineCricleRef.current.style.left;
+      setPercent(Number(cricleLeft.split('%')[0]));
+
+      // 调整音频播放进度
+      audioRef.current.currentTime = (audioRef.current.duration * Number(cricleLeft.split('%')[0])) / 100;
+      audioRef.current.play();
+      setIsPlaying(true);
+
+      audioRef.current.addEventListener('timeupdate', controlMusicTimeUpdate);
+      window.removeEventListener('mouseup', windowMouseUp);
+      window.removeEventListener('mousemove', windowMouseMove);
+    };
+
+    const windowMouseMove = (e: MouseEvent) => {
+      if (!audioRef.current) {
+        return;
+      }
+      if (!progressLineCricleRef.current) {
+        return;
+      }
+      if (!blackLineRef.current) {
+        return;
+      }
+      if (!whiteLineRef.current) {
+        return;
+      }
+      // 打印相对于起始点的偏移量
+      const moveX = e.clientX - startX;
+      // 将移动偏移量转换成百分比
+      const percentX = moveX / blackLineRef.current.clientWidth;
+      progressLineCricleRef.current.style.left = `${cricleLeft + percentX * 100}%`;
+      whiteLineRef.current.style.width = `${cricleLeft + percentX * 100}%`;
+      // 计算时间
+      setMusicTime(
+        `${Math.floor((audioRef.current.duration * (cricleLeft + percentX * 100)) / 100 / 60)
+          .toString()
+          .padStart(2, '0')}:${Math.floor(((audioRef.current.duration * (cricleLeft + percentX * 100)) / 100) % 60)
+          .toString()
+          .padStart(2, '0')}`
+      );
+      // 边界判断
+      if (cricleLeft + percentX * 100 > 100) {
+        progressLineCricleRef.current.style.left = '100%';
+        whiteLineRef.current.style.width = '100%';
+        setMusicTime(
+          `${Math.floor(audioRef.current.duration / 60)
+            .toString()
+            .padStart(2, '0')}:${Math.floor(audioRef.current.duration % 60)
+            .toString()
+            .padStart(2, '0')}`
+        );
+      }
+      if (cricleLeft + percentX * 100 < 0) {
+        progressLineCricleRef.current.style.left = '0%';
+        whiteLineRef.current.style.width = '0%';
+        setMusicTime('00:00');
+      }
+    };
+
+    window.addEventListener('mousemove', windowMouseMove);
+    window.addEventListener('mouseup', windowMouseUp);
+    console.log(e);
+    audioRef.current.removeEventListener('timeupdate', controlMusicTimeUpdate);
+  };
+
   // 获取音乐
   useEffect(() => {
     getMusicList();
 
     return () => {
-      window.removeEventListener('mouseup', mouseUPEvent);
       if (!playTimeTimeoutRef.current) {
         return;
       }
       clearTimeout(playTimeTimeoutRef.current);
     };
   }, []);
-
-  // 监听鼠标抬起清空 window 鼠标抬起监听
-  useEffect(() => {
-    if (isDragging) {
-      audioRef.current?.removeEventListener('timeupdate', controlMusicTimeUpdate);
-    }
-    if (!isDragging) {
-      window.removeEventListener('mouseup', mouseUPEvent);
-    }
-  }, [isDragging]);
 
   // 播放音乐
   useEffect(() => {
@@ -166,10 +226,12 @@ const MusicPlayer = () => {
   useEffect(() => {
     if (currentMusicIndex > musicList.length - 1) {
       setCurrentMusicIndex(0);
+      return;
     }
 
     if (currentMusicIndex < 0) {
       setCurrentMusicIndex(musicList.length - 1);
+      return;
     }
 
     if (musicList.length > 0) {
@@ -222,36 +284,14 @@ const MusicPlayer = () => {
           </div>
           <div className="music-player-player-progress">
             <div ref={blackLineRef} className="music-player-player-progress-line-black"></div>
-            <div style={{ width: percent + '%' }} className="music-player-player-progress-line-white"></div>
             <div
-              ref={cricleRef}
-              onMouseDown={() => {
-                if (!cricleRef.current) {
-                  return;
-                }
-                setIsDragging(true);
-
-                window.addEventListener('mouseup', mouseUPEvent);
-              }}
-              onMouseMove={e => {
-                if (!cricleRef.current) {
-                  return;
-                }
-                if (!isDragging) {
-                  return;
-                }
-                if (!blackLineRef.current) {
-                  return;
-                }
-
-                if (e.clientX - 85 <= 0) {
-                  cricleRef.current.style.left = '0px';
-                } else if (e.clientX - 85 >= blackLineRef.current.clientWidth) {
-                  cricleRef.current.style.left = blackLineRef.current.clientWidth + 'px';
-                } else {
-                  cricleRef.current.style.left = e.clientX - 85 + 'px';
-                }
-              }}
+              ref={whiteLineRef}
+              style={{ width: percent + '%' }}
+              className="music-player-player-progress-line-white"
+            ></div>
+            <div
+              ref={progressLineCricleRef}
+              onMouseDown={changeMusicProgressDown}
               style={{ left: percent + '%' }}
               className="music-player-player-progress-line-cricle"
             >

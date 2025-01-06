@@ -9,15 +9,16 @@ import {
   Shuffle,
   RepeatOne,
   VolumeUp,
-  FormatListBulleted,
   OpenInFull
 } from '@mui/icons-material';
+import { Slider } from '@mui/material';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import musicService from './index.service';
 import { SERVER_MUSIC_URL } from '@myConstants/server';
 import { MusicInfoType } from './type';
 import setUpImg from '@myAssets/pic/diary-cover.jpg';
 import './index.less';
+import localforage from 'localforage';
 
 const MusicPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -36,6 +37,16 @@ const MusicPlayer = () => {
   const progressLineCricleRef = useRef<HTMLDivElement | null>(null);
   const blackLineRef = useRef<HTMLDivElement | null>(null);
   const whiteLineRef = useRef<HTMLDivElement | null>(null);
+  const [showVolumeAdjust, setShowVolumeAdjust] = useState(false);
+  const [volumeValue, setVolumeValue] = useState<number>(50);
+
+  // 音乐列表展示
+  const [maskShow, setMaskShow] = useState(false);
+
+  /** 音量调节 */
+  const handleChange = (_: Event, newValue: number | number[]) => {
+    setVolumeValue(newValue as number);
+  };
 
   const getMusicList = async () => {
     const res = await musicService.getMusicList();
@@ -199,11 +210,23 @@ const MusicPlayer = () => {
     }
   };
 
+  /**
+   * @description 获取缓存的音量
+   */
+  const getStorageVolume = async () => {
+    const volumeValueStorage = await localforage.getItem('volume');
+    if (volumeValueStorage) {
+      setVolumeValue(Number(volumeValueStorage));
+    }
+  };
+
   // 获取音乐
   useEffect(() => {
     if (!audioRef.current) {
       return;
     }
+
+    getStorageVolume();
 
     audioRef.current.addEventListener('ended', musicEnded);
 
@@ -249,11 +272,26 @@ const MusicPlayer = () => {
     }
   }, [currentMusicIndex]);
 
+  // 设置音量
+  useEffect(() => {
+    if (!audioRef.current) {
+      return;
+    }
+    localforage.setItem('volume', volumeValue);
+    audioRef.current.volume = volumeValue / 100;
+  }, [volumeValue]);
+
   return (
     <div
       className="music-player"
       style={{
-        transform: isOpen ? 'translateX(20px)' : 'translateX(-610px)'
+        transform: isOpen ? 'translateX(20px)' : 'translateX(-610px)',
+        visibility: maskShow ? 'hidden' : 'visible'
+      }}
+      onClick={() => {
+        if (showVolumeAdjust) {
+          setShowVolumeAdjust(false);
+        }
       }}
     >
       <div className="music-player-player-panel">
@@ -276,13 +314,38 @@ const MusicPlayer = () => {
             >
               {listMode === 'repeat' ? <Repeat /> : listMode === 'shuffle' ? <Shuffle /> : <RepeatOne />}
             </div>
-            <div className="music-player-player-operation-button">
-              <FormatListBulleted />
-            </div>
-            <div className="music-player-player-operation-button">
+            {/* <div className="music-player-player-operation-button">
+                <FormatListBulleted />
+              </div> */}
+            <div
+              onClick={() => setShowVolumeAdjust(!showVolumeAdjust)}
+              className="music-player-player-operation-button"
+            >
               <VolumeUp />
+              <div
+                onClick={e => {
+                  e.stopPropagation();
+                }}
+                style={{
+                  scale: showVolumeAdjust ? '1' : '0',
+                  bottom: showVolumeAdjust ? '110%' : '20px',
+                  opacity: showVolumeAdjust ? '1' : '0',
+                  left: showVolumeAdjust ? '50%' : '-40px',
+                  transform: showVolumeAdjust ? 'translateX(-48%)' : ''
+                }}
+                className="music-player-player-volume-adjust"
+              >
+                <Slider
+                  color="warning"
+                  orientation="horizontal"
+                  size="small"
+                  aria-label="Volume"
+                  value={volumeValue}
+                  onChange={handleChange}
+                />
+              </div>
             </div>
-            <div className="music-player-player-operation-button">
+            <div onClick={() => setMaskShow(true)} className="music-player-player-operation-button">
               <OpenInFull
                 style={{
                   position: 'relative',

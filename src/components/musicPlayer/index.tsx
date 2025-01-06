@@ -8,8 +8,7 @@ import {
   Repeat,
   Shuffle,
   RepeatOne,
-  VolumeUp,
-  OpenInFull
+  VolumeUp
 } from '@mui/icons-material';
 import { Slider } from '@mui/material';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -39,9 +38,6 @@ const MusicPlayer = () => {
   const whiteLineRef = useRef<HTMLDivElement | null>(null);
   const [showVolumeAdjust, setShowVolumeAdjust] = useState(false);
   const [volumeValue, setVolumeValue] = useState<number>(50);
-
-  // 音乐列表展示
-  const [maskShow, setMaskShow] = useState(false);
 
   /** 音量调节 */
   const handleChange = (_: Event, newValue: number | number[]) => {
@@ -285,8 +281,7 @@ const MusicPlayer = () => {
     <div
       className="music-player"
       style={{
-        transform: isOpen ? 'translateX(20px)' : 'translateX(-610px)',
-        visibility: maskShow ? 'hidden' : 'visible'
+        transform: isOpen ? 'translateX(20px)' : 'translateX(-610px)'
       }}
       onClick={() => {
         if (showVolumeAdjust) {
@@ -344,15 +339,6 @@ const MusicPlayer = () => {
                   onChange={handleChange}
                 />
               </div>
-            </div>
-            <div onClick={() => setMaskShow(true)} className="music-player-player-operation-button">
-              <OpenInFull
-                style={{
-                  position: 'relative',
-                  top: '2px',
-                  fontSize: '19px'
-                }}
-              />
             </div>
           </div>
           <div className="music-player-player-progress">

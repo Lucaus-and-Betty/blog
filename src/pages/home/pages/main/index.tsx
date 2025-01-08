@@ -191,7 +191,6 @@ const ArticleList: FC<{ chooseKindId: string }> = ({ chooseKindId }) => {
       }
       setArticles(pre => [...pre, ...res.data]);
     } else {
-      console.log('获取文章列表失败', res.data);
       dispatch(errorLoader());
       setStatus('error');
     }

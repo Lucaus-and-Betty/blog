@@ -1,0 +1,207 @@
+.lucaus {
+  display: flex;
+  gap: 40px;
+  width: 100%;
+  height: calc(100dvh - 60px);
+
+  .lucaus-text {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex-direction: column;
+
+    .lucaus-text-container {
+      width: 540px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      align-items: flex-start;
+      flex-direction: column;
+
+      .lucaus-name {
+        font-size: 44px;
+        font-weight: bold;
+      }
+
+      .lucaus-job {
+        display: flex;
+        flex-direction: row;
+        font-size: 30px;
+        font-weight: bold;
+
+        .lucaus-job-right {
+          display: flex;
+          align-items: flex-start;
+          position: relative;
+
+          .lucaus-job-right-text1 {
+            white-space: nowrap;
+            -webkit-text-stroke: var(--main-hover-color) 1px;
+            color: transparent;
+            width: 50%;
+          }
+
+          .lucaus-job-right-text2 {
+            overflow: hidden;
+            height: 100%;
+            // width: 50%;
+            color: var(--main-hover-color);
+            position: absolute;
+            left: 0;
+            top: 0;
+            animation: textMove 3s linear infinite;
+
+            span {
+              // 不允许换行
+              white-space: nowrap;
+              position: absolute;
+              left: 0;
+              top: 0;
+            }
+          }
+
+          .lucaus-job-right-line {
+            position: absolute;
+            width: 2px;
+            height: 100%;
+            background-color: var(--main-hover-color);
+            top: 0;
+            animation: lineMove 3s linear infinite;
+          }
+        }
+      }
+
+      .lucaus-bio {
+        font-size: 16px;
+      }
+
+      .lucaus-icons {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        gap: 18px;
+
+        .lucaus-icon {
+          cursor: pointer;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          width: 30px;
+          height: 30px;
+          fill: var(--main-hover-color);
+
+          svg {
+            transform: scale(1.2);
+          }
+        }
+      }
+    }
+  }
+
+  .lucaus-img {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+
+    .lucaus-img-container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      overflow: hidden;
+      border-radius: 9999px;
+    }
+  }
+}
+
+@keyframes textMove {
+  0% {
+    width: 0%;
+  }
+  10% {
+    width: 0%;
+  }  
+  60% {
+    width: 100%;
+  }
+  80% {
+    width: 100%;
+  }
+  100% {
+    width: 0%;
+  }
+}
+
+@keyframes lineMove {
+  0% {
+    left: 0%;
+  }
+  10% {
+    left: 0%;
+  }  
+  60% {
+    left: 100%;
+  }
+  80% {
+    left: 100%;
+  }
+  100% {
+    left: 0%;
+  }
+}
+
+@media screen and (width <= 1200px) {
+  .lucaus {
+    .lucaus-img {
+      display: none;
+    }
+
+    .lucaus-text {
+      width: 100%;
+      align-items: center;
+    }
+  }
+}
+
+@media screen and (width <= 540px) {
+  .lucaus {
+    padding: 20px;
+    .lucaus-img {
+      display: none;
+    }
+
+    .lucaus-text {
+      width: 100%;
+      align-items: center;
+
+      .lucaus-text-container {
+        width: 100%;
+      }
+    }
+  }
+}
+
+@media screen and (height <= 600px) {
+  .lucaus {
+    padding: 20px;
+
+    .lucaus-img {
+      display: none;
+    }
+
+    .lucaus-text {
+      width: 100%;
+      justify-content: start;
+      align-items: center;
+
+      .lucaus-text-container {
+        width: 100%;
+      }
+    }
+  }
+}

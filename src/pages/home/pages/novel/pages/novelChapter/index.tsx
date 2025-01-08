@@ -7,6 +7,7 @@ import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material';
 import { NovelHistoryType, NovelChapterType, chapterListItemType } from './type';
 import novelService from './index.service';
 import './index.less';
+import tip from '@myUtils/tip';
 
 const NovelChapter = () => {
   // 获取根组件的返回顶部方法
@@ -77,7 +78,7 @@ const NovelChapter = () => {
         setNextId(res.data);
       }
     } catch (error) {
-      console.log(error);
+      tip.addmessage('error', '获取下一章节失败');
     }
   };
 

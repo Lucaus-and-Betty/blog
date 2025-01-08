@@ -18,6 +18,7 @@ import { MusicInfoType } from './type';
 import setUpImg from '@myAssets/pic/diary-cover.jpg';
 import './index.less';
 import localforage from 'localforage';
+import tip from '@myUtils/tip';
 
 const MusicPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -51,7 +52,7 @@ const MusicPlayer = () => {
       musicListLength.current = res.data.count;
       setCurrentMusicIndex(0);
     } else {
-      console.log('获取音乐列表失败', res.data);
+      tip.addmessage('error', '获取音乐列表失败');
     }
   };
 
@@ -63,7 +64,7 @@ const MusicPlayer = () => {
       }
       setMusicInfo(res.data);
     } else {
-      console.log('获取音乐信息失败', res.data);
+      tip.addmessage('error', '获取音乐信息失败');
     }
   };
 
